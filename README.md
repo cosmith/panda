@@ -35,43 +35,43 @@ Examples
     # The basics look just like Python (for the English version!)
 
     # Numbers
-    3 #  => 3
-    2.51 #  => 2.51
+    3  # => 3
+    2.51  # => 2.51
 
     # Math
-    1 + 1 #  => 2
-    8 - 1 #  => 7
+    1 + 1  # => 2
+    8 - 1  # => 7
     10 * 2 # => 20
     35 / 5 # => 7
 
     # Enforce precedence with parentheses
-    (1 + 3) * 2 #  => 8
+    (1 + 3) * 2  # => 8
 
     # Booleans
     true
     false
 
     # Negate with not
-    not true #  => false
-    not false #  => true
+    not true  # => false
+    not false  # => true
 
     # Equality is == (this is actually JavaScript's ===)
-    1 == 1 #  => true
-    2 == 1 #  => false
+    1 == 1  # => true
+    2 == 1  # => false
 
     # Inequality is != (js: !==)
-    1 != 1 #  => false
-    2 != 1 #  => true
+    1 != 1  # => false
+    2 != 1  # => true
 
     # More comparisons
-    1 < 10 #  => true
-    1 > 10 #  => false
-    2 <= 2 #  => true
-    2 >= 2 #  => true
+    1 < 10  # => true
+    1 > 10  # => false
+    2 <= 2  # => true
+    2 >= 2  # => true
 
     # Comparisons can be chained like in Python/CoffeeScript
-    1 < 2 < 3 #  => true
-    2 < 3 < 2 #  => false
+    1 < 2 < 3  # => true
+    2 < 3 < 2  # => false
 
 
 
@@ -88,10 +88,10 @@ Examples
     var some_list = [1, 2, 3, 4]
 
     # You can create ranges of values with [a..b]
-    [5..8] #  => [5, 6, 7, 8]
+    [5..8]  # => [5, 6, 7, 8]
 
     # Check if something is in a list with 'in'
-    3 in [1, 3, 5] #  => true
+    3 in [1, 3, 5]  # => true
 
 
     # Objects are pretty much the same as in js
@@ -137,43 +137,43 @@ Examples
     # La base ressemble à du Python traduit
 
     # Nombres
-    3 #  => 3
-    2.51 #  => 2.51
+    3  # => 3
+    2.51  # => 2.51
 
     # Maths
-    1 + 1 #  => 2
-    8 - 1 #  => 7
+    1 + 1  # => 2
+    8 - 1  # => 7
     10 * 2 # => 20
     35 / 5 # => 7
 
     # Les parenthèses indiquent la précédence
-    (1 + 3) * 2 #  => 8
+    (1 + 3) * 2  # => 8
 
     # Booleens
     vrai
     faux
 
     # La négation se fait avec pas
-    pas vrai #  => faux
-    pas faux #  => vrai
+    pas vrai  # => faux
+    pas faux  # => vrai
 
     # L'égalité se teste avec == (équivalent du === en js)
-    1 == 1 #  => vrai
-    2 == 1 #  => faux
+    1 == 1  # => vrai
+    2 == 1  # => faux
 
     # Inégalité != (js: !==)
-    1 != 1 #  => faux
-    2 != 1 #  => vrai
+    1 != 1  # => faux
+    2 != 1  # => vrai
 
     # Comparaisons
-    1 < 10 #  => vrai
-    1 > 10 #  => faux
-    2 <= 2 #  => vrai
-    2 >= 2 #  => vrai
+    1 < 10  # => vrai
+    1 > 10  # => faux
+    2 <= 2  # => vrai
+    2 >= 2  # => vrai
 
     # Les comparaisons peuvent etre mises bout à bout comme en Python/CoffeeScript
-    1 < 2 < 3 #  => vrai
-    2 < 3 < 2 #  => faux
+    1 < 2 < 3  # => vrai
+    2 < 3 < 2  # => faux
 
 
 
@@ -190,10 +190,10 @@ Examples
     var some_list = [1, 2, 3, 4]
 
     # Il est possible de creer des intervalles d'entiers: [a..b]
-    [5..8] #  => [5, 6, 7, 8]
+    [5..8]  # => [5, 6, 7, 8]
 
     # Tester si un élément fait partie d'une liste
-    3 dans [1, 3, 5] #  => vrai
+    3 dans [1, 3, 5]  # => vrai
 
 
     # Les objects sont pratiquement les memes qu'en JavaScript
