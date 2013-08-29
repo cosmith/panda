@@ -73,6 +73,60 @@ Examples
     1 < 2 < 3 #  => true
     2 < 3 < 2 #  => false
 
+
+
+    # 2. Variables and collections
+    #=============================
+
+    # Declare a variable using the var keyword
+    var x = 5
+
+    # Let's make a list
+    var my_list = []
+
+    # You can also fill it from the beginning
+    var some_list = [1, 2, 3, 4]
+
+    # You can create ranges of values with [a..b]
+    [5..8] #  => [5, 6, 7, 8]
+
+    # Check if something is in a list with 'in'
+    3 in [1, 3, 5] #  => true
+
+
+    # Objects are pretty much the same as in js
+    var my_object = {'property1': value1, 'property2': value2}
+
+
+
+    # 3. Control flow
+    #================
+
+    # If statements are ended with the 'end' keyword like in Ruby
+    if x > 5:
+        console.log("I'm over 5!")
+    else if x < 5:
+        console.log("Under 5 here")
+    else:
+        console.log("This is mambo number 5")
+    end
+
+
+    # For loops work like in Python, iterating over arrays
+    for thing in thing_list:
+        do_something_with(thing)
+    end
+
+
+    # While loops are pretty straightforward
+    var x = 0
+    while x < 4:
+        console.log(x)
+        x += 1
+    end
+
+
+
 ### French version
 
     # Les lignes qui commencent par un # sont des commentaires.
@@ -123,4 +177,52 @@ Examples
 
 
 
+    # 2. Variables and collections
+    #=============================
 
+    # Declarons une variable a l'aide du mot cle 'var'
+    var x = 5
+
+    # Construisons une liste
+    var my_list = []
+
+    # On peut la remplir des le debut
+    var some_list = [1, 2, 3, 4]
+
+    # Il est possible de creer des intervalles d'entiers: [a..b]
+    [5..8] #  => [5, 6, 7, 8]
+
+    # Tester si un élément fait partie d'une liste
+    3 dans [1, 3, 5] #  => vrai
+
+
+    # Les objects sont pratiquement les memes qu'en JavaScript
+    var mon_objet = {'propriété1': valeur1, 'propriété2': valeur2}
+
+
+
+    # 3. Structures de controle
+    #==========================
+
+    # Les blocs 'if' sont delimites par le mot 'fin', un peu comme en Ruby
+    si x > 5:
+        console.log("Plus de 5 !")
+    sinon si x < 5:
+        console.log("Moins que 5")
+    sinon:
+        console.log("Exactement 5")
+    fin
+
+
+    # Les boucles for fonctionnent comme en Python, itérant sur une liste
+    pour truc dans liste_de_trucs:
+        faire_qqchose(truc)
+    fin
+
+
+    # Boucle while
+    var x = 0
+    tantque x < 4:
+        console.log(x)
+        x += 1
+    fin
