@@ -1,10 +1,10 @@
-{languagename}
-==============
+Panda
+=====
 
 Philosophy
 ----------
 
-{languagename} is a programming language designed with children in mind.
+Panda is a programming language designed with children in mind.
 It cross compiles to JavaScript, like CoffeScript (and others), because the aim
 is to make sharing creations easy, and what is easier than running code in
 the browser?
@@ -14,11 +14,11 @@ programming to kids is the language barrier. That's why the aim of this
 project is to create a language that has several translations, starting with
 French and English.
 
-Another aim of {languagename} is to provide an easy to use graphics library
+Another aim of Panda is to provide an easy to use graphics library
 that can be used to interact with the HTML5 <canvas> element.
 
 JavaScript is not an easy language; it is full of quirks and corner cases.
-The inspiration for the syntax of {languagename} is mostly Python, with a bit
+The inspiration for the syntax of Panda is mostly Python, with a bit
 of Ruby, and CoffeeScript.
 
 
