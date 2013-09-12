@@ -111,58 +111,120 @@ ArgList
         }
     ;
 
-Operator:
-    Expression 'OR' Expression
+Operator
+    : Expression 'OR' Expression
         {
             $$ = new CallNode($1, $2, $3, createLoc(@1, @3));
         }
-    Expression 'AND' Expression
+    | Expression 'AND' Expression
         {
             $$ = new CallNode($1, $2, $3, createLoc(@1, @3));
         }
-    Expression '==' Expression
+    | Expression '==' Expression
         {
             $$ = new CallNode($1, $2, $3, createLoc(@1, @3));
         }
-    Expression '!=' Expression
+    | Expression '!=' Expression
         {
             $$ = new CallNode($1, $2, $3, createLoc(@1, @3));
         }
-    Expression '>' Expression
+    | Expression '>' Expression
         {
             $$ = new CallNode($1, $2, $3, createLoc(@1, @3));
         }
-    Expression '>=' Expression
+    | Expression '>=' Expression
         {
             $$ = new CallNode($1, $2, $3, createLoc(@1, @3));
         }
-    Expression '<' Expression
+    | Expression '<' Expression
         {
             $$ = new CallNode($1, $2, $3, createLoc(@1, @3));
         }
-    Expression '<=' Expression
+    | Expression '<=' Expression
         {
             $$ = new CallNode($1, $2, $3, createLoc(@1, @3));
         }
-    Expression '+' Expression
+    | Expression '+' Expression
         {
             $$ = new CallNode($1, $2, $3, createLoc(@1, @3));
         }
-    Expression '-' Expression
+    | Expression '-' Expression
         {
             $$ = new CallNode($1, $2, $3, createLoc(@1, @3));
         }
-    Expression '*' Expression
+    | Expression '*' Expression
         {
             $$ = new CallNode($1, $2, $3, createLoc(@1, @3));
         }
-    Expression '/' Expression
+    | Expression '/' Expression
         {
             $$ = new CallNode($1, $2, $3, createLoc(@1, @3));
         }
     ;
 
+GetConstant
+    : CONSTANT
+        {
+            $$ = new GetConstantNode($1, createLoc(@1, @1));
+        }
+    ;
 
+SetConstant
+    : CONSTANT '=' Expression
+        {
+            $$ = new SetConstantNode($1, $3, createLoc(@1, @3));
+        }
+    ;
+
+GetConstant
+    : IDENTIFIER
+        {
+            $$ = new GetLocalNode($1, createLoc(@1, @1));
+        }
+    ;
+
+SetConstant
+    : IDENTIFIER '=' Expression
+        {
+            $$ = new SetLocalNode($1, $3, createLoc(@1, @3));
+        }
+    ;
+
+Block
+    : START_BLOCK Expressions END_BLOCK
+        {
+            $$ = $2;
+        }
+    ;
+
+Def
+    : DEF IDENTIFIER "(" ParamList ")" Block
+        {
+            $$ = new DefNode($2, $4, $6, createLoc(@1, @6));
+        }
+    ;
+
+ParamList
+    : // nothing
+        {
+            $$ = [];
+        }
+    | IDENTIFIER
+        {
+            $$ = $1;
+        }
+    | ParamList "," IDENTIFIER
+        {
+            $$ = $1.concat($3);
+        }
+    ;
+
+If
+    : IF Expression Block
+        {
+            $$ = new IfNode($2, $3, createLoc(@1, @3));
+        }
+    ;
 
 
 %%

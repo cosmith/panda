@@ -74,9 +74,9 @@
 var grammar = (function(){
 var parser = {trace: function trace() { },
 yy: {},
-symbols_: {"error":2,"Program":3,"SourceElements":4,"EOF":5,"Expression":6,"Expressions":7,"Terminator":8,"Literal":9,"Call":10,"Operator":11,"GetConstant":12,"SetConstant":13,"GetLocal":14,"SetLocal":15,"Def":16,"Class":17,"If":18,"(":19,")":20,"NEWLINE":21,"NUMBER":22,"STRING":23,"TRUE":24,"FALSE":25,"NONE":26,"IDENTIFIER":27,"Arguments":28,".":29,"ArgList":30,",":31,"$accept":0,"$end":1},
-terminals_: {2:"error",4:"SourceElements",5:"EOF",7:"Expressions",11:"Operator",12:"GetConstant",13:"SetConstant",14:"GetLocal",15:"SetLocal",16:"Def",17:"Class",18:"If",19:"(",20:")",21:"NEWLINE",22:"NUMBER",23:"STRING",24:"TRUE",25:"FALSE",26:"NONE",27:"IDENTIFIER",29:".",31:","},
-productions_: [0,[3,2],[6,1],[6,3],[6,2],[6,1],[6,1],[6,1],[6,1],[6,1],[6,1],[6,1],[6,1],[6,1],[6,1],[6,1],[6,3],[8,1],[9,1],[9,1],[9,1],[9,1],[9,1],[10,2],[10,4],[28,2],[28,3],[30,1],[30,3]],
+symbols_: {"error":2,"Program":3,"SourceElements":4,"EOF":5,"Expression":6,"Expressions":7,"Terminator":8,"Literal":9,"Call":10,"Operator":11,"GetConstant":12,"SetConstant":13,"GetLocal":14,"SetLocal":15,"Def":16,"Class":17,"If":18,"(":19,")":20,"NEWLINE":21,"NUMBER":22,"STRING":23,"TRUE":24,"FALSE":25,"NONE":26,"IDENTIFIER":27,"Arguments":28,".":29,"ArgList":30,",":31,"OR":32,"AND":33,"==":34,"!=":35,">":36,">=":37,"<":38,"<=":39,"+":40,"-":41,"*":42,"/":43,"CONSTANT":44,"=":45,"Block":46,"START_BLOCK":47,"END_BLOCK":48,"DEF":49,"ParamList":50,"IF":51,"$accept":0,"$end":1},
+terminals_: {2:"error",4:"SourceElements",5:"EOF",7:"Expressions",14:"GetLocal",15:"SetLocal",17:"Class",19:"(",20:")",21:"NEWLINE",22:"NUMBER",23:"STRING",24:"TRUE",25:"FALSE",26:"NONE",27:"IDENTIFIER",29:".",31:",",32:"OR",33:"AND",34:"==",35:"!=",36:">",37:">=",38:"<",39:"<=",40:"+",41:"-",42:"*",43:"/",44:"CONSTANT",45:"=",47:"START_BLOCK",48:"END_BLOCK",49:"DEF",51:"IF"},
+productions_: [0,[3,2],[6,1],[6,3],[6,2],[6,1],[6,1],[6,1],[6,1],[6,1],[6,1],[6,1],[6,1],[6,1],[6,1],[6,1],[6,3],[8,1],[9,1],[9,1],[9,1],[9,1],[9,1],[10,2],[10,4],[28,2],[28,3],[30,1],[30,3],[11,3],[11,3],[11,3],[11,3],[11,3],[11,3],[11,3],[11,3],[11,3],[11,3],[11,3],[11,3],[12,1],[12,1],[13,3],[13,3],[46,3],[16,6],[50,0],[50,1],[50,3],[18,3]],
 performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate /* action[1] */, $$ /* vstack */, _$ /* lstack */) {
 /* this == yyval */
 
@@ -149,6 +149,94 @@ case 27:
 break;
 case 28:
             this.$ = $$[$0-2].concat($$[$0]);
+        
+break;
+case 29:
+            this.$ = new CallNode($$[$0-2], $$[$0-1], $$[$0], createLoc(_$[$0-2], _$[$0]));
+        
+break;
+case 30:
+            this.$ = new CallNode($$[$0-2], $$[$0-1], $$[$0], createLoc(_$[$0-2], _$[$0]));
+        
+break;
+case 31:
+            this.$ = new CallNode($$[$0-2], $$[$0-1], $$[$0], createLoc(_$[$0-2], _$[$0]));
+        
+break;
+case 32:
+            this.$ = new CallNode($$[$0-2], $$[$0-1], $$[$0], createLoc(_$[$0-2], _$[$0]));
+        
+break;
+case 33:
+            this.$ = new CallNode($$[$0-2], $$[$0-1], $$[$0], createLoc(_$[$0-2], _$[$0]));
+        
+break;
+case 34:
+            this.$ = new CallNode($$[$0-2], $$[$0-1], $$[$0], createLoc(_$[$0-2], _$[$0]));
+        
+break;
+case 35:
+            this.$ = new CallNode($$[$0-2], $$[$0-1], $$[$0], createLoc(_$[$0-2], _$[$0]));
+        
+break;
+case 36:
+            this.$ = new CallNode($$[$0-2], $$[$0-1], $$[$0], createLoc(_$[$0-2], _$[$0]));
+        
+break;
+case 37:
+            this.$ = new CallNode($$[$0-2], $$[$0-1], $$[$0], createLoc(_$[$0-2], _$[$0]));
+        
+break;
+case 38:
+            this.$ = new CallNode($$[$0-2], $$[$0-1], $$[$0], createLoc(_$[$0-2], _$[$0]));
+        
+break;
+case 39:
+            this.$ = new CallNode($$[$0-2], $$[$0-1], $$[$0], createLoc(_$[$0-2], _$[$0]));
+        
+break;
+case 40:
+            this.$ = new CallNode($$[$0-2], $$[$0-1], $$[$0], createLoc(_$[$0-2], _$[$0]));
+        
+break;
+case 41:
+            this.$ = new GetConstantNode($$[$0], createLoc(_$[$0], _$[$0]));
+        
+break;
+case 42:
+            this.$ = new GetLocalNode($$[$0], createLoc(_$[$0], _$[$0]));
+        
+break;
+case 43:
+            this.$ = new SetConstantNode($$[$0-2], $$[$0], createLoc(_$[$0-2], _$[$0]));
+        
+break;
+case 44:
+            this.$ = new SetLocalNode($$[$0-2], $$[$0], createLoc(_$[$0-2], _$[$0]));
+        
+break;
+case 45:
+            this.$ = $$[$0-1];
+        
+break;
+case 46:
+            this.$ = new DefNode($$[$0-4], $$[$0-2], $$[$0], createLoc(_$[$0-5], _$[$0]));
+        
+break;
+case 47:
+            this.$ = [];
+        
+break;
+case 48:
+            this.$ = $$[$0];
+        
+break;
+case 49:
+            this.$ = $$[$0-2].concat($$[$0]);
+        
+break;
+case 50:
+            this.$ = new IfNode($$[$0-1], $$[$0], createLoc(_$[$0-2], _$[$0]));
         
 break;
 }
