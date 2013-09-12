@@ -111,6 +111,59 @@ ArgList
         }
     ;
 
+Operator:
+    Expression 'OR' Expression
+        {
+            $$ = new CallNode($1, $2, $3, createLoc(@1, @3));
+        }
+    Expression 'AND' Expression
+        {
+            $$ = new CallNode($1, $2, $3, createLoc(@1, @3));
+        }
+    Expression '==' Expression
+        {
+            $$ = new CallNode($1, $2, $3, createLoc(@1, @3));
+        }
+    Expression '!=' Expression
+        {
+            $$ = new CallNode($1, $2, $3, createLoc(@1, @3));
+        }
+    Expression '>' Expression
+        {
+            $$ = new CallNode($1, $2, $3, createLoc(@1, @3));
+        }
+    Expression '>=' Expression
+        {
+            $$ = new CallNode($1, $2, $3, createLoc(@1, @3));
+        }
+    Expression '<' Expression
+        {
+            $$ = new CallNode($1, $2, $3, createLoc(@1, @3));
+        }
+    Expression '<=' Expression
+        {
+            $$ = new CallNode($1, $2, $3, createLoc(@1, @3));
+        }
+    Expression '+' Expression
+        {
+            $$ = new CallNode($1, $2, $3, createLoc(@1, @3));
+        }
+    Expression '-' Expression
+        {
+            $$ = new CallNode($1, $2, $3, createLoc(@1, @3));
+        }
+    Expression '*' Expression
+        {
+            $$ = new CallNode($1, $2, $3, createLoc(@1, @3));
+        }
+    Expression '/' Expression
+        {
+            $$ = new CallNode($1, $2, $3, createLoc(@1, @3));
+        }
+    ;
+
+
+
 
 %%
 // End Grammar
