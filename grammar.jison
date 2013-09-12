@@ -11,7 +11,7 @@ Root
         }
     | Expressions <<EOF>>
         {
-            $$ = new n.Nodes($1, createLoc(null, @1, @2));
+            $$ = new n.Nodes($1, createLoc(null, @1, @1));
             return $$;
         }
     ;

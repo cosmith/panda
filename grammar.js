@@ -87,7 +87,7 @@ case 1:
         
 break;
 case 2:
-            this.$ = new n.Nodes($$[$0], createLoc(null, _$[$0], _$[$01]));
+            this.$ = new n.Nodes($$[$0], createLoc(null, _$[$0], _$[$0]));
             return this.$;
         
 break;
