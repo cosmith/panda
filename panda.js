@@ -34,7 +34,9 @@ parser.lexer = {
 };
 
 parser.yy.parseError = function(message, arg) {
-    message = "unexpected " + (arg.token === 1 ? 'end of input' : arg.token);
+    message = "unexpected " + (arg.token === 1 ? 'end of input' : arg.token) + ',';
+    message += " expected " + arg.expected;
+    message += " (at line " + arg.line + ")";
     throw new SyntaxError(message);
 };
 

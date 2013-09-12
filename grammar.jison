@@ -1,22 +1,26 @@
 // The start symbol is the root of the AST, where everything starts
-%start Program
+%start Root
 
 // Grammar
 %%
 
-Program
-    : SourceElements EOF
+Root
+    : <<EOF>>
         {
-            $$ = new Nodes($1, createLoc(null, @1, @2));
+            $$ = new n.Nodes(null, createLoc(null, @1, @1));
+        }
+    | Expressions <<EOF>>
+        {
+            $$ = new n.Nodes($1, createLoc(null, @1, @2));
             return $$;
         }
     ;
 
 
-Expression
+Expressions
     : Expression
         {
-            $$ = new Nodes($1, createLoc(@1, @1));
+            $$ = new n.Nodes($1, createLoc(@1, @1));
         }
     | Expressions Terminator Expression
         {
@@ -47,7 +51,6 @@ Expression
     | GetLocal
     | SetLocal
     | Def
-    | Class
     | If
     | '(' Expression ')'
         {
@@ -58,34 +61,34 @@ Expression
 Literal
     : NUMBER
         {
-            $$ = new NumberNode($1, createLoc(@1, @1));
+            $$ = new n.NumberNode($1, createLoc(@1, @1));
         }
     | STRING
         {
-            $$ = new StringNode($1, createLoc(@1, @1));
+            $$ = new n.StringNode($1, createLoc(@1, @1));
         }
     | TRUE
         {
-            $$ = new TrueNode($1, createLoc(@1, @1));
+            $$ = new n.TrueNode($1, createLoc(@1, @1));
         }
     | FALSE
         {
-            $$ = new FalseNode($1, createLoc(@1, @1));
+            $$ = new n.FalseNode($1, createLoc(@1, @1));
         }
     | NONE
         {
-            $$ = new NoneNode($1, createLoc(@1, @1));
+            $$ = new n.NoneNode($1, createLoc(@1, @1));
         }
     ;
 
 Call
     : IDENTIFIER Arguments
         {
-            $$ = new CallNode(null, $1, $2, createLoc(@1, @2));
+            $$ = new n.CallNode(null, $1, $2, createLoc(@1, @2));
         }
     | Expression '.' IDENTIFIER Arguments
         {
-            $$ = new CallNode($1, $3, $4, createLoc(@1, @4));
+            $$ = new n.CallNode($1, $3, $4, createLoc(@1, @4));
         }
     ;
 
@@ -114,79 +117,79 @@ ArgList
 Operator
     : Expression 'OR' Expression
         {
-            $$ = new CallNode($1, $2, $3, createLoc(@1, @3));
+            $$ = new n.CallNode($1, $2, $3, createLoc(@1, @3));
         }
     | Expression 'AND' Expression
         {
-            $$ = new CallNode($1, $2, $3, createLoc(@1, @3));
+            $$ = new n.CallNode($1, $2, $3, createLoc(@1, @3));
         }
     | Expression '==' Expression
         {
-            $$ = new CallNode($1, $2, $3, createLoc(@1, @3));
+            $$ = new n.CallNode($1, $2, $3, createLoc(@1, @3));
         }
     | Expression '!=' Expression
         {
-            $$ = new CallNode($1, $2, $3, createLoc(@1, @3));
+            $$ = new n.CallNode($1, $2, $3, createLoc(@1, @3));
         }
     | Expression '>' Expression
         {
-            $$ = new CallNode($1, $2, $3, createLoc(@1, @3));
+            $$ = new n.CallNode($1, $2, $3, createLoc(@1, @3));
         }
     | Expression '>=' Expression
         {
-            $$ = new CallNode($1, $2, $3, createLoc(@1, @3));
+            $$ = new n.CallNode($1, $2, $3, createLoc(@1, @3));
         }
     | Expression '<' Expression
         {
-            $$ = new CallNode($1, $2, $3, createLoc(@1, @3));
+            $$ = new n.CallNode($1, $2, $3, createLoc(@1, @3));
         }
     | Expression '<=' Expression
         {
-            $$ = new CallNode($1, $2, $3, createLoc(@1, @3));
+            $$ = new n.CallNode($1, $2, $3, createLoc(@1, @3));
         }
     | Expression '+' Expression
         {
-            $$ = new CallNode($1, $2, $3, createLoc(@1, @3));
+            $$ = new n.CallNode($1, $2, $3, createLoc(@1, @3));
         }
     | Expression '-' Expression
         {
-            $$ = new CallNode($1, $2, $3, createLoc(@1, @3));
+            $$ = new n.CallNode($1, $2, $3, createLoc(@1, @3));
         }
     | Expression '*' Expression
         {
-            $$ = new CallNode($1, $2, $3, createLoc(@1, @3));
+            $$ = new n.CallNode($1, $2, $3, createLoc(@1, @3));
         }
     | Expression '/' Expression
         {
-            $$ = new CallNode($1, $2, $3, createLoc(@1, @3));
+            $$ = new n.CallNode($1, $2, $3, createLoc(@1, @3));
         }
     ;
 
 GetConstant
     : CONSTANT
         {
-            $$ = new GetConstantNode($1, createLoc(@1, @1));
+            $$ = new n.GetConstantNode($1, createLoc(@1, @1));
         }
     ;
 
 SetConstant
     : CONSTANT '=' Expression
         {
-            $$ = new SetConstantNode($1, $3, createLoc(@1, @3));
+            $$ = new n.SetConstantNode($1, $3, createLoc(@1, @3));
         }
     ;
 
 GetConstant
     : IDENTIFIER
         {
-            $$ = new GetLocalNode($1, createLoc(@1, @1));
+            $$ = new n.GetLocalNode($1, createLoc(@1, @1));
         }
     ;
 
 SetConstant
     : IDENTIFIER '=' Expression
         {
-            $$ = new SetLocalNode($1, $3, createLoc(@1, @3));
+            $$ = new n.SetLocalNode($1, $3, createLoc(@1, @3));
         }
     ;
 
@@ -198,9 +201,9 @@ Block
     ;
 
 Def
-    : DEF IDENTIFIER "(" ParamList ")" Block
+    : 'DEF' IDENTIFIER "(" ParamList ")" Block
         {
-            $$ = new DefNode($2, $4, $6, createLoc(@1, @6));
+            $$ = new n.DefNode($2, $4, $6, createLoc(@1, @6));
         }
     ;
 
@@ -222,7 +225,7 @@ ParamList
 If
     : IF Expression Block
         {
-            $$ = new IfNode($2, $3, createLoc(@1, @3));
+            $$ = new n.IfNode($2, $3, createLoc(@1, @3));
         }
     ;
 
@@ -231,3 +234,25 @@ If
 // End Grammar
 
 
+var n = require('./nodes');
+
+// This is taken from
+// https://github.com/cjihrig/jsparser
+function SourceLocation(source, start, end, loc) {
+    this.source = source;
+    this.start = start;
+    this.end = end;
+}
+
+function createLoc(source, firstToken, lastToken) {
+    return new SourceLocation(
+        source,
+        new Position(firstToken.first_line, firstToken.first_column),
+        new Position(lastToken.last_line, lastToken.last_column)
+    );
+}
+
+function Position(line, column) {
+    this.line = line;
+    this.column = column;
+}

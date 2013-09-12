@@ -1,5 +1,5 @@
 // Our root node, containing all the representation of the program
-var Nodes = function (nodes, loc) {
+module.exports.Nodes = function (nodes, loc) {
     this.nodes = nodes;
     this.loc = loc;
 
@@ -11,6 +11,7 @@ var Nodes = function (nodes, loc) {
 
 // Literal nodes that translate directly to javascript
 var NumberNode = function (value, loc) {
+    console.log('Number node here!', value, loc);
     this.value = value;
     this.loc = loc;
 }
@@ -72,25 +73,3 @@ var IfNode = function (condition, body, loc) {
 
 
 
-// This is taken from
-// https://github.com/cjihrig/jsparser
-function SourceLocation(source, start, end, loc) {
-    this.source = source;
-    this.start = start;
-    this.end = end;
-}
-
-
-function createLoc(source, firstToken, lastToken) {
-    return new SourceLocation(
-        source,
-        new Position(firstToken.first_line, firstToken.first_column),
-        new Position(lastToken.last_line, lastToken.last_column)
-    );
-}
-
-
-function Position(line, column) {
-    this.line = line;
-    this.column = column;
-}

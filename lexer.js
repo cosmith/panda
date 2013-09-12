@@ -12,6 +12,8 @@ var Lexer = function () {
         "and"
     ];
 
+    self.loc = {first_line: 0, first_column: 0, last_line: 0, last_column: 0};
+
     self.tokenize = function (code) {
         var tokens = [],
             i = 0, // current character position
@@ -28,7 +30,7 @@ var Lexer = function () {
             if (matched !== null) {
                 block_depth -= 1;
 
-                tokens.push(["END_BLOCK", block_depth]);
+                tokens.push(["END_BLOCK", block_depth, self.loc]);
 
                 i += matched[0].length;
                 continue;
@@ -41,9 +43,9 @@ var Lexer = function () {
                 identifier = matched[0];
 
                 if (self.KEYWORDS.indexOf(identifier) !== -1) {
-                    tokens.push([identifier.toUpperCase(), identifier]);
+                    tokens.push([identifier.toUpperCase(), identifier, self.loc]);
                 } else {
-                    tokens.push(["IDENTIFIER", identifier]);
+                    tokens.push(["IDENTIFIER", identifier, self.loc]);
                 }
 
                 i += identifier.length;
@@ -55,7 +57,7 @@ var Lexer = function () {
             if (matched !== null) {
                 identifier = matched[0];
 
-                tokens.push(["NUMBER", parseInt(identifier)]);
+                tokens.push(["NUMBER", parseInt(identifier), self.loc]);
 
                 i += identifier.length;
                 continue;
@@ -66,7 +68,7 @@ var Lexer = function () {
             if (matched !== null) {
                 identifier = matched[1];
 
-                tokens.push(["STRING", identifier]);
+                tokens.push(["STRING", identifier, self.loc]);
 
                 i += identifier.length + 2; // skip the ""
                 continue;
@@ -77,7 +79,7 @@ var Lexer = function () {
             if (matched !== null) {
                 block_depth += 1;
 
-                tokens.push(["START_BLOCK", block_depth]);
+                tokens.push(["START_BLOCK", block_depth, self.loc]);
 
                 i += matched[0].length;
                 continue;
@@ -88,7 +90,7 @@ var Lexer = function () {
             if (matched !== null) {
                 identifier = matched[0];
 
-                tokens.push([identifier, identifier]);
+                tokens.push([identifier, identifier, self.loc]);
 
                 i += matched[0].length;
                 continue;
@@ -103,7 +105,7 @@ var Lexer = function () {
 
             // one character operators
             matched = chunk[0];
-            tokens.push([matched, matched]);
+            tokens.push([matched, matched, self.loc]);
             i += 1
         }
 
