@@ -75,7 +75,7 @@ var Lexer = function () {
             }
 
             // block start
-            matched = chunk.match(/^: *\n */);
+            matched = chunk.match(/^:/);
             if (matched !== null) {
                 block_depth += 1;
 

@@ -194,7 +194,11 @@ SetConstant
     ;
 
 Block
-    : START_BLOCK Expressions END_BLOCK
+    : START_BLOCK END_BLOCK
+        {
+            $$ = [];
+        }
+    | START_BLOCK Expressions END_BLOCK
         {
             $$ = $2;
         }
