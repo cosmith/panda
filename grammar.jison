@@ -7,7 +7,7 @@
 Program
     : SourceElements EOF
         {
-            $$ = new Nodes($1, createSourceLocation(null, @1, @2));
+            $$ = new Nodes($1, createLoc(null, @1, @2));
             return $$;
         }
     ;
@@ -16,7 +16,7 @@ Program
 Expression
     : Expression
         {
-            $$ = new Nodes($1, createSourceLocation(@1, ));
+            $$ = new Nodes($1, createLoc(@1, @1));
         }
     | Expressions Terminator Expression
         {
@@ -58,26 +58,61 @@ Expression
 Literal
     : NUMBER
         {
-            $$ = new NumberNode($1, createSourceLocation(@1, @1));
+            $$ = new NumberNode($1, createLoc(@1, @1));
         }
     | STRING
         {
-            $$ = new StringNode($1, createSourceLocation(@1, @1));
+            $$ = new StringNode($1, createLoc(@1, @1));
         }
     | TRUE
         {
-            $$ = new TrueNode($1, createSourceLocation(@1, @1));
+            $$ = new TrueNode($1, createLoc(@1, @1));
         }
     | FALSE
         {
-            $$ = new FalseNode($1, createSourceLocation(@1, @1));
+            $$ = new FalseNode($1, createLoc(@1, @1));
         }
     | NONE
         {
-            $$ = new NoneNode($1, createSourceLocation(@1, @1));
+            $$ = new NoneNode($1, createLoc(@1, @1));
+        }
+    ;
+
+Call
+    : IDENTIFIER Arguments
+        {
+            $$ = new CallNode(null, $1, $2, createLoc(@1, @2));
+        }
+    | Expression '.' IDENTIFIER Arguments
+        {
+            $$ = new CallNode($1, $3, $4, createLoc(@1, @4));
+        }
+    ;
+
+Arguments
+    : "(" ")"
+        {
+            $$ = [];
+        }
+    | "(" ArgList ")"
+        {
+            $$ = $2;
+        }
+    ;
+
+ArgList
+    : Expression
+        {
+            $$ = $1;
+        }
+    | ArgList "," Expression
+        {
+            $$ = $1.concat($3);
         }
     ;
 
 
 %%
 // End Grammar
+
+

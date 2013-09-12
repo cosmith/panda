@@ -116,15 +116,5 @@ var Lexer = function () {
     }
 }
 
-l = new Lexer();
-console.log(l.tokenize([
-'hello + 2:',
-'   in_block(1)',
-'   another_thing("string")',
-'   if 5 >= 4:',
-'       do_stuff()',
-'       stuff = true',
-'   end',
-'end'
-].join('\n')
-));
+module.exports = Lexer;
+

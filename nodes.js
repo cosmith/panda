@@ -81,7 +81,7 @@ function SourceLocation(source, start, end, loc) {
 }
 
 
-function createSourceLocation(source, firstToken, lastToken) {
+function createLoc(source, firstToken, lastToken) {
     return new SourceLocation(
         source,
         new Position(firstToken.first_line, firstToken.first_column),
