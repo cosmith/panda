@@ -1,3 +1,5 @@
+var fs = require('fs'); // file system
+
 var Lexer = require('./lexer');
 var parser = require('./grammar').parser;
 parser.yy = require('./nodes');
@@ -31,27 +33,15 @@ parser.lexer = {
     }
 };
 
-parser.yy.parseError = function(message, _arg) {
-    var token;
-    token = _arg.token;
-    message = "unexpected " + (token === 1 ? 'end of input' : token);
+parser.yy.parseError = function(message, arg) {
+    message = "unexpected " + (arg.token === 1 ? 'end of input' : arg.token);
     throw new SyntaxError(message);
 };
 
 
-var pandaCode = [
-'def test():',
-'   in_block(1)',
-'   another_thing("string")',
-'   if 5 >= 4:',
-'       do_stuff()',
-'       stuff = true',
-'   end',
-'end'
-].join('\n');
+fs.readFile('./test_grammar.pa', 'utf-8', function (err, data) {
+    if (err) throw err;
 
-var tokenized = lexer.tokenize(pandaCode);
-
-console.log(tokenized);
-
-parser.parse(tokenized);
+    var tokenized = lexer.tokenize(data);
+    parser.parse(tokenized);
+});
