@@ -20,11 +20,11 @@ Root
 Expressions
     : Expression
         {
-            $$ = new n.Nodes($1, createLoc(@1, @1));
+            $$ = new n.Nodes([$1], createLoc(@1, @1));
         }
     | Expressions Terminator Expression
         {
-            $$ = $1.concat($2);
+            $$ = $1.push($2);
         }
     | Expressions Terminator
         {

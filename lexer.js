@@ -105,8 +105,12 @@ var Lexer = function () {
 
             // one character operators
             matched = chunk[0];
-            tokens.push([matched, matched, self.loc]);
-            i += 1
+            if (matched === '\n') {
+                tokens.push(["NEWLINE", "NEWLINE", self.loc]);
+            } else {
+                tokens.push([matched, matched, self.loc]);
+            }
+            i += 1;
         }
 
         if (block_depth !== 0) {

@@ -92,11 +92,11 @@ case 2:
         
 break;
 case 3:
-            this.$ = new n.Nodes($$[$0], createLoc(_$[$0], _$[$0]));
+            this.$ = new n.Nodes([$$[$0]], createLoc(_$[$0], _$[$0]));
         
 break;
 case 4:
-            this.$ = $$[$0-2].concat($$[$0-1]);
+            this.$ = $$[$0-2].push($$[$0-1]);
         
 break;
 case 5:

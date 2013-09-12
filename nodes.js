@@ -5,9 +5,13 @@ module.exports = {
         this.nodes = nodes;
         this.loc = loc;
 
-        this.push = function (node, loc) {
+        this.push = function (node) {
+            if (!nodes) {
+                nodes = [];
+            }
             nodes.push(node);
-            return self;
+
+            return nodes;
         }
     },
 
