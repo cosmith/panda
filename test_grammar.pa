@@ -1,10 +1,1 @@
 1 + 1
-
-def test():
-    in_block(1)
-    another_thing("string")
-    if 5 >= 4:
-        do_stuff()
-        stuff = true
-    end
-end
