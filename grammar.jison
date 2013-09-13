@@ -205,7 +205,7 @@ Block
     ;
 
 Def
-    : 'DEF' IDENTIFIER "(" ParamList ")" Block
+    : DEF IDENTIFIER "(" ParamList ")" Block
         {
             $$ = new n.DefNode($2, $4, $6, createLoc(@1, @6));
         }

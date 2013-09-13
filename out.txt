@@ -1,0 +1,11 @@
+nodes: {
+	nodes: {
+	0: {
+	receiver: {
+	name: conole 
+}, method: log, argument: {
+	value: 3 
+} 
+} 
+} 
+}

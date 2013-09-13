@@ -9,8 +9,7 @@ module.exports = {
             if (!nodes) {
                 nodes = [];
             }
-            nodes.push(node);
-
+            nodes = nodes.concat(node);
             return nodes;
         }
     },

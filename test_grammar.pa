@@ -1,2 +1,2 @@
-1 + 1
-2
+def test(x, y): something(x + y * z) end
+console.log(1)

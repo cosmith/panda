@@ -45,5 +45,40 @@ fs.readFile('./test_grammar.pa', 'utf-8', function (err, data) {
     if (err) throw err;
 
     var tokenized = lexer.tokenize(data);
-    parser.parse(tokenized);
+    var parsed = parser.parse(tokenized);
+
+    console.log(strAst(parsed, 0).join('\n'));
 });
+
+
+// helpers
+
+
+
+function strAst(ast, indent){
+    var collection = [],
+        index = 0,
+        next,
+        key;
+
+    for (key in ast) {
+        if (ast.hasOwnProperty(key)
+            && (key !== "source" && key !== "start" && key !== "end" && key !== "push" && key !== "loc")) {
+
+            next = ast[key];
+            if (typeof next === 'object' && next !== null) {
+                collection[index] = spaces(indent) + key + ': {\n' + strAst(next, indent+1).join(',\n') + ' \n' + spaces(indent) + '}';
+            }
+            else {
+                collection[index] = [spaces(indent) + key + ': ' + String(next)];
+            }
+            index++;
+        }
+    }
+
+    return collection;
+}
+
+function spaces(i) {
+    return new Array(i+1).join('    ');
+}
