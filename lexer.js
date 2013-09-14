@@ -38,7 +38,7 @@ var Lexer = function () {
 
 
             // keywords and identifiers
-            matched = chunk.match(/^[a-z]\w*/);
+            matched = chunk.match(/^\w+/);
             if (matched !== null) {
                 identifier = matched[0];
 
