@@ -24,11 +24,15 @@ Expressions
         }
     | Expressions Terminator Expression
         {
-            $$ = $1.push($2);
+            $$ = $1.push($3);
         }
     | Expressions Terminator
         {
             $$ = $1;
+        }
+    | Terminator Expressions
+        {
+            $$ = $2;
         }
     | Terminator
         {
