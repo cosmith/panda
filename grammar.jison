@@ -167,6 +167,22 @@ Operator
         {
             $$ = new n.CallNode($1, $2, $3, createLoc(@1, @3));
         }
+    | Expression '+=' Expression
+        {
+            $$ = new n.CallNode($1, $2, $3, createLoc(@1, @3));
+        }
+    | Expression '-=' Expression
+        {
+            $$ = new n.CallNode($1, $2, $3, createLoc(@1, @3));
+        }
+    | Expression '*=' Expression
+        {
+            $$ = new n.CallNode($1, $2, $3, createLoc(@1, @3));
+        }
+    | Expression '/=' Expression
+        {
+            $$ = new n.CallNode($1, $2, $3, createLoc(@1, @3));
+        }
     ;
 
 GetConstant

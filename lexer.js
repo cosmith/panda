@@ -86,7 +86,7 @@ var Lexer = function () {
             }
 
             // long operators
-            matched = chunk.match(/^==|^!=|^<=|^>=/);
+            matched = chunk.match(/^==|^!=|^<=|^>=|^\+=|^-=|^\*=^|\/=/);
             if (matched !== null) {
                 identifier = matched[0];
 
