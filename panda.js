@@ -45,7 +45,7 @@ fs.readFile('./test_grammar.pa', 'utf-8', function (err, data) {
     if (err) throw err;
 
     var tokenized = lexer.tokenize(data);
-    printTokens(tokenized);
+    printTokens(tokenized, true);
 
     var parsed = parser.parse(tokenized);
     printAst(parsed);
@@ -56,14 +56,21 @@ fs.readFile('./test_grammar.pa', 'utf-8', function (err, data) {
 
 
 // helpers
-function printTokens(tokens) {
+function printTokens(tokens, full) {
+    console.log('\nLexed input\n');
+
+    if (full) {
+        console.log(tokens);
+        return;
+    }
+
     var cleaned = [],
         i;
 
     for (i = 0; i < tokens.length; i++) {
         cleaned.push(tokens[i].slice(0, 2).join(': '));
     }
-    console.log('\nLexed input\n\n', cleaned.join('\n '));
+    console.log(cleaned.join('\n'));
 }
 
 function printAst(ast) {
@@ -71,7 +78,7 @@ function printAst(ast) {
 }
 
 
-function strAst(ast, indent){
+function strAst(ast, indent) {
     var collection = [],
         index = 0,
         next,
