@@ -114,7 +114,6 @@ var Lexer = function () {
         }
 
         if (block_depth !== 0) {
-            console.log(tokens);
             throw "Bad block nesting !";
         }
 

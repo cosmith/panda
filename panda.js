@@ -45,14 +45,30 @@ fs.readFile('./test_grammar.pa', 'utf-8', function (err, data) {
     if (err) throw err;
 
     var tokenized = lexer.tokenize(data);
-    var parsed = parser.parse(tokenized);
+    printTokens(tokenized);
 
-    console.log(strAst(parsed, 0).join('\n'));
+    var parsed = parser.parse(tokenized);
+    printAst(parsed);
+
 });
 
 
-// helpers
 
+
+// helpers
+function printTokens(tokens) {
+    var cleaned = [],
+        i;
+
+    for (i = 0; i < tokens.length; i++) {
+        cleaned.push(tokens[i].slice(0, 2).join(': '));
+    }
+    console.log('\nLexed input\n\n', cleaned.join('\n '));
+}
+
+function printAst(ast) {
+    console.log('\nParsed input\n\n', strAst(ast, 0).join('\n'));
+}
 
 
 function strAst(ast, indent){
@@ -61,13 +77,15 @@ function strAst(ast, indent){
         next,
         key;
 
-    for (key in ast) {
-        if (ast.hasOwnProperty(key)
-            && (key !== "source" && key !== "start" && key !== "end" && key !== "push" && key !== "loc")) {
+    var dontShow = ["source", "start", "end", "push", "loc"];
 
+    for (key in ast) {
+        if (ast.hasOwnProperty(key) && (dontShow.indexOf(key) === -1)) {
             next = ast[key];
             if (typeof next === 'object' && next !== null) {
-                collection[index] = spaces(indent) + key + ': {\n' + strAst(next, indent+1).join(',\n') + ' \n' + spaces(indent) + '}';
+                collection[index] = spaces(indent) + key
+                    + ': {\n' + strAst(next, indent+1).join(',\n')
+                    + ' \n' + spaces(indent) + '}';
             }
             else {
                 collection[index] = [spaces(indent) + key + ': ' + String(next)];
@@ -80,5 +98,5 @@ function strAst(ast, indent){
 }
 
 function spaces(i) {
-    return new Array(i+1).join('    ');
+    return Array(i+1).join('    ');
 }
