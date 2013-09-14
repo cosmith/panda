@@ -7,11 +7,11 @@
 Root
     : <<EOF>>
         {
-            $$ = new n.Nodes(null, createLoc(null, @1, @1));
+            $$ = new n.Nodes(null, createLoc(@1, @1));
         }
     | Expressions <<EOF>>
         {
-            $$ = new n.Nodes($1, createLoc(null, @1, @1));
+            $$ = new n.Nodes($1, createLoc(@1, @1));
             return $$;
         }
     ;
@@ -268,11 +268,11 @@ function SourceLocation(source, start, end, loc) {
     this.end = end;
 }
 
-function createLoc(source, firstToken, lastToken) {
+function createLoc(firstToken, lastToken) {
     return new SourceLocation(
-        source,
-        new Position(0, 0),//firstToken.first_line, firstToken.first_column),
-        new Position(0, 0)//lastToken.last_line, lastToken.last_column)
+        null,
+        new Position(firstToken.first_line, firstToken.first_column),
+        new Position(lastToken.last_line, lastToken.last_column)
     );
 }
 

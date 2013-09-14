@@ -83,11 +83,11 @@ performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate /* actio
 var $0 = $$.length - 1;
 switch (yystate) {
 case 1:
-            this.$ = new n.Nodes(null, createLoc(null, _$[$0], _$[$0]));
+            this.$ = new n.Nodes(null, createLoc(_$[$0], _$[$0]));
         
 break;
 case 2:
-            this.$ = new n.Nodes($$[$0], createLoc(null, _$[$0], _$[$0]));
+            this.$ = new n.Nodes($$[$0], createLoc(_$[$0], _$[$0]));
             return this.$;
         
 break;
@@ -422,11 +422,11 @@ function SourceLocation(source, start, end, loc) {
     this.end = end;
 }
 
-function createLoc(source, firstToken, lastToken) {
+function createLoc(firstToken, lastToken) {
     return new SourceLocation(
-        source,
-        new Position(0, 0),//firstToken.first_line, firstToken.first_column),
-        new Position(0, 0)//lastToken.last_line, lastToken.last_column)
+        null,
+        new Position(firstToken.first_line, firstToken.first_column),
+        new Position(lastToken.last_line, lastToken.last_column)
     );
 }
 
