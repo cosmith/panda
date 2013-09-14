@@ -1,11 +1,30 @@
 nodes: {
-	nodes: {
-	0: {
-	receiver: {
-	name: conole 
-}, method: log, argument: {
-	value: 3 
-} 
-} 
-} 
+    0: {
+        name: test,
+        params: xy,
+        body: {
+            nodes: {
+                0: {
+                    receiver: null,
+                    method: something,
+                    argument: {
+                        receiver: {
+                            name: x 
+                        },
+                        method: +,
+                        argument: {
+                            receiver: {
+                                name: y 
+                            },
+                            method: *,
+                            argument: {
+                                name: z 
+                            } 
+                        } 
+                    } 
+                } 
+            } 
+        } 
+    },
+    1: NEWLINE 
 }
