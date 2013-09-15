@@ -96,7 +96,7 @@ case 3:
         
 break;
 case 4:
-            this.$ = $$[$0-2].push($$[$0]);
+            this.$ = $$[$0-2].addNode($$[$0]);
         
 break;
 case 5:
@@ -152,7 +152,7 @@ case 27:
         
 break;
 case 28:
-            this.$ = $$[$0];
+            this.$ = [$$[$0]];
         
 break;
 case 29:

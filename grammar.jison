@@ -24,7 +24,7 @@ Expressions
         }
     | Expressions Terminator Expression
         {
-            $$ = $1.push($3);
+            $$ = $1.addNode($3);
         }
     | Expressions Terminator
         {
@@ -110,7 +110,7 @@ Arguments
 ArgList
     : Expression
         {
-            $$ = $1;
+            $$ = [$1];
         }
     | ArgList "," Expression
         {

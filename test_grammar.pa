@@ -1,2 +1,7 @@
-def test(x, y): something(x + y * z) end
-console.log(1)
+print(x, y, z + 5)
+1
+f("string")
+
+def test():
+    its.aMethod(call)
+end

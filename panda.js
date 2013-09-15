@@ -45,11 +45,10 @@ fs.readFile('./test_grammar.pa', 'utf-8', function (err, data) {
     if (err) throw err;
 
     var tokenized = lexer.tokenize(data);
-    printTokens(tokenized, true);
+    printTokens(tokenized);
 
     var parsed = parser.parse(tokenized);
     printAst(parsed);
-
 });
 
 
@@ -84,7 +83,7 @@ function strAst(ast, indent) {
         next,
         key;
 
-    var dontShow = ["source", "start", "end", "push", "loc"];
+    var dontShow = ["source", "start", "end", "push", "loc", "addNode"];
 
     for (key in ast) {
         if (ast.hasOwnProperty(key) && (dontShow.indexOf(key) === -1)) {

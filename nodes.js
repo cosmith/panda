@@ -2,15 +2,16 @@ module.exports = {
 
     // Our root node, containing all the representation of the program
     Nodes: function (nodes, loc) {
-        this.nodes = nodes;
-        this.loc = loc;
+        var self = this;
+        self.nodes = nodes;
+        self.loc = loc;
 
-        this.push = function (node) {
+        self.addNode = function (node) {
             if (!nodes) {
-                nodes = [];
+                self.nodes = [];
             }
-            nodes = nodes.concat(node);
-            return nodes;
+            self.nodes.push(node);
+            return self;
         }
     },
 
