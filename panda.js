@@ -49,17 +49,24 @@ fs.readFile('./test_grammar.pa', 'utf-8', function (err, data) {
 
     var parsed = parser.parse(tokenized);
     printAst(parsed);
+
+    log("\n\nOutput");
+    log("======\n");
+    log(parsed.nodes.compile());
 });
 
 
 
 
 // helpers
+var log = console.log;
+
 function printTokens(tokens, full) {
-    console.log('\nLexed input\n');
+    log('\nLexed input');
+    log('===========\n');
 
     if (full) {
-        console.log(tokens);
+        log(tokens);
         return;
     }
 
@@ -69,11 +76,13 @@ function printTokens(tokens, full) {
     for (i = 0; i < tokens.length; i++) {
         cleaned.push(tokens[i].slice(0, 2).join(': '));
     }
-    console.log(cleaned.join('\n'));
+    log(cleaned.join('\n'));
 }
 
 function printAst(ast) {
-    console.log('\nParsed input\n\n', strAst(ast, 0).join('\n'));
+    log('\nParsed input');
+    log('============\n');
+    log(strAst(ast, 0).join('\n'));
 }
 
 
@@ -83,7 +92,7 @@ function strAst(ast, indent) {
         next,
         key;
 
-    var dontShow = ["source", "start", "end", "push", "loc", "addNode"];
+    var dontShow = ["source", "start", "end", "push", "loc", "addNode", "compile"];
 
     for (key in ast) {
         if (ast.hasOwnProperty(key) && (dontShow.indexOf(key) === -1)) {

@@ -13,6 +13,16 @@ module.exports.Nodes = function (nodes, loc) {
         self.nodes.push(node);
         return self;
     }
+
+    self.compile = function () {
+        var code = "";
+
+        for (var i = 0; i < nodes.length; i++) {
+            code += nodes[i].compile() + ";\n";
+        }
+
+        return code;
+    }
 }
 
 // Literal nodes that translate directly to javascript
@@ -24,6 +34,7 @@ module.exports.NumberNode = function (value, loc) {
     self.loc = loc;
 
     self.compile = function () {
+        return String(value);
     }
 }
 
@@ -35,6 +46,8 @@ module.exports.StringNode = function (value, loc) {
     self.loc = loc;
 
     self.compile = function () {
+        value = value.replace(/"/g, "\"");
+        return '"' + value + '"';
     }
 }
 
@@ -46,6 +59,7 @@ module.exports.TrueNode = function (loc) {
     self.loc = loc;
 
     self.compile = function () {
+        return "true";
     }
 }
 
@@ -57,6 +71,7 @@ module.exports.FalseNode = function (loc) {
     self.loc = loc;
 
     self.compile = function () {
+        return "false";
     }
 }
 
@@ -68,20 +83,34 @@ module.exports.NoneNode = function (loc) {
     self.loc = loc;
 
     self.compile = function () {
+        return "null";
     }
 }
 
 // method call
-module.exports.CallNode = function (receiver, method, argument, loc) {
+module.exports.CallNode = function (receiver, method, arguments, loc) {
     var self = this;
 
     self.type = "call";
     self.receiver = receiver;
     self.method = method;
-    self.argument = argument;
+    self.arguments = arguments;
     self.loc = loc;
 
     self.compile = function () {
+        var code = "",
+            args = [];
+
+        // compile the arguments first
+        for (var arg in arguments) {
+            args.push(arg.compile());
+        }
+
+        // methods that don't have a receiver are declared on the global context
+        code = receiver ? receiver.compile() : "__CTX__";
+        code += "." + method + "(" + args.join(', ') + ")";
+
+        return code;
     }
 }
 
@@ -94,6 +123,7 @@ module.exports.GetLocalNode = function (name, loc) {
     self.loc = loc;
 
     self.compile = function () {
+        return name;
     }
 }
 
@@ -106,6 +136,7 @@ module.exports.SetLocalNode = function (name, value, loc) {
     self.loc = loc;
 
     self.compile = function () {
+        return "var " + name + " = " + value.compile();
     }
 }
 
@@ -120,6 +151,14 @@ module.exports.DefNode = function (name, params, body, loc) {
     self.loc = loc;
 
     self.compile = function () {
+        // declare functions on the global context
+        var code = "__CTX__.";
+
+        code += name + " = function (";
+        code += params.join(", ") + ") {\n";
+        code += body.compile();
+
+        return code + "}";
     }
 }
 
@@ -133,6 +172,12 @@ module.exports.IfNode = function (condition, body, loc) {
     self.loc = loc;
 
     self.compile = function () {
+        var code = "if (";
+
+        code += condition.compile() + ") {\n";
+        code += body.compile();
+
+        return code + "}";
     }
 }
 
