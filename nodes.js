@@ -17,8 +17,8 @@ module.exports.Nodes = function (nodes, loc) {
     self.compile = function () {
         var code = "";
 
-        for (var i = 0; i < nodes.length; i++) {
-            code += nodes[i].compile() + ";\n";
+        for (var i = 0; i < self.nodes.length; i++) {
+            code += self.nodes[i].compile() + ";\n";
         }
 
         return code;
@@ -46,7 +46,7 @@ module.exports.StringNode = function (value, loc) {
     self.loc = loc;
 
     self.compile = function () {
-        value = value.replace(/"/g, "\"");
+        value = self.value.replace(/"/g, "\"");
         return '"' + value + '"';
     }
 }
@@ -102,13 +102,13 @@ module.exports.CallNode = function (receiver, method, arguments, loc) {
             args = [];
 
         // compile the arguments first
-        for (var arg in arguments) {
-            args.push(arg.compile());
+        for (var i = 0; i < self.arguments.length; i++) {
+            args.push(self.arguments[i].compile());
         }
 
         // methods that don't have a receiver are declared on the global context
-        code = receiver ? receiver.compile() : "__CTX__";
-        code += "." + method + "(" + args.join(', ') + ")";
+        code = self.receiver ? self.receiver.compile() + "." : "";
+        code += self.method + "(" + args.join(', ') + ")";
 
         return code;
     }
@@ -123,7 +123,7 @@ module.exports.GetLocalNode = function (name, loc) {
     self.loc = loc;
 
     self.compile = function () {
-        return name;
+        return self.name;
     }
 }
 
@@ -136,7 +136,7 @@ module.exports.SetLocalNode = function (name, value, loc) {
     self.loc = loc;
 
     self.compile = function () {
-        return "var " + name + " = " + value.compile();
+        return "var " + self.name + " = " + self.value.compile();
     }
 }
 
@@ -152,11 +152,11 @@ module.exports.DefNode = function (name, params, body, loc) {
 
     self.compile = function () {
         // declare functions on the global context
-        var code = "__CTX__.";
+        var code = "var ";
 
-        code += name + " = function (";
-        code += params.join(", ") + ") {\n";
-        code += body.compile();
+        code += self.name + " = function (";
+        code += self.params.join(", ") + ") {\n";
+        code += self.body.compile();
 
         return code + "}";
     }
@@ -174,8 +174,8 @@ module.exports.IfNode = function (condition, body, loc) {
     self.compile = function () {
         var code = "if (";
 
-        code += condition.compile() + ") {\n";
-        code += body.compile();
+        code += self.condition.compile() + ") {\n";
+        code += self.body.compile();
 
         return code + "}";
     }

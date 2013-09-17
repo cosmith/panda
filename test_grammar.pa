@@ -1,3 +1,4 @@
 def print(x):
     console.log(x)
 end
+print(2)

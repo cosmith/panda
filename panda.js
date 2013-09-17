@@ -41,6 +41,9 @@ parser.yy.parseError = function(message, arg) {
 };
 
 
+/**
+ * Main runtime here
+ */
 fs.readFile('./test_grammar.pa', 'utf-8', function (err, data) {
     if (err) throw err;
 
@@ -50,9 +53,14 @@ fs.readFile('./test_grammar.pa', 'utf-8', function (err, data) {
     var parsed = parser.parse(tokenized);
     printAst(parsed);
 
+    var compiled = parsed.nodes.compile();
+
     log("\n\nOutput");
     log("======\n");
-    log(parsed.nodes.compile());
+    log(compiled);
+    log("======\n");
+
+    eval(compiled);
 });
 
 
