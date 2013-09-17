@@ -1,21 +1,22 @@
 Panda
 =====
+A easy to learn, translatable language that runs on the web.
 
 Philosophy
 ----------
 
 Panda is a programming language designed with children in mind.
-It cross compiles to JavaScript, like CoffeScript (and others), because the aim
-is to make sharing creations easy, and what is easier than running code in
+It cross compiles to JavaScript, like CoffeScript (and others), because I want 
+to make sharing creations easy, and what is easier than running code in
 the browser?
 
 I am French, and I believe that one of the big obstacles in teaching
-programming to kids is the language barrier. That's why the aim of this
-project is to create a language that has several translations, starting with
+programming to kids is the language barrier. That's why one of the aims of this
+project is also to create a language that has several translations, starting with
 French and English.
 
-Another aim of Panda is to provide an easy to use graphics library
-that can be used to interact with the HTML5 <canvas> element.
+Another long-term goal of Panda is to provide an easy to use graphics library
+that can be used to interact with the HTML5 `<canvas>` element.
 
 JavaScript is not an easy language; it is full of quirks and corner cases.
 The inspiration for the syntax of Panda is mostly Python, with a bit
@@ -186,10 +187,10 @@ pas faux  # => vrai
 var x = 5
 
 # Construisons une liste
-var my_list = []
+var ma_liste = []
 
 # On peut la remplir des le debut
-var some_list = [1, 2, 3, 4]
+var une_list = [1, 2, 3, 4]
 
 # Il est possible de creer des intervalles d'entiers: [a..b]
 [5..8]  # => [5, 6, 7, 8]
