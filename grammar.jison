@@ -238,7 +238,7 @@ ParamList
         }
     | IDENTIFIER
         {
-            $$ = $1;
+            $$ = [$1];
         }
     | ParamList "," IDENTIFIER
         {

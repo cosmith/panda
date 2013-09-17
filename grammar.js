@@ -256,7 +256,7 @@ case 53:
         
 break;
 case 54:
-            this.$ = $$[$0];
+            this.$ = [$$[$0]];
         
 break;
 case 55:
