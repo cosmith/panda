@@ -7,7 +7,6 @@ var Lexer = function () {
         "end",
         "true",
         "false",
-        "not",
         "none",
         "or",
         "and"
@@ -58,7 +57,7 @@ var Lexer = function () {
             if (matched !== null) {
                 identifier = matched[0];
 
-                tokens.push(["NUMBER", parseInt(identifier, 10), self.loc]);
+                tokens.push(["NUMBER", parseInt(identifier), self.loc]);
 
                 i += identifier.length;
                 continue;
@@ -119,8 +118,8 @@ var Lexer = function () {
         }
 
         return tokens;
-    };
-};
+    }
+}
 
 module.exports = Lexer;
 

@@ -12,7 +12,7 @@ module.exports.Nodes = function (nodes, loc) {
         }
         self.nodes.push(node);
         return self;
-    }
+    };
 
     self.compile = function () {
         var code = "";
@@ -22,8 +22,8 @@ module.exports.Nodes = function (nodes, loc) {
         }
 
         return code;
-    }
-}
+    };
+};
 
 // Literal nodes that translate directly to javascript
 module.exports.NumberNode = function (value, loc) {
@@ -35,8 +35,8 @@ module.exports.NumberNode = function (value, loc) {
 
     self.compile = function () {
         return String(value);
-    }
-}
+    };
+};
 
 module.exports.StringNode = function (value, loc) {
     var self = this;
@@ -48,8 +48,8 @@ module.exports.StringNode = function (value, loc) {
     self.compile = function () {
         value = self.value.replace(/"/g, "\"");
         return '"' + value + '"';
-    }
-}
+    };
+};
 
 module.exports.TrueNode = function (loc) {
     var self = this;
@@ -60,8 +60,8 @@ module.exports.TrueNode = function (loc) {
 
     self.compile = function () {
         return "true";
-    }
-}
+    };
+};
 
 module.exports.FalseNode = function (loc) {
     var self = this;
@@ -72,8 +72,8 @@ module.exports.FalseNode = function (loc) {
 
     self.compile = function () {
         return "false";
-    }
-}
+    };
+};
 
 module.exports.NoneNode = function (loc) {
     var self = this;
@@ -84,35 +84,35 @@ module.exports.NoneNode = function (loc) {
 
     self.compile = function () {
         return "null";
-    }
-}
+    };
+};
 
 // method call
-module.exports.CallNode = function (receiver, method, arguments, loc) {
+module.exports.CallNode = function (receiver, method, args, loc) {
     var self = this;
 
     self.type = "call";
     self.receiver = receiver;
     self.method = method;
-    self.arguments = arguments;
+    self.args = args;
     self.loc = loc;
 
     self.compile = function () {
         var code = "",
-            args = [];
+            argsList = [];
 
         // compile the arguments first
-        for (var i = 0; i < self.arguments.length; i++) {
-            args.push(self.arguments[i].compile());
+        for (var i = 0; i < self.args.length; i++) {
+            argsList.push(self.args[i].compile());
         }
 
         // methods that don't have a receiver are declared on the global context
         code = self.receiver ? self.receiver.compile() + "." : "";
-        code += self.method + "(" + args.join(', ') + ")";
+        code += self.method + "(" + argsList.join(', ') + ")";
 
         return code;
-    }
-}
+    };
+};
 
 // local variables
 module.exports.GetLocalNode = function (name, loc) {
@@ -124,8 +124,8 @@ module.exports.GetLocalNode = function (name, loc) {
 
     self.compile = function () {
         return self.name;
-    }
-}
+    };
+};
 
 module.exports.SetLocalNode = function (name, value, loc) {
     var self = this;
@@ -137,8 +137,8 @@ module.exports.SetLocalNode = function (name, value, loc) {
 
     self.compile = function () {
         return "var " + self.name + " = " + self.value.compile();
-    }
-}
+    };
+};
 
 // function definition
 module.exports.DefNode = function (name, params, body, loc) {
@@ -155,12 +155,12 @@ module.exports.DefNode = function (name, params, body, loc) {
         var code = "var ";
 
         code += self.name + " = function (";
-        code += self.params.join(", ") + ") {\n";
+        code += self.params.join(", ") + ") {\n  ";
         code += self.body.compile();
 
         return code + "}";
-    }
-}
+    };
+};
 
 // if
 module.exports.IfNode = function (condition, body, loc) {
@@ -174,10 +174,10 @@ module.exports.IfNode = function (condition, body, loc) {
     self.compile = function () {
         var code = "if (";
 
-        code += self.condition.compile() + ") {\n";
+        code += self.condition.compile() + ") {\n  ";
         code += self.body.compile();
 
         return code + "}";
-    }
-}
+    };
+};
 

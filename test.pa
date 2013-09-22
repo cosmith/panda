@@ -3,3 +3,4 @@ def print(x):
 end
 
 print("hello world!")
+print(true)

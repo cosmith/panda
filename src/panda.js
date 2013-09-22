@@ -25,7 +25,8 @@ parser.lexer = {
 
     setInput: function(tokens) {
         this.tokens = tokens;
-        return this.pos = 0;
+        this.pos = 0;
+        return this.pos;
     },
 
     upcomingInput: function() {
@@ -44,7 +45,7 @@ parser.yy.parseError = function(message, arg) {
 /**
  * Main runtime here
  */
-fs.readFile('./test_grammar.pa', 'utf-8', function (err, data) {
+fs.readFile('../test_grammar.pa', 'utf-8', function (err, data) {
     if (err) throw err;
 
     var tokenized = lexer.tokenize(data);
@@ -65,8 +66,9 @@ fs.readFile('./test_grammar.pa', 'utf-8', function (err, data) {
 
 
 
-
+///////////////////////////////////////
 // helpers
+///////////////////////////////////////
 var log = console.log;
 
 function printTokens(tokens, full) {
@@ -87,6 +89,7 @@ function printTokens(tokens, full) {
     log(cleaned.join('\n'));
 }
 
+
 function printAst(ast) {
     log('\nParsed input');
     log('============\n');
@@ -106,9 +109,9 @@ function strAst(ast, indent) {
         if (ast.hasOwnProperty(key) && (dontShow.indexOf(key) === -1)) {
             next = ast[key];
             if (typeof next === 'object' && next !== null) {
-                collection[index] = spaces(indent) + key
-                    + ': {\n' + strAst(next, indent+1).join(',\n')
-                    + ' \n' + spaces(indent) + '}';
+                collection[index] = spaces(indent) + key +
+                 ': {\n' + strAst(next, indent+1).join(',\n') +
+                 ' \n' + spaces(indent) + '}';
             }
             else {
                 collection[index] = [spaces(indent) + key + ': ' + String(next)];
