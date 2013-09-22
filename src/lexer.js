@@ -25,6 +25,17 @@ var Lexer = function () {
         while (i < code.length) {
             chunk = code.slice(i);
 
+            // comments
+            matched = chunk.match(/^#(.*)/);
+            if (matched !== null) {
+                identifier = matched[1];
+
+                tokens.push(["COMMENT", identifier, self.loc]);
+
+                i += identifier.length + 1;
+                continue;
+            }
+
             // block end
             matched = chunk.match(/^end/);
             if (matched !== null) {
@@ -35,7 +46,6 @@ var Lexer = function () {
                 i += matched[0].length;
                 continue;
             }
-
 
             // keywords and identifiers
             matched = chunk.match(/^[a-zA-Z]\w*/);

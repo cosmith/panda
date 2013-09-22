@@ -62,6 +62,7 @@ Expression
         }
     ;
 
+
 Literal
     : NUMBER
         {
@@ -82,6 +83,10 @@ Literal
     | NONE
         {
             $$ = new n.NoneNode($1, createLoc(@1, @1));
+        }
+    | COMMENT
+        {
+            $$ = new n.CommentNode($1, createLoc(@1, @1));
         }
     ;
 

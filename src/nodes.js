@@ -18,10 +18,23 @@ module.exports.Nodes = function (nodes, loc) {
         var code = "";
 
         for (var i = 0; i < self.nodes.length; i++) {
-            code += self.nodes[i].compile() + ";\n";
+            code += self.nodes[i].compile() + "\n";
         }
 
         return code;
+    };
+};
+
+// Comments are copied in the output
+module.exports.CommentNode = function (value, loc) {
+    var self = this;
+
+    self.type = "comment";
+    self.value = value;
+    self.loc = loc;
+
+    self.compile = function () {
+        return '//' + String(value);
     };
 };
 
