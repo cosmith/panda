@@ -74,11 +74,11 @@ Literal
         }
     | TRUE
         {
-            $$ = new n.TrueNode($1, createLoc(@1, @1));
+            $$ = new n.BooleanNode(true, createLoc(@1, @1));
         }
     | FALSE
         {
-            $$ = new n.FalseNode($1, createLoc(@1, @1));
+            $$ = new n.BooleanNode(false, createLoc(@1, @1));
         }
     | NONE
         {

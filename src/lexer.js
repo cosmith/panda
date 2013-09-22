@@ -8,6 +8,7 @@ var Lexer = function () {
         "true",
         "false",
         "none",
+        "not",
         "or",
         "and"
     ];
