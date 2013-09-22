@@ -57,7 +57,7 @@ var Lexer = function () {
             if (matched !== null) {
                 identifier = matched[0];
 
-                tokens.push(["NUMBER", parseInt(identifier), self.loc]);
+                tokens.push(["NUMBER", parseInt(identifier, 10), self.loc]);
 
                 i += identifier.length;
                 continue;

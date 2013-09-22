@@ -1,6 +1,0 @@
-def print(x):
-    console.log(x)
-end
-
-print("hello world!")
-print(true)

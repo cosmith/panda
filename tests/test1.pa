@@ -1,0 +1,32 @@
+# First tests
+# Basic arithmetic and primitives
+
+1
+4.2
+"a string"
+
+1 + 1
+8 - 3
+10 * 2
+35 / 5
+
+(1 + 4) * (5 - 2 / 4)
+
+true
+false
+
+not true
+not false
+
+1 == 1
+2 == 3
+
+1 != 2
+2 != 2
+
+1 < 10
+1 > 10
+2 <= 2
+2 <= 5
+2 >= 2
+5 >= 2

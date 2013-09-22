@@ -45,7 +45,14 @@ parser.yy.parseError = function(message, arg) {
 /**
  * Main runtime here
  */
-fs.readFile('../test_grammar.pa', 'utf-8', function (err, data) {
+var path = "";
+
+// get file path
+process.argv.forEach(function(val, index, array) {
+    if (index === 2) path = val;
+});
+
+fs.readFile(path, 'utf-8', function (err, data) {
     if (err) throw err;
 
     var tokenized = lexer.tokenize(data);
