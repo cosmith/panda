@@ -63,11 +63,12 @@ var Lexer = function () {
             }
 
             // numbers
-            matched = chunk.match(/^\d/);
+            matched = chunk.match(/^\-?\d+(\.\d+)?/);
             if (matched !== null) {
                 identifier = matched[0];
+                console.log(identifier);
 
-                tokens.push(["NUMBER", parseInt(identifier, 10), self.loc]);
+                tokens.push(["NUMBER", parseFloat(identifier), self.loc]);
 
                 i += identifier.length;
                 continue;
