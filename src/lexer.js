@@ -67,7 +67,6 @@ var Lexer = function () {
             matched = chunk.match(/^\-?\d+(\.\d+)?/);
             if (matched !== null) {
                 identifier = matched[0];
-                console.log(identifier);
 
                 tokens.push(["NUMBER", parseFloat(identifier), self.loc]);
 
