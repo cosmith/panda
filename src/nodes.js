@@ -98,7 +98,7 @@ module.exports.OperatorNode = function (op, arg1, arg2, loc) {
 
     self.compile = function () {
         var jsOps = ['+', '-', '*', '/', '<', '>', '<=', '>='],
-            translatable = {
+            translation = {
                 'OR': '||',
                 'AND': '&&',
                 '!=': '!==',
@@ -109,14 +109,40 @@ module.exports.OperatorNode = function (op, arg1, arg2, loc) {
         if (jsOps.indexOf(self.op) !== -1) {
             res = [self.arg1.compile(), self.op, self.arg2.compile()].join(' ');
         }
-        else if (self.op in translatable) {
+        else if (self.op in translation) {
             res = [
-                self.arg1.compile(), translatable[self.op], self.arg2.compile()
+                self.arg1.compile(), translation[self.op], self.arg2.compile()
             ].join(' ');
         }
         else throw "Not implemented yet";
 
         return '(' + res + ')';
+    }
+}
+
+module.exports.UnaryNode = function (op, arg, loc) {
+    var self = this;
+
+    self.type = "unary";
+    self.op = op;
+    self.arg = arg;
+
+    self.compile = function () {
+        var jsOps = ['-'],
+            translation = {
+                'NOT': '!'
+            },
+            res = '';
+
+        if (jsOps.indexOf(self.op) !== -1) {
+            res = self.op + '(' + self.arg.compile() + ')';
+        }
+        else if (self.op in translation) {
+            res = translation[self.op] + '(' + self.arg.compile() + ')';
+        }
+        else throw "Not implemented yet";
+
+        return res;
     }
 }
 

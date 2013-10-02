@@ -190,6 +190,14 @@ Operator
         {
             $$ = new n.OperatorNode('AND', $1, $3, createLoc(@1, @3));
         }
+    | 'NOT' Expression
+        {
+            $$ = new n.UnaryNode('NOT', $2, createLoc(@1, @2));
+        }
+    | '-' Expression
+    {
+        $$ = new n.UnaryNode('-', $2, createLoc(@1, @2));
+    }
     ;
 
 GetConstant

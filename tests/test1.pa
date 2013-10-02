@@ -20,3 +20,9 @@ equal(3 <= 5, true)
 
 equal(3 > 5, false)
 equal(3 < 5, true)
+
+equal(not true, false)
+equal(not false, true)
+
+a = 5
+equal(-a, 5 - 10)
