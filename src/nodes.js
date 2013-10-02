@@ -64,27 +64,15 @@ module.exports.StringNode = function (value, loc) {
     };
 };
 
-module.exports.TrueNode = function (loc) {
+module.exports.BooleanNode = function (value, loc) {
     var self = this;
 
     self.type = "boolean";
-    self.value = true;
+    self.value = Boolean(value);
     self.loc = loc;
 
     self.compile = function () {
-        return "true";
-    };
-};
-
-module.exports.FalseNode = function (loc) {
-    var self = this;
-
-    self.type = "boolean";
-    self.value = false;
-    self.loc = loc;
-
-    self.compile = function () {
-        return "false";
+        return self.value;
     };
 };
 

@@ -164,11 +164,11 @@ case 30:
         
 break;
 case 31:
-            this.$ = new n.BooleanNode($$[$0-2] || $$[$0], createLoc(_$[$0-2], _$[$0]));
+            this.$ = new n.CallNode($$[$0-2], $$[$0-1], $$[$0], createLoc(_$[$0-2], _$[$0]));
         
 break;
 case 32:
-            this.$ = new n.BooleanNode($$[$0-2] && $$[$0], createLoc(_$[$0-2], _$[$0]));
+            this.$ = new n.CallNode($$[$0-2], $$[$0-1], $$[$0], createLoc(_$[$0-2], _$[$0]));
         
 break;
 case 33:
