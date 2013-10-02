@@ -18,7 +18,7 @@ module.exports.Nodes = function (nodes, loc) {
         var code = "";
 
         for (var i = 0; i < self.nodes.length; i++) {
-            code += self.nodes[i].compile() + "\n";
+            code += self.nodes[i].compile() + ";\n";
         }
 
         return code;
@@ -87,6 +87,31 @@ module.exports.NoneNode = function (loc) {
         return "null";
     };
 };
+
+module.exports.OperatorNode = function (op, arg1, arg2, loc) {
+    var self = this;
+
+    self.type = "operator";
+    self.op = op;
+    self.arg1 = arg1;
+    self.arg2 = arg2;
+
+    self.compile = function () {
+        var jsOps = ['+', '-', '*', '/'],
+            translatable = {'OR': '||', 'AND': '&&'},
+            res = '';
+
+        if (jsOps.indexOf(self.op) !== -1) {
+            res = [self.arg1.compile(), self.op, self.arg2.compile()].join(' ');
+        }
+        else if (self.op in translatable) {
+            res = [self.arg1.compile(), translatable[self.op], self.arg2.compile()].join(' ');
+        }
+        else throw "Not implemented yet";
+
+        return '(' + res + ')';
+    }
+}
 
 // method call
 module.exports.CallNode = function (receiver, method, args, loc) {

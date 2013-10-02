@@ -1,6 +1,20 @@
 // The start symbol is the root of the AST, where everything starts
 %start Root
 
+
+// Operators
+%right     'IF' 'ELSE' 'FOR'
+%right     '=' 'RETURN'
+%left      'COMPARE'
+%left      'RELATION'
+%left      '+' '-'
+%left      '*' '/'
+%right     'UNARY'
+$nonassoc  '++' '--'
+%left      'CALL_START' 'CALL_END'
+%left      '.'
+
+
 // Grammar
 %%
 
@@ -124,70 +138,41 @@ ArgList
     ;
 
 Operator
-    : Expression 'OR' Expression
+    : Expression '+' Expression
         {
-            $$ = new n.CallNode($1, $2, $3, createLoc(@1, @3));
-        }
-    | Expression 'AND' Expression
-        {
-            $$ = new n.CallNode($1, $2, $3, createLoc(@1, @3));
-        }
-    | Expression '==' Expression
-        {
-            $$ = new n.CallNode($1, $2, $3, createLoc(@1, @3));
-        }
-    | Expression '!=' Expression
-        {
-            $$ = new n.CallNode($1, $2, $3, createLoc(@1, @3));
-        }
-    | Expression '>' Expression
-        {
-            $$ = new n.CallNode($1, $2, $3, createLoc(@1, @3));
-        }
-    | Expression '>=' Expression
-        {
-            $$ = new n.CallNode($1, $2, $3, createLoc(@1, @3));
-        }
-    | Expression '<' Expression
-        {
-            $$ = new n.CallNode($1, $2, $3, createLoc(@1, @3));
-        }
-    | Expression '<=' Expression
-        {
-            $$ = new n.CallNode($1, $2, $3, createLoc(@1, @3));
-        }
-    | Expression '+' Expression
-        {
-            $$ = new n.CallNode($1, $2, $3, createLoc(@1, @3));
+            $$ = new n.OperatorNode('+', $1, $3, createLoc(@1, @3));
         }
     | Expression '-' Expression
         {
-            $$ = new n.CallNode($1, $2, $3, createLoc(@1, @3));
+            $$ = new n.OperatorNode('-', $1, $3, createLoc(@1, @3));
         }
     | Expression '*' Expression
         {
-            $$ = new n.CallNode($1, $2, $3, createLoc(@1, @3));
+            $$ = new n.OperatorNode('*', $1, $3, createLoc(@1, @3));
         }
     | Expression '/' Expression
         {
-            $$ = new n.CallNode($1, $2, $3, createLoc(@1, @3));
+            $$ = new n.OperatorNode('/', $1, $3, createLoc(@1, @3));
         }
+    | Expression '<' Expression
+    | Expression '>' Expression
+    | Expression '>=' Expression
+    | Expression '<=' Expression
+    | Expression '==' Expression
+    | Expression '!=' Expression
     | Expression '+=' Expression
-        {
-            $$ = new n.CallNode($1, $2, $3, createLoc(@1, @3));
-        }
     | Expression '-=' Expression
-        {
-            $$ = new n.CallNode($1, $2, $3, createLoc(@1, @3));
-        }
     | Expression '*=' Expression
-        {
-            $$ = new n.CallNode($1, $2, $3, createLoc(@1, @3));
-        }
     | Expression '/=' Expression
+    | Expression 'OR' Expression
         {
-            $$ = new n.CallNode($1, $2, $3, createLoc(@1, @3));
+            $$ = new n.OperatorNode('OR', $1, $3, createLoc(@1, @3));
         }
+    | Expression 'AND' Expression
+        {
+            $$ = new n.OperatorNode('AND', $1, $3, createLoc(@1, @3));
+        }
+    | NAME
     ;
 
 GetConstant
@@ -258,9 +243,10 @@ If
         }
     ;
 
-
 %%
 // End Grammar
+
+
 
 
 var n = require('./nodes');
