@@ -3,16 +3,16 @@
 
 
 // Operators
-%right     'IF' 'ELSE' 'FOR'
-%right     '=' 'RETURN'
-%left      'COMPARE'
-%left      'RELATION'
-%left      '+' '-'
-%left      '*' '/'
-%right     'UNARY'
-$nonassoc  '++' '--'
-%left      'CALL_START' 'CALL_END'
-%left      '.'
+%right      'IF' 'ELSE' 'FOR'
+%right      '=' 'RETURN'
+%left       'RELATION'
+%left       '+' '-'
+%left       '*' '/'
+%left       '==', '!='
+%left       'OR', 'AND'
+%right      'UNARY'
+$nonassoc   '++' '--'
+%left       '.'
 
 
 // Grammar
@@ -155,11 +155,29 @@ Operator
             $$ = new n.OperatorNode('/', $1, $3, createLoc(@1, @3));
         }
     | Expression '<' Expression
+        {
+            $$ = new n.OperatorNode('<', $1, $3, createLoc(@1, @3));
+        }
     | Expression '>' Expression
+        {
+            $$ = new n.OperatorNode('>', $1, $3, createLoc(@1, @3));
+        }
     | Expression '>=' Expression
+        {
+            $$ = new n.OperatorNode('>=', $1, $3, createLoc(@1, @3));
+        }
     | Expression '<=' Expression
+        {
+            $$ = new n.OperatorNode('<=', $1, $3, createLoc(@1, @3));
+        }
     | Expression '==' Expression
+        {
+            $$ = new n.OperatorNode('==', $1, $3, createLoc(@1, @3));
+        }
     | Expression '!=' Expression
+        {
+            $$ = new n.OperatorNode('!=', $1, $3, createLoc(@1, @3));
+        }
     | Expression '+=' Expression
     | Expression '-=' Expression
     | Expression '*=' Expression
@@ -172,7 +190,6 @@ Operator
         {
             $$ = new n.OperatorNode('AND', $1, $3, createLoc(@1, @3));
         }
-    | NAME
     ;
 
 GetConstant
