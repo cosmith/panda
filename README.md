@@ -1,4 +1,4 @@
-Panda
+:panda_face: Panda
 =====
 A easy to learn, translatable language that runs on the web.
 
