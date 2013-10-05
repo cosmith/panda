@@ -196,9 +196,9 @@ Operator
             $$ = new n.UnaryNode('NOT', $2, createLoc(@1, @2));
         }
     | '-' Expression
-    {
-        $$ = new n.UnaryNode('-', $2, createLoc(@1, @2));
-    }
+        {
+            $$ = new n.UnaryNode('-', $2, createLoc(@1, @2));
+        }
     ;
 
 GetConstant
@@ -266,6 +266,10 @@ If
     : IF Expression Block
         {
             $$ = new n.IfNode($2, $3, createLoc(@1, @3));
+        }
+    | IF Expression Block ELSE Block
+        {
+            $$ = new n.IfElseNode($2, $3, $5, createLoc(@1, @5));
         }
     ;
 

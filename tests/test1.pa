@@ -30,8 +30,24 @@ test("unary minus", -a, 5 - 10)
 # conditions
 a = 5
 b = true
-if a == 5 and b == true:
+if a == 5:
     b = false
 end
 
 test("if 1", b, false)
+
+a = 5
+b = true
+if a == 5: b = false end
+
+test("if 2", b, false)
+
+a = 5
+b = false
+if a == 6:
+    b = false
+else:
+    b = true
+end
+
+test("else 1", b, true)

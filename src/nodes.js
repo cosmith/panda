@@ -240,3 +240,24 @@ module.exports.IfNode = function (condition, body, loc) {
     };
 };
 
+// if/else
+module.exports.IfElseNode = function (condition, ifBody, elseBody, loc) {
+    var self = this;
+
+    self.type = "ifelse";
+    self.condition = condition;
+    self.ifBody = ifBody;
+    self.elseBody = elseBody;
+    self.loc = loc;
+
+    self.compile = function () {
+        var code = "if (";
+
+        code += self.condition.compile() + ") {\n  ";
+        code += self.ifBody.compile();
+        code += "}\nelse {\n  ";
+        code += self.elseBody.compile();
+
+        return code + "}";
+    };
+};
