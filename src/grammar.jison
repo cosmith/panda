@@ -67,8 +67,9 @@ Expression
     | Operator
     | GetConstant
     | SetConstant
-    | GetLocal
+    | DefLocal
     | SetLocal
+    | GetLocal
     | Def
     | If
     | '(' Expression ')'
@@ -201,31 +202,38 @@ Operator
         }
     ;
 
-GetConstant
-    : CONSTANT
+// GetConstant
+//     : CONSTANT
+//         {
+//             $$ = new n.GetConstantNode($1, createLoc(@1, @1));
+//         }
+//     ;
+
+// SetConstant
+//     : CONSTANT '=' Expression
+//         {
+//             $$ = new n.SetConstantNode($1, $3, createLoc(@1, @3));
+//         }
+//     ;
+
+DefLocal
+    : VAR IDENTIFIER '=' Expression
         {
-            $$ = new n.GetConstantNode($1, createLoc(@1, @1));
+            $$ = new n.DefLocalNode($2, $4, createLoc(@1, @3));
         }
     ;
 
-SetConstant
-    : CONSTANT '=' Expression
-        {
-            $$ = new n.SetConstantNode($1, $3, createLoc(@1, @3));
-        }
-    ;
-
-GetConstant
-    : IDENTIFIER
-        {
-            $$ = new n.GetLocalNode($1, createLoc(@1, @1));
-        }
-    ;
-
-SetConstant
+SetLocal
     : IDENTIFIER '=' Expression
         {
             $$ = new n.SetLocalNode($1, $3, createLoc(@1, @3));
+        }
+    ;
+
+GetLocal
+    : IDENTIFIER
+        {
+            $$ = new n.GetLocalNode($1, createLoc(@1, @1));
         }
     ;
 

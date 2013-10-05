@@ -186,7 +186,21 @@ module.exports.GetLocalNode = function (name, loc) {
     };
 };
 
+module.exports.DefLocalNode = function (name, value, loc) {
+    var self = this;
+
+    self.type = "deflocal";
+    self.name = name;
+    self.value = value;
+    self.loc = loc;
+
+    self.compile = function () {
+        return "var " + self.name + " = " + self.value.compile();
+    };
+};
+
 module.exports.SetLocalNode = function (name, value, loc) {
+    // TODO: handle scope properly
     var self = this;
 
     self.type = "setlocal";
@@ -195,7 +209,7 @@ module.exports.SetLocalNode = function (name, value, loc) {
     self.loc = loc;
 
     self.compile = function () {
-        return "var " + self.name + " = " + self.value.compile();
+        return self.name + " = " + self.value.compile();
     };
 };
 

@@ -24,26 +24,26 @@ test("<", 3 < 5, true)
 test("not 1", not true, false)
 test("not 2", not false, true)
 
-a = 5
+var a = 5
 test("unary minus", -a, 5 - 10)
 
 # conditions
-a = 5
-b = true
+var a = 5
+var b = true
 if a == 5:
     b = false
 end
 
 test("if 1", b, false)
 
-a = 5
-b = true
+var a = 5
+var b = true
 if a == 5: b = false end
 
 test("if 2", b, false)
 
-a = 5
-b = false
+var a = 5
+var b = false
 if a == 6:
     b = false
 else:

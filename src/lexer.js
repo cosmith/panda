@@ -10,7 +10,8 @@ var Lexer = function () {
         "none",
         "not",
         "or",
-        "and"
+        "and",
+        "var"
     ];
 
     self.loc = {first_line: 0, first_column: 0, last_line: 0, last_column: 0};
