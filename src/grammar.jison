@@ -4,12 +4,13 @@
 
 // Operators
 %right      'IF' 'ELSE' 'FOR'
+%left       'OR'
+%left       'AND'
 %right      '=' 'RETURN'
 %left       'RELATION'
+%left       '==', '!='
 %left       '+' '-'
 %left       '*' '/'
-%left       '==', '!='
-%left       'OR', 'AND'
 %right      'UNARY'
 $nonassoc   '++' '--'
 %left       '.'
