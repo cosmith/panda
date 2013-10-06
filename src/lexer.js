@@ -78,7 +78,7 @@ var Lexer = function () {
             }
 
             // numbers
-            matched = chunk.match(/^\-?\d+(\.\d+)?/);
+            matched = chunk.match(/^\d+(\.\d+)?/);
             if (matched !== null) {
                 identifier = matched[0];
 

@@ -10,7 +10,10 @@ end
 
 # Basic arithmetic and primitives
 
-test("arithmetic", 4 + 4 * (5 - 22) + 5.3 / 2, -61.35)
+test("arithmetic 1", 4 + 4 * (5 - 22) + 5.3 / 2, -61.35)
+test("arithmetic 2", 1 - 2, -1)
+test("arithmetic 3", - 1, -1)
+test("arithmetic 4", 1-2, -1)
 
 test("booleans 1", (false or true) and false == false, true)
 test("booleans 2", false and true == false, false)
