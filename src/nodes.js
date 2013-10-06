@@ -88,6 +88,28 @@ module.exports.NoneNode = function (loc) {
     };
 };
 
+module.exports.ListNode = function (list, loc) {
+    var self = this;
+
+    self.type = "list";
+    self.list = list;
+    self.loc = loc;
+
+    self.compile = function () {
+        var code = "[";
+
+        for (var i = 0; i < self.list.length; i++) {
+            code += self.list[i].compile();
+            if (i != self.list.length - 1) {
+                code += ", ";
+            }
+        }
+
+        return code + "]";
+    };
+};
+
+
 module.exports.OperatorNode = function (op, arg1, arg2, loc) {
     var self = this;
 

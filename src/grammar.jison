@@ -63,6 +63,7 @@ Terminator
 
 Expression
     : Literal
+    | List
     | Call
     | Operator
     | GetConstant
@@ -134,6 +135,28 @@ ArgList
             $$ = [$1];
         }
     | ArgList "," Expression
+        {
+            $$ = $1.concat($3);
+        }
+    ;
+
+List
+    : '[' ']'
+        {
+            $$ = new n.ListNode([], createLoc(@1, @2));
+        }
+    | '[' ExpressionList ']'
+        {
+            $$ = new n.ListNode($2, createLoc(@1, @3));
+        }
+    ;
+
+ExpressionList
+    : Expression
+        {
+            $$ = [$1];
+        }
+    | ExpressionList ',' Expression
         {
             $$ = $1.concat($3);
         }
