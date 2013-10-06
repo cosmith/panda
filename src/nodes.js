@@ -235,43 +235,51 @@ module.exports.DefNode = function (name, params, body, loc) {
     };
 };
 
-// if
+// if - else
 module.exports.IfNode = function (condition, body, loc) {
     var self = this;
 
     self.type = "if";
-    self.condition = condition;
-    self.body = body;
+    self.ifBlocks = [{
+        'cond': condition,
+        'body': body,
+        'finalElse': false
+    }];
     self.loc = loc;
 
-    self.compile = function () {
-        var code = "if (";
+    self.addElse = function (condition, body, isFinalElse) {
+        self.ifBlocks.push({
+            'cond': condition,
+            'body': body,
+            'finalElse': isFinalElse
+        });
 
-        code += self.condition.compile() + ") {\n  ";
-        code += self.body.compile();
-
-        return code + "}";
+        return self;
     };
-};
-
-// if/else
-module.exports.IfElseNode = function (condition, ifBody, elseBody, loc) {
-    var self = this;
-
-    self.type = "ifelse";
-    self.condition = condition;
-    self.ifBody = ifBody;
-    self.elseBody = elseBody;
-    self.loc = loc;
 
     self.compile = function () {
-        var code = "if (";
+        var code = "if (",
+            ifBlock;
 
-        code += self.condition.compile() + ") {\n  ";
-        code += self.ifBody.compile();
-        code += "}\nelse {\n  ";
-        code += self.elseBody.compile();
+        // first if statement
+        code += self.ifBlocks[0].cond.compile() + ") {\n";
+        code += self.ifBlocks[0].body.compile() + "}";
 
-        return code + "}";
+        // following else ifs / else
+        for (var i = 1; i < self.ifBlocks.length; i++) {
+            ifBlock = self.ifBlocks[i];
+
+            if (ifBlock.finalElse) {
+                code += " else {\n";
+                code += ifBlock.body.compile() + "}";
+            }
+            else {
+                code += " else if (";
+                code += ifBlock.cond.compile() + ") {\n";
+                code += ifBlock.body.compile() + "}";
+            }
+        }
+
+        return code;
     };
 };

@@ -50,13 +50,13 @@ var Lexer = function () {
             }
 
             // else is matched separately
-            // we insert an END_BLOCK, the ELSE, and then a START_BLOCK
-            matched = chunk.match(/^else:/);
+            // we insert an END_BLOCK and the ELSE
+            matched = chunk.match(/^else/);
             if (matched !== null) {
+                block_depth -= 1;
 
-                tokens.push(["END_BLOCK", block_depth-1, self.loc]);
+                tokens.push(["END_BLOCK", block_depth, self.loc]);
                 tokens.push(["ELSE", "else", self.loc]);
-                tokens.push(["START_BLOCK", block_depth, self.loc]);
 
                 i += matched[0].length;
                 continue;

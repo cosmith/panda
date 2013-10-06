@@ -270,14 +270,22 @@ ParamList
         }
     ;
 
-If
+IfBlock
     : IF Expression Block
         {
             $$ = new n.IfNode($2, $3, createLoc(@1, @3));
         }
-    | IF Expression Block ELSE Block
+    | IfBlock ELSE IF Expression Block
         {
-            $$ = new n.IfElseNode($2, $3, $5, createLoc(@1, @5));
+            $$ = $1.addElse($4, $5, false);
+        }
+    ;
+
+If
+    : IfBlock
+    | IfBlock ELSE Block
+        {
+            $$ = $1.addElse(null, $3, true);
         }
     ;
 
