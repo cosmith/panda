@@ -73,3 +73,7 @@ test("else/if 1", b, 4)
 var L = []
 L = [1]
 L = [1, 2, 3, 4, 5]
+
+# ranges
+var range = [0..5]
+test("range 1", range, [1, 2, 3, 4, 5])

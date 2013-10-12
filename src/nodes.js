@@ -109,6 +109,26 @@ module.exports.ListNode = function (list, loc) {
     };
 };
 
+module.exports.RangeNode = function (start, end, loc) {
+    var self = this;
+
+    self.type = "range";
+    self.start = start;
+    self.end = end;
+    self.loc = loc;
+
+    self.compile = function () {
+        var code = "(function () {\n";
+
+        code += "  var __a = [];\n  for (var __i=";
+        code += self.start.compile();
+        code += "; __i <= ";
+        code += self.end.compile();
+        code += "; __i++) { __a.push(__i) }\n  return __a;\n})()";
+
+        return code;
+    };
+};
 
 module.exports.OperatorNode = function (op, arg1, arg2, loc) {
     var self = this;

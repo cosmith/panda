@@ -64,6 +64,7 @@ Terminator
 Expression
     : Literal
     | List
+    | Range
     | Call
     | Operator
     | GetConstant
@@ -104,6 +105,13 @@ Literal
     | COMMENT
         {
             $$ = new n.CommentNode($1, createLoc(@1, @1));
+        }
+    ;
+
+Range
+    : '[' Expression '.' '.' Expression ']'
+        {
+            $$ = new n.RangeNode($2, $5, createLoc(@1, @6));
         }
     ;
 
