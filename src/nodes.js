@@ -1,5 +1,5 @@
 // Our root node, containing all the representation of the program
-module.exports.Nodes = function (nodes, loc) {
+exports.Nodes = function (nodes, loc) {
     var self = this;
 
     self.type = "root";
@@ -26,7 +26,7 @@ module.exports.Nodes = function (nodes, loc) {
 };
 
 // Comments are copied in the output
-module.exports.CommentNode = function (value, loc) {
+exports.CommentNode = function (value, loc) {
     var self = this;
 
     self.type = "comment";
@@ -39,7 +39,7 @@ module.exports.CommentNode = function (value, loc) {
 };
 
 // Literal nodes that translate directly to javascript
-module.exports.NumberNode = function (value, loc) {
+exports.NumberNode = function (value, loc) {
     var self = this;
 
     self.type = "number";
@@ -51,7 +51,7 @@ module.exports.NumberNode = function (value, loc) {
     };
 };
 
-module.exports.StringNode = function (value, loc) {
+exports.StringNode = function (value, loc) {
     var self = this;
 
     self.type = "string";
@@ -64,7 +64,7 @@ module.exports.StringNode = function (value, loc) {
     };
 };
 
-module.exports.BooleanNode = function (value, loc) {
+exports.BooleanNode = function (value, loc) {
     var self = this;
 
     self.type = "boolean";
@@ -76,7 +76,7 @@ module.exports.BooleanNode = function (value, loc) {
     };
 };
 
-module.exports.NoneNode = function (loc) {
+exports.NoneNode = function (loc) {
     var self = this;
 
     self.type = "none";
@@ -88,7 +88,7 @@ module.exports.NoneNode = function (loc) {
     };
 };
 
-module.exports.ListNode = function (list, loc) {
+exports.ListNode = function (list, loc) {
     var self = this;
 
     self.type = "list";
@@ -109,7 +109,7 @@ module.exports.ListNode = function (list, loc) {
     };
 };
 
-module.exports.RangeNode = function (start, end, loc) {
+exports.RangeNode = function (start, end, loc) {
     var self = this;
 
     self.type = "range";
@@ -130,7 +130,7 @@ module.exports.RangeNode = function (start, end, loc) {
     };
 };
 
-module.exports.OperatorNode = function (op, arg1, arg2, loc) {
+exports.OperatorNode = function (op, arg1, arg2, loc) {
     var self = this;
 
     self.type = "operator";
@@ -162,7 +162,7 @@ module.exports.OperatorNode = function (op, arg1, arg2, loc) {
     }
 }
 
-module.exports.UnaryNode = function (op, arg, loc) {
+exports.UnaryNode = function (op, arg, loc) {
     var self = this;
 
     self.type = "unary";
@@ -189,7 +189,7 @@ module.exports.UnaryNode = function (op, arg, loc) {
 }
 
 // method call
-module.exports.CallNode = function (receiver, method, args, loc) {
+exports.CallNode = function (receiver, method, args, loc) {
     var self = this;
 
     self.type = "call";
@@ -216,7 +216,7 @@ module.exports.CallNode = function (receiver, method, args, loc) {
 };
 
 // local variables
-module.exports.GetLocalNode = function (name, loc) {
+exports.GetLocalNode = function (name, loc) {
     var self = this;
 
     self.type = "getlocal";
@@ -228,7 +228,7 @@ module.exports.GetLocalNode = function (name, loc) {
     };
 };
 
-module.exports.DefLocalNode = function (name, value, loc) {
+exports.DefLocalNode = function (name, value, loc) {
     var self = this;
 
     self.type = "deflocal";
@@ -241,7 +241,7 @@ module.exports.DefLocalNode = function (name, value, loc) {
     };
 };
 
-module.exports.SetLocalNode = function (name, value, loc) {
+exports.SetLocalNode = function (name, value, loc) {
     // TODO: handle scope properly
     var self = this;
 
@@ -256,7 +256,7 @@ module.exports.SetLocalNode = function (name, value, loc) {
 };
 
 // function definition
-module.exports.DefNode = function (name, params, body, loc) {
+exports.DefNode = function (name, params, body, loc) {
     var self = this;
 
     self.type = "def";
@@ -278,7 +278,7 @@ module.exports.DefNode = function (name, params, body, loc) {
 };
 
 // if - else
-module.exports.IfNode = function (condition, body, loc) {
+exports.IfNode = function (condition, body, loc) {
     var self = this;
 
     self.type = "if";
