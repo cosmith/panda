@@ -1,9 +1,12 @@
+var Scope = require('./scope').Scope;
+
 // Our root node, containing all the representation of the program
 exports.Nodes = function (nodes, loc) {
     var self = this;
 
     self.type = "root";
     self.nodes = nodes;
+    self.scope = new Scope(null);
     self.loc = loc;
 
     self.addNode = function (node) {
