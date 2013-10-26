@@ -1,2 +1,6 @@
-var a = 1
-a = 2
+var _a = 1
+var a = 2
+
+range = [_a..3]
+
+console.log(range)

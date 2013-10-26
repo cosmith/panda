@@ -31,7 +31,7 @@ var a = 5
 test("unary minus", -a, 5 - 10)
 
 # conditions
-var a = 5
+a = 5
 var b = true
 if a == 5:
     b = false
@@ -39,14 +39,14 @@ end
 
 test("if 1", b, false)
 
-var a = 5
-var b = true
+a = 5
+b = true
 if a == 5: b = false end
 
 test("if 2", b, false)
 
-var a = 5
-var b = false
+a = 5
+b = false
 if a == 6:
     b = false
 else:
@@ -55,8 +55,8 @@ end
 
 test("else 1", b, true)
 
-var a = 5
-var b = 0
+a = 5
+b = 0
 if a == 1:
     b = 1
 else if a == 2:
@@ -77,3 +77,12 @@ L = [1, 2, 3, 4, 5]
 # ranges
 var range = [0..5]
 test("range 1", range, [1, 2, 3, 4, 5])
+
+# scope
+var x = 0
+
+def testFunc():
+    var x = 5
+end
+
+test("scope 1", x, 0)

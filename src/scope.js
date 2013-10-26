@@ -19,7 +19,7 @@
         // add a variable to the scope
         Scope.prototype.add = function (name) {
             if (this.variables[name]) {
-                throw "Variable " + name + " already defined";
+                throw "Error: Variable '" + name + "' already defined";
             } else {
                 this.variables[name] = true;
             }
@@ -27,7 +27,7 @@
 
         // check the existence of a variable in this scope or any parent
         Scope.prototype.check = function (name) {
-            return !!this.variables[name] || this.parent.check(name);
+            return !!this.variables[name] || (this.parent && this.parent.check(name));
         };
 
         // generate a temporary variable name
@@ -38,7 +38,7 @@
         // create a temporary variable with an available name
         Scope.prototype.addTempVar = function (name, reserve) {
             var index = 0,
-                newName = this.temporary(name, index);
+                newName = name;
 
             while (this.check(newName)) {
                 index++;
