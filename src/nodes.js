@@ -25,7 +25,7 @@ exports.Nodes = function (nodes, loc) {
             node = self.nodes[i];
 
             code += node.compile(scope, indent);
-            if (!(["comment", "if", "for"].indexOf(node.type) > 0)) {
+            if (!(["comment", "if", "for", "emptyline"].indexOf(node.type) > -1)) {
                 code += ";";
             }
             code += "\n";
