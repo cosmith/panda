@@ -26,8 +26,8 @@
         };
 
         // check the existence of a variable in this scope or any parent
-        Scope.prototype.check = function (name) {
-            return !!this.variables[name] || (this.parent && this.parent.check(name));
+        Scope.prototype.alreadyDefined = function (name) {
+            return !!this.variables[name] || (this.parent && this.parent.alreadyDefined(name));
         };
 
         // generate a temporary variable name
@@ -40,7 +40,7 @@
             var index = 0,
                 newName = name;
 
-            while (this.check(newName)) {
+            while (this.alreadyDefined(newName)) {
                 index++;
                 newName = this.temporary(name, index);
             }
