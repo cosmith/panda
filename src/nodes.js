@@ -48,6 +48,18 @@ exports.CommentNode = function (value, loc) {
     };
 };
 
+// Empty lines too to preserve legibility
+exports.EmptyLineNode = function (loc) {
+    var self = this;
+
+    self.type = "emptyline";
+    self.loc = loc;
+
+    self.compile = function (scope, indent) {
+        return "";
+    };
+};
+
 // Literal nodes that translate directly to javascript
 exports.NumberNode = function (value, loc) {
     var self = this;

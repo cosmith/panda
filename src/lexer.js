@@ -128,6 +128,18 @@ var Lexer = function () {
                 continue;
             }
 
+            // empty line
+            matched = chunk.match(/^\n\n/);
+            if (matched !== null) {
+                i += 2;
+
+                tokens.push(["NEWLINE", "NEWLINE", self.loc]);
+                tokens.push(["EMPTYLINE", "EMPTYLINE", self.loc]);
+                tokens.push(["NEWLINE", "NEWLINE", self.loc]);
+
+                continue;
+            }
+
             // one character operators
             matched = chunk[0];
             if (matched === '\n') {

@@ -106,6 +106,10 @@ Literal
         {
             $$ = new n.CommentNode($1, createLoc(@1, @1));
         }
+    | EMPTYLINE
+        {
+            $$ = new n.EmptyLineNode(createLoc(@1, @1));
+        }
     ;
 
 Range
