@@ -7,7 +7,6 @@ exports.Nodes = function (nodes, loc) {
 
     self.type = "root";
     self.nodes = nodes;
-    self.scope = new Scope(null);
     self.loc = loc;
 
     self.addNode = function (node) {
@@ -18,16 +17,14 @@ exports.Nodes = function (nodes, loc) {
         return self;
     };
 
-    self.compile = function () {
+    self.compile = function (scope, indent) {
         var code = "",
-            context = {scope: self.scope, indent: 0},
             node;
 
         for (var i = 0; i < self.nodes.length; i++) {
             node = self.nodes[i];
 
-            code += doIndent(context.indent);
-            code += node.compile(context);
+            code += node.compile(scope, indent);
             if (!(["comment", "if", "for"].indexOf(node.type) > 0)) {
                 code += ";";
             }
@@ -46,8 +43,8 @@ exports.CommentNode = function (value, loc) {
     self.value = value;
     self.loc = loc;
 
-    self.compile = function (context) {
-        return doIndent(context.indent) + '//' + String(value);
+    self.compile = function (scope, indent) {
+        return indent + '//' + String(value);
     };
 };
 
@@ -59,8 +56,8 @@ exports.NumberNode = function (value, loc) {
     self.value = value;
     self.loc = loc;
 
-    self.compile = function (context) {
-        return String(value);
+    self.compile = function (scope, indent) {
+        return indent + value;
     };
 };
 
@@ -71,9 +68,10 @@ exports.StringNode = function (value, loc) {
     self.value = value;
     self.loc = loc;
 
-    self.compile = function (context) {
+    self.compile = function (scope, indent) {
         value = self.value.replace(/"/g, "\"");
-        return '"' + value + '"';
+
+        return indent + '"' + value + '"';
     };
 };
 
@@ -84,8 +82,8 @@ exports.BooleanNode = function (value, loc) {
     self.value = Boolean(value);
     self.loc = loc;
 
-    self.compile = function (context) {
-        return self.value;
+    self.compile = function (scope, indent) {
+        return indent + self.value;
     };
 };
 
@@ -96,8 +94,8 @@ exports.NoneNode = function (loc) {
     self.value = null;
     self.loc = loc;
 
-    self.compile = function (context) {
-        return "null";
+    self.compile = function (scope, indent) {
+        return indent + "null";
     };
 };
 
@@ -108,11 +106,11 @@ exports.ListNode = function (list, loc) {
     self.list = list;
     self.loc = loc;
 
-    self.compile = function (context) {
+    self.compile = function (scope, indent) {
         var code = "[";
 
         for (var i = 0; i < self.list.length; i++) {
-            code += self.list[i].compile(context);
+            code += self.list[i].compile(scope, '');
             if (i != self.list.length - 1) {
                 code += ", ";
             }
@@ -130,22 +128,22 @@ exports.RangeNode = function (start, end, loc) {
     self.end = end;
     self.loc = loc;
 
-    self.compile = function (context) {
+    self.compile = function (scope, indent) {
         var code = "(function () {\n",
-            a = context.scope.addTempVar('a'),
-            i = context.scope.addTempVar('i');
-            idt2 = doIndent(context.indent + 1);
+            a = scope.addTempVar('a'),
+            i = scope.addTempVar('i');
+            idt2 = indent + TAB;
 
         code += idt2 + "var " + a + " = [];\n";
         code += idt2 + "for (var " + i + "=";
-        code += self.start.compile(context);
+        code += self.start.compile(scope, '');
         code += "; " + i + " <= ";
-        code += self.end.compile(context);
+        code += self.end.compile(scope, '');
         code += "; " + i + "++) { " + a + ".push(" + i + ") }\n";
         code += idt2 + "return " + a + ";\n";
-        code += doIndent(context.indent) + "})()";
+        code += indent + "})()";
 
-        return code;
+        return indent + code;
     };
 };
 
@@ -157,7 +155,7 @@ exports.OperatorNode = function (op, arg1, arg2, loc) {
     self.arg1 = arg1;
     self.arg2 = arg2;
 
-    self.compile = function (context) {
+    self.compile = function (scope, indent) {
         var jsOps = ['+', '-', '*', '/', '<', '>', '<=', '>='],
             translation = {
                 'OR': '||',
@@ -165,19 +163,19 @@ exports.OperatorNode = function (op, arg1, arg2, loc) {
                 '!=': '!==',
                 '==': '==='
             },
-            res = '';
+            code = '';
 
         if (jsOps.indexOf(self.op) !== -1) {
-            res = [self.arg1.compile(context), self.op, self.arg2.compile(context)].join(' ');
+            code = [self.arg1.compile(scope, ''), self.op, self.arg2.compile(scope, '')].join(' ');
         }
         else if (self.op in translation) {
-            res = [
-                self.arg1.compile(context), translation[self.op], self.arg2.compile(context)
+            code = [
+                self.arg1.compile(scope, ''), translation[self.op], self.arg2.compile(scope, '')
             ].join(' ');
         }
         else throw "Not implemented yet";
 
-        return '(' + res + ')';
+        return indent + '(' + code + ')';
     }
 }
 
@@ -188,22 +186,22 @@ exports.UnaryNode = function (op, arg, loc) {
     self.op = op;
     self.arg = arg;
 
-    self.compile = function (context) {
+    self.compile = function (scope, indent) {
         var jsOps = ['-'],
             translation = {
                 'NOT': '!'
             },
-            res = '';
+            code = '';
 
         if (jsOps.indexOf(self.op) !== -1) {
-            res = self.op + '(' + self.arg.compile(context) + ')';
+            code = self.op + '(' + self.arg.compile(scope, '') + ')';
         }
         else if (self.op in translation) {
-            res = translation[self.op] + '(' + self.arg.compile(context) + ')';
+            code = translation[self.op] + '(' + self.arg.compile(scope, '') + ')';
         }
         else throw "Not implemented yet";
 
-        return res;
+        return code;
     }
 }
 
@@ -217,20 +215,20 @@ exports.CallNode = function (receiver, method, args, loc) {
     self.args = args;
     self.loc = loc;
 
-    self.compile = function (context) {
+    self.compile = function (scope, indent) {
         var code = "",
             argsList = [];
 
         // compile the arguments first
         for (var i = 0; i < self.args.length; i++) {
-            argsList.push(self.args[i].compile(context));
+            argsList.push(self.args[i].compile(scope, ''));
         }
 
         // methods that don't have a receiver are declared on the global context
-        code = self.receiver ? self.receiver.compile(context) + "." : "";
+        code = self.receiver ? self.receiver.compile(scope, '') + "." : "";
         code += self.method + "(" + argsList.join(', ') + ")";
 
-        return code;
+        return indent + code;
     };
 };
 
@@ -242,8 +240,8 @@ exports.GetLocalNode = function (name, loc) {
     self.name = name;
     self.loc = loc;
 
-    self.compile = function (context) {
-        return self.name;
+    self.compile = function (scope, indent) {
+        return indent + self.name;
     };
 };
 
@@ -255,13 +253,13 @@ exports.DefLocalNode = function (name, value, loc) {
     self.value = value;
     self.loc = loc;
 
-    self.compile = function (context) {
-        var code = doIndent(context.indent) + "var ";
+    self.compile = function (scope, indent) {
+        var code = "var ";
 
-        context.scope.add(self.name);
-        code += self.name + " = " + self.value.compile(context);
+        scope.add(self.name);
+        code += self.name + " = " + self.value.compile(scope, '');
 
-        return code;
+        return indent + code;
     };
 };
 
@@ -273,11 +271,11 @@ exports.SetLocalNode = function (name, value, loc) {
     self.value = value;
     self.loc = loc;
 
-    self.compile = function (context) {
-        var code = doIndent(context.indent) + self.name + " = ";
-        code += self.value.compile(context);
+    self.compile = function (scope, indent) {
+        var code = self.name + " = ";
+        code += self.value.compile(scope, '');
 
-        return code;
+        return indent + code;
     };
 };
 
@@ -291,21 +289,19 @@ exports.DefNode = function (name, params, body, loc) {
     self.body = body;
     self.loc = loc;
 
-    self.compile = function (context) {
-        var code = doIndent(context.indent);
+    self.compile = function (scope, indent) {
+        var code = indent;
 
         // add the name of the function to the scope
-        context.scope.add(self.name);
+        scope.add(self.name);
         // create the internal scope
-        context.scope = new Scope(context.scope);
+        scope = new Scope(scope);
 
         code += "var " + self.name + " = function (";
         code += self.params.join(", ") + ") {\n";
-        context.indent += 1;
-        code += self.body.compile(context);
-        context.indent -= 1;
+        code += self.body.compile(scope, indent + TAB);
 
-        return code + "}";
+        return code + indent + "}";
     };
 };
 
@@ -331,42 +327,31 @@ exports.IfNode = function (condition, body, loc) {
         return self;
     };
 
-    self.compile = function (context) {
-        var code = doIndent(context.indent) + "if (",
+    self.compile = function (scope, indent) {
+        var code = indent + "if (",
             ifBlock;
 
         // first if statement
-        code += self.ifBlocks[0].cond.compile(context) + ") {\n";
-        context.indent += 1;
-        code += self.ifBlocks[0].body.compile(context) + "}";
-        context.indent -= 1;
+        code += self.ifBlocks[0].cond.compile(scope, '') + ") {\n";
+        code += self.ifBlocks[0].body.compile(scope, indent + TAB)
+        code += indent + "}";
 
         // following else ifs / else
         for (var i = 1; i < self.ifBlocks.length; i++) {
             ifBlock = self.ifBlocks[i];
 
             if (ifBlock.finalElse) {
-                code += "\n" + doIndent(context.indent) + "else {\n";
-                context.indent += 1;
-                code += ifBlock.body.compile(context);
-                context.indent -= 1;
-                code += doIndent(context.indent) + "}";
+                code += "\n" + indent + "else {\n";
+                code += ifBlock.body.compile(scope, indent + TAB);
             }
             else {
-                code += "\n" + doIndent(context.indent) + "else if (";
-                code += ifBlock.cond.compile(context) + ") {\n";
-                context.indent += 1;
-                code += ifBlock.body.compile(context);
-                context.indent -= 1;
-                code += doIndent(context.indent) + "}";
+                code += "\n" + indent + "else if (";
+                code += ifBlock.cond.compile(scope, '') + ") {\n";
+                code += ifBlock.body.compile(scope, indent + TAB);
             }
+            code += indent + "}";
         }
 
         return code;
     };
-};
-
-
-var doIndent = function (level) {
-    return (Array(level + 1)).join(TAB);
 };

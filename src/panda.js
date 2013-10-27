@@ -3,6 +3,7 @@ var fs = require('fs'); // file system
 var Lexer = require('./lexer');
 var parser = require('./grammar').parser;
 parser.yy = require('./nodes');
+var Scope = require('./scope').Scope;
 
 
 var lexer = new Lexer();
@@ -61,7 +62,7 @@ fs.readFile(path, 'utf-8', function (err, data) {
     var parsed = parser.parse(tokenized);
     printAst(parsed);
 
-    var compiled = parsed.nodes.compile();
+    var compiled = parsed.nodes.compile(new Scope(null), "");
 
     log("\n\nOutput");
     log("======\n");

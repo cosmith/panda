@@ -1,6 +1,7 @@
 # First tests
 
 def print(arg):
+    # comment inside a function
     console.log(arg)
 end
 
