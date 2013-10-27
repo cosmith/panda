@@ -20,10 +20,18 @@ exports.Nodes = function (nodes, loc) {
 
     self.compile = function () {
         var code = "",
-            context = {scope: self.scope, indent: ""};
+            context = {scope: self.scope, indent: 0},
+            node;
 
         for (var i = 0; i < self.nodes.length; i++) {
-            code += self.nodes[i].compile(context) + ";\n";
+            node = self.nodes[i];
+
+            code += doIndent(context.indent);
+            code += node.compile(context);
+            if (!(["comment", "if", "for"].indexOf(node.type) > 0)) {
+                code += ";";
+            }
+            code += "\n";
         }
 
         return code;
@@ -39,7 +47,7 @@ exports.CommentNode = function (value, loc) {
     self.loc = loc;
 
     self.compile = function (context) {
-        return context.indent + '//' + String(value);
+        return doIndent(context.indent) + '//' + String(value);
     };
 };
 
@@ -126,12 +134,16 @@ exports.RangeNode = function (start, end, loc) {
         var code = "(function () {\n",
             a = context.scope.addTempVar('a'),
             i = context.scope.addTempVar('i');
+            idt2 = doIndent(context.indent + 1);
 
-        code += "  var " + a + " = [];\n  for (var " + i + "=";
+        code += idt2 + "var " + a + " = [];\n";
+        code += idt2 + "for (var " + i + "=";
         code += self.start.compile(context);
         code += "; " + i + " <= ";
         code += self.end.compile(context);
-        code += "; " + i + "++) { " + a + ".push(" + i + ") }\n  return " + a + ";\n})()";
+        code += "; " + i + "++) { " + a + ".push(" + i + ") }\n";
+        code += idt2 + "return " + a + ";\n";
+        code += doIndent(context.indent) + "})()";
 
         return code;
     };
@@ -244,8 +256,12 @@ exports.DefLocalNode = function (name, value, loc) {
     self.loc = loc;
 
     self.compile = function (context) {
+        var code = doIndent(context.indent) + "var ";
+
         context.scope.add(self.name);
-        return "var " + self.name + " = " + self.value.compile(context);
+        code += self.name + " = " + self.value.compile(context);
+
+        return code;
     };
 };
 
@@ -258,7 +274,10 @@ exports.SetLocalNode = function (name, value, loc) {
     self.loc = loc;
 
     self.compile = function (context) {
-        return context.indent + self.name + " = " + self.value.compile(context);
+        var code = doIndent(context.indent) + self.name + " = ";
+        code += self.value.compile(context);
+
+        return code;
     };
 };
 
@@ -273,15 +292,18 @@ exports.DefNode = function (name, params, body, loc) {
     self.loc = loc;
 
     self.compile = function (context) {
-        var code = context.indent;
+        var code = doIndent(context.indent);
 
+        // add the name of the function to the scope
         context.scope.add(self.name);
+        // create the internal scope
         context.scope = new Scope(context.scope);
-        context.indent += TAB;
 
         code += "var " + self.name + " = function (";
-        code += self.params.join(", ") + ") {\n  ";
+        code += self.params.join(", ") + ") {\n";
+        context.indent += 1;
         code += self.body.compile(context);
+        context.indent -= 1;
 
         return code + "}";
     };
@@ -310,28 +332,41 @@ exports.IfNode = function (condition, body, loc) {
     };
 
     self.compile = function (context) {
-        var code = "if (",
+        var code = doIndent(context.indent) + "if (",
             ifBlock;
 
         // first if statement
         code += self.ifBlocks[0].cond.compile(context) + ") {\n";
+        context.indent += 1;
         code += self.ifBlocks[0].body.compile(context) + "}";
+        context.indent -= 1;
 
         // following else ifs / else
         for (var i = 1; i < self.ifBlocks.length; i++) {
             ifBlock = self.ifBlocks[i];
 
             if (ifBlock.finalElse) {
-                code += " else {\n";
-                code += ifBlock.body.compile(context) + "}";
+                code += "\n" + doIndent(context.indent) + "else {\n";
+                context.indent += 1;
+                code += ifBlock.body.compile(context);
+                context.indent -= 1;
+                code += doIndent(context.indent) + "}";
             }
             else {
-                code += " else if (";
+                code += "\n" + doIndent(context.indent) + "else if (";
                 code += ifBlock.cond.compile(context) + ") {\n";
-                code += ifBlock.body.compile(context) + "}";
+                context.indent += 1;
+                code += ifBlock.body.compile(context);
+                context.indent -= 1;
+                code += doIndent(context.indent) + "}";
             }
         }
 
         return code;
     };
+};
+
+
+var doIndent = function (level) {
+    return (Array(level + 1)).join(TAB);
 };
