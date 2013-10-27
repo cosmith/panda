@@ -317,6 +317,21 @@ exports.DefNode = function (name, params, body, loc) {
     };
 };
 
+exports.ReturnNode = function (value, loc) {
+    var self = this;
+
+    self.type = "return";
+    self.value = value;
+    self.loc = loc;
+
+    self.compile = function (scope, indent) {
+        var code = "return ";
+        code += self.value.compile(scope, '');
+
+        return indent + code;
+    };
+};
+
 // if - else
 exports.IfNode = function (condition, body, loc) {
     var self = this;

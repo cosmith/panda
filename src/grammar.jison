@@ -73,6 +73,7 @@ Expression
     | SetLocal
     | GetLocal
     | Def
+    | Return
     | If
     | '(' Expression ')'
         {
@@ -302,6 +303,13 @@ ParamList
     | ParamList "," IDENTIFIER
         {
             $$ = $1.concat($3);
+        }
+    ;
+
+Return
+    : RETURN Expression
+        {
+            $$ = new n.ReturnNode($2, createLoc(@1, @2));
         }
     ;
 
