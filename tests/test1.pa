@@ -1,12 +1,38 @@
 # First tests
 
+def len(str):
+    var l = 0
+
+    for i in str:
+        l = l + 1
+    end
+
+    return l
+end
+
 def print(arg):
     # comment inside a function
     console.log(arg)
 end
 
 def test(name, a, b):
-    print(name + " passed:\n\t\t\t" + (a == b))
+    var str = name
+    var pass = "\x1B[32m pass\x1B[39m"
+    var fail = "\x1B[31m fail\x1B[39m"
+
+    if len(str) >= 8:
+        str = str + "\t "
+    else:
+        str = str + "\t\t "
+    end
+
+    if a == b:
+        str = str + pass
+    else:
+        str = str + fail
+    end
+
+    print(str)
 end
 
 # Basic arithmetic and primitives
