@@ -126,6 +126,7 @@ end
 test("return 1", returnFunc(), 42)
 
 # for loop
-for i in [1, 2, 3, 4]:
+var range2 = [0..3]
+for i in range2:
     test("for " + i, i, i)
 end
