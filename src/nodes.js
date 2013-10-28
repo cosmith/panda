@@ -253,6 +253,9 @@ exports.GetLocalNode = function (name, loc) {
     self.loc = loc;
 
     self.compile = function (scope, indent) {
+        if (!scope.alreadyDefined(self.name)) {
+            throw "Error: variable '" + self.name + "' not defined.";
+        }
         return indent + self.name;
     };
 };
@@ -304,10 +307,14 @@ exports.DefNode = function (name, params, body, loc) {
     self.compile = function (scope, indent) {
         var code = indent;
 
-        // add the name of the function to the scope
+        // add the name of the function to the external scope
         scope.add(self.name);
         // create the internal scope
         scope = new Scope(scope);
+        // add the parameters to the function scope
+        for (var i = 0; i < self.params.length; i++) {
+            scope.add(self.params[i]);
+        }
 
         code += "var " + self.name + " = function (";
         code += self.params.join(", ") + ") {\n";

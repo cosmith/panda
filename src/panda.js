@@ -62,7 +62,9 @@ fs.readFile(path, 'utf-8', function (err, data) {
     var parsed = parser.parse(tokenized);
     printAst(parsed);
 
-    var compiled = parsed.nodes.compile(new Scope(null), "");
+    var scope = new Scope(null);
+    scope.add("console"); // add global variables
+    var compiled = parsed.nodes.compile(scope, "");
 
     log("\n\nOutput");
     log("======\n");
