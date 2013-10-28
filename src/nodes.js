@@ -389,3 +389,40 @@ exports.IfNode = function (condition, body, loc) {
         return code;
     };
 };
+
+// for loop
+exports.ForNode = function (variable, items, body, loc) {
+    var self = this;
+
+    self.type = "for";
+    self.variable = variable;
+    self.items = items;
+    self.body = body;
+    self.loc = loc;
+
+    self.compile = function (scope, indent) {
+        var k,
+            things,
+            code = "";
+
+        if (!scope.alreadyDefined(self.variable)) {
+            scope.add(self.variable);
+            code += indent + "var " + self.variable + ";\n";
+        }
+
+        things = self.items.compile(scope, '');
+
+        // iteration
+        k = scope.addTempVar("k");
+        code += indent + "for (var " + k + " = 0; ";
+        code += k + " < " + things + ".length; " + k + " += 1) {\n";
+
+        // body
+        code += indent + TAB + self.variable + " = " + things + "[" + k + "];\n";
+        code += self.body.compile(scope, indent + TAB);
+
+        code += indent + "}";
+
+        return code;
+    }
+}

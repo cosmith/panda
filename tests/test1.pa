@@ -98,3 +98,8 @@ def returnFunc():
 end
 
 test("return 1", returnFunc(), 42)
+
+# for loop
+for i in [1, 2, 3, 4]:
+    test("for " + i, i, i)
+end

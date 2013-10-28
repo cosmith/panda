@@ -75,6 +75,7 @@ Expression
     | Def
     | Return
     | If
+    | For
     | '(' Expression ')'
         {
             $$ = $2;
@@ -329,6 +330,13 @@ If
     | IfBlock ELSE Block
         {
             $$ = $1.addElse(null, $3, true);
+        }
+    ;
+
+For
+    : FOR IDENTIFIER IN Expression Block
+        {
+            $$ = new n.ForNode($2, $4, $5, createLoc(@1, @4));
         }
     ;
 

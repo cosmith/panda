@@ -12,7 +12,10 @@ var Lexer = function () {
         "or",
         "and",
         "var",
-        "return"
+        "return",
+        "for",
+        "in",
+        "while"
     ];
 
     self.loc = {first_line: 0, first_column: 0, last_line: 0, last_column: 0};
