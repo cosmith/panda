@@ -76,6 +76,7 @@ Expression
     | Return
     | If
     | For
+    | Accessor
     | '(' Expression ')'
         {
             $$ = $2;
@@ -349,6 +350,13 @@ For
     : FOR IDENTIFIER IN Expression Block
         {
             $$ = new n.ForNode($2, $4, $5, createLoc(@1, @4));
+        }
+    ;
+
+Accessor
+    : Expression '[' Expression ']'
+        {
+            $$ = new n.AccessorNode($1, $3, createLoc(@1, @4));
         }
     ;
 

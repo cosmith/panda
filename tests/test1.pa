@@ -1,15 +1,5 @@
 # First tests
 
-def len(str):
-    var l = 0
-
-    for i in str:
-        l += 1
-    end
-
-    return l
-end
-
 def print(arg):
     # comment inside a function
     console.log(arg)
@@ -20,7 +10,7 @@ def test(name, a, b):
     var pass = "\x1B[32m pass\x1B[39m"
     var fail = "\x1B[31m fail\x1B[39m"
 
-    if len(str) >= 8:
+    if str["length"] >= 8:
         str = str + "\t "
     else:
         str = str + "\t\t "
@@ -101,10 +91,6 @@ var L = []
 L = [1]
 L = [1, 2, 3, 4, 5]
 
-# ranges
-var range = [0..5]
-test("range 1", range, [1, 2, 3, 4, 5])
-
 # scope
 var x = 0
 
@@ -130,3 +116,14 @@ var range2 = [0..3]
 for i in range2:
     test("for " + i, i, i)
 end
+
+# ranges
+var range = [0..3]
+var list = [0, 1, 2, 3]
+var equal = true
+
+for i in list:
+    equal = equal and range[i] == list[i]
+end
+
+test("range 1", equal, true)

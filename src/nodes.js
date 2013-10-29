@@ -426,3 +426,22 @@ exports.ForNode = function (variable, items, body, loc) {
         return code;
     }
 }
+
+
+exports.AccessorNode = function (accessed, item, loc) {
+    var self = this;
+
+    self.type = "accessor";
+    self.accessed = accessed;
+    self.item = item;
+    self.loc = loc;
+
+    self.compile = function (scope, indent) {
+        var code;
+
+        code = indent + self.accessed.compile(scope, '');
+        code += '[' + self.item.compile(scope, '') + ']';
+
+        return code;
+    }
+}
