@@ -218,9 +218,21 @@ Operator
             $$ = new n.OperatorNode('!=', $1, $3, createLoc(@1, @3));
         }
     | Expression '+=' Expression
+        {
+            $$ = new n.OperatorNode('+=', $1, $3, createLoc(@1, @3));
+        }
     | Expression '-=' Expression
+        {
+            $$ = new n.OperatorNode('-=', $1, $3, createLoc(@1, @3));
+        }
     | Expression '*=' Expression
+        {
+            $$ = new n.OperatorNode('*=', $1, $3, createLoc(@1, @3));
+        }
     | Expression '/=' Expression
+        {
+            $$ = new n.OperatorNode('/=', $1, $3, createLoc(@1, @3));
+        }
     | Expression 'OR' Expression
         {
             $$ = new n.OperatorNode('OR', $1, $3, createLoc(@1, @3));

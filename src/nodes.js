@@ -168,7 +168,7 @@ exports.OperatorNode = function (op, arg1, arg2, loc) {
     self.arg2 = arg2;
 
     self.compile = function (scope, indent) {
-        var jsOps = ['+', '-', '*', '/', '<', '>', '<=', '>='],
+        var jsOps = ['+', '-', '*', '/', '+=', '-=', '*=', '/=', '<', '>', '<=', '>='],
             translation = {
                 'OR': '||',
                 'AND': '&&',

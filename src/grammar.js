@@ -227,6 +227,22 @@ case 51:
             this.$ = new n.OperatorNode('!=', $$[$0-2], $$[$0], createLoc(_$[$0-2], _$[$0]));
         
 break;
+case 52:
+            this.$ = new n.OperatorNode('+=', $$[$0-2], $$[$0], createLoc(_$[$0-2], _$[$0]));
+        
+break;
+case 53:
+            this.$ = new n.OperatorNode('-=', $$[$0-2], $$[$0], createLoc(_$[$0-2], _$[$0]));
+        
+break;
+case 54:
+            this.$ = new n.OperatorNode('*=', $$[$0-2], $$[$0], createLoc(_$[$0-2], _$[$0]));
+        
+break;
+case 55:
+            this.$ = new n.OperatorNode('/=', $$[$0-2], $$[$0], createLoc(_$[$0-2], _$[$0]));
+        
+break;
 case 56:
             this.$ = new n.OperatorNode('OR', $$[$0-2], $$[$0], createLoc(_$[$0-2], _$[$0]));
         

@@ -4,7 +4,7 @@ def len(str):
     var l = 0
 
     for i in str:
-        l = l + 1
+        l += 1
     end
 
     return l
