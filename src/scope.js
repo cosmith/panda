@@ -14,15 +14,15 @@
 
             // where we keep the variables names for this scope
             this.variables = {};
-        };
+        }
 
         // add a variable to the scope
         Scope.prototype.add = function (name) {
             if (this.variables[name]) {
                 throw "Error: Variable '" + name + "' already defined";
-            } else {
-                this.variables[name] = true;
             }
+
+            this.variables[name] = true;
         };
 
         // check the existence of a variable in this scope or any parent
@@ -53,6 +53,6 @@
         };
 
         return Scope;
-    })();
+    }());
 
-}).call(this);
+}(this));

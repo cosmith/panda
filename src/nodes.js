@@ -19,9 +19,10 @@ exports.Nodes = function (nodes, loc) {
 
     self.compile = function (scope, indent) {
         var code = "",
-            node;
+            node,
+            i;
 
-        for (var i = 0; i < self.nodes.length; i++) {
+        for (i = 0; i < self.nodes.length; i++) {
             node = self.nodes[i];
 
             code += node.compile(scope, indent);
@@ -119,11 +120,12 @@ exports.ListNode = function (list, loc) {
     self.loc = loc;
 
     self.compile = function (scope, indent) {
-        var code = "[";
+        var code = "[",
+            i;
 
-        for (var i = 0; i < self.list.length; i++) {
+        for (i = 0; i < self.list.length; i++) {
             code += self.list[i].compile(scope, '');
-            if (i != self.list.length - 1) {
+            if (i !== self.list.length - 1) {
                 code += ", ";
             }
         }
@@ -143,7 +145,7 @@ exports.RangeNode = function (start, end, loc) {
     self.compile = function (scope, indent) {
         var code = "(function () {\n",
             a = scope.addTempVar('a'),
-            i = scope.addTempVar('i');
+            i = scope.addTempVar('i'),
             idt2 = indent + TAB;
 
         code += idt2 + "var " + a + " = [];\n";
@@ -180,16 +182,18 @@ exports.OperatorNode = function (op, arg1, arg2, loc) {
         if (jsOps.indexOf(self.op) !== -1) {
             code = [self.arg1.compile(scope, ''), self.op, self.arg2.compile(scope, '')].join(' ');
         }
-        else if (self.op in translation) {
+        else if (translation.hasOwnProperty(self.op)) {
             code = [
                 self.arg1.compile(scope, ''), translation[self.op], self.arg2.compile(scope, '')
             ].join(' ');
         }
-        else throw "Not implemented yet";
+        else {
+            throw "Not implemented yet";
+        }
 
         return indent + '(' + code + ')';
-    }
-}
+    };
+};
 
 exports.UnaryNode = function (op, arg, loc) {
     var self = this;
@@ -208,14 +212,16 @@ exports.UnaryNode = function (op, arg, loc) {
         if (jsOps.indexOf(self.op) !== -1) {
             code = self.op + '(' + self.arg.compile(scope, '') + ')';
         }
-        else if (self.op in translation) {
+        else if (translation.hasOwnProperty(self.op)) {
             code = translation[self.op] + '(' + self.arg.compile(scope, '') + ')';
         }
-        else throw "Not implemented yet";
+        else {
+            throw "Not implemented yet";
+        }
 
         return code;
-    }
-}
+    };
+};
 
 // method call
 exports.CallNode = function (receiver, method, args, loc) {
@@ -229,10 +235,11 @@ exports.CallNode = function (receiver, method, args, loc) {
 
     self.compile = function (scope, indent) {
         var code = "",
-            argsList = [];
+            argsList = [],
+            i;
 
         // compile the arguments first
-        for (var i = 0; i < self.args.length; i++) {
+        for (i = 0; i < self.args.length; i++) {
             argsList.push(self.args[i].compile(scope, ''));
         }
 
@@ -305,14 +312,15 @@ exports.DefNode = function (name, params, body, loc) {
     self.loc = loc;
 
     self.compile = function (scope, indent) {
-        var code = indent;
+        var code = indent,
+        i;
 
         // add the name of the function to the external scope
         scope.add(self.name);
         // create the internal scope
         scope = new Scope(scope);
         // add the parameters to the function scope
-        for (var i = 0; i < self.params.length; i++) {
+        for (i = 0; i < self.params.length; i++) {
             scope.add(self.params[i]);
         }
 
@@ -363,15 +371,16 @@ exports.IfNode = function (condition, body, loc) {
 
     self.compile = function (scope, indent) {
         var code = indent + "if (",
-            ifBlock;
+            ifBlock,
+            i;
 
         // first if statement
         code += self.ifBlocks[0].cond.compile(scope, '') + ") {\n";
-        code += self.ifBlocks[0].body.compile(scope, indent + TAB)
+        code += self.ifBlocks[0].body.compile(scope, indent + TAB);
         code += indent + "}";
 
         // following else ifs / else
-        for (var i = 1; i < self.ifBlocks.length; i++) {
+        for (i = 1; i < self.ifBlocks.length; i++) {
             ifBlock = self.ifBlocks[i];
 
             if (ifBlock.finalElse) {
@@ -424,8 +433,8 @@ exports.ForNode = function (variable, items, body, loc) {
         code += indent + "}";
 
         return code;
-    }
-}
+    };
+};
 
 
 exports.AccessorNode = function (accessed, item, loc) {
@@ -443,5 +452,5 @@ exports.AccessorNode = function (accessed, item, loc) {
         code += '[' + self.item.compile(scope, '') + ']';
 
         return code;
-    }
-}
+    };
+};
