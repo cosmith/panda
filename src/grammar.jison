@@ -67,6 +67,7 @@ Expression
     | Range
     | Call
     | Operator
+    | Comparison
     | GetConstant
     | SetConstant
     | DefLocal
@@ -183,30 +184,6 @@ Operator
         {
             $$ = new n.OperatorNode('/', $1, $3, createLoc(@1, @3));
         }
-    | Expression '<' Expression
-        {
-            $$ = new n.OperatorNode('<', $1, $3, createLoc(@1, @3));
-        }
-    | Expression '>' Expression
-        {
-            $$ = new n.OperatorNode('>', $1, $3, createLoc(@1, @3));
-        }
-    | Expression '>=' Expression
-        {
-            $$ = new n.OperatorNode('>=', $1, $3, createLoc(@1, @3));
-        }
-    | Expression '<=' Expression
-        {
-            $$ = new n.OperatorNode('<=', $1, $3, createLoc(@1, @3));
-        }
-    | Expression '==' Expression
-        {
-            $$ = new n.OperatorNode('==', $1, $3, createLoc(@1, @3));
-        }
-    | Expression '!=' Expression
-        {
-            $$ = new n.OperatorNode('!=', $1, $3, createLoc(@1, @3));
-        }
     | Expression '+=' Expression
         {
             $$ = new n.OperatorNode('+=', $1, $3, createLoc(@1, @3));
@@ -240,6 +217,31 @@ Operator
             $$ = new n.UnaryNode('-', $2, createLoc(@1, @2));
         }
     ;
+
+ComparisonOperator
+    : '=='
+    | '!='
+    | '<'
+    | '>'
+    | '<='
+    | '>='
+    ;
+
+ComparisonBlock
+    : Expression ComparisonOperator Expression
+        {
+            $$ = new n.ComparisonNode($2, $1, $3, createLoc(@1, @3));
+        }
+    ;
+
+Comparison
+    : ComparisonBlock ComparisonOperator Expression
+        {
+            $$ = $1.addComparison($2, $3);
+        }
+    | ComparisonBlock
+    ;
+
 
 // GetConstant
 //     : CONSTANT

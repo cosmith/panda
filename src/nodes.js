@@ -161,30 +161,28 @@ exports.RangeNode = function (start, end, loc) {
     };
 };
 
-exports.OperatorNode = function (op, arg1, arg2, loc) {
+exports.OperatorNode = function (op, expr1, expr2, loc) {
     var self = this;
 
     self.type = "operator";
     self.op = op;
-    self.arg1 = arg1;
-    self.arg2 = arg2;
+    self.expr1 = expr1;
+    self.expr2 = expr2;
 
     self.compile = function (scope, indent) {
-        var jsOps = ['+', '-', '*', '/', '+=', '-=', '*=', '/=', '<', '>', '<=', '>='],
+        var jsOps = ['+', '-', '*', '/', '+=', '-=', '*=', '/='],
             translation = {
                 'OR': '||',
-                'AND': '&&',
-                '!=': '!==',
-                '==': '==='
+                'AND': '&&'
             },
             code = '';
 
         if (jsOps.indexOf(self.op) !== -1) {
-            code = [self.arg1.compile(scope, ''), self.op, self.arg2.compile(scope, '')].join(' ');
+            code = [self.expr1.compile(scope, ''), self.op, self.expr2.compile(scope, '')].join(' ');
         }
         else if (translation.hasOwnProperty(self.op)) {
             code = [
-                self.arg1.compile(scope, ''), translation[self.op], self.arg2.compile(scope, '')
+                self.expr1.compile(scope, ''), translation[self.op], self.expr2.compile(scope, '')
             ].join(' ');
         }
         else {
@@ -194,6 +192,43 @@ exports.OperatorNode = function (op, arg1, arg2, loc) {
         return indent + '(' + code + ')';
     };
 };
+
+exports.ComparisonNode = function (op, expr1, expr2, loc) {
+    var self = this;
+
+    self.type = "comparison";
+    self.oplist = [op];
+    self.exprlist = [expr1, expr2];
+
+    self.addComparison = function (op, expr) {
+        self.oplist.push(op);
+        self.exprlist.push(expr);
+
+        return self;
+    }
+
+    self.compile = function (scope, indent) {
+        var code = indent,
+            op = '',
+            i = 0;
+
+        code += self.exprlist[0].compile(scope, '') + ' ' + self.oplist[0];
+
+        for (i = 1; i < self.oplist.length; i++) {
+            op = self.oplist[i]
+            if (op === '==') op = '===';
+            if (op === '!=') op = '!==';
+
+            code += ' ' + self.exprlist[i].compile(scope, '')
+            code += ' && ';
+            code += self.exprlist[i].compile(scope, '') + ' ' + op;
+        }
+
+        code += ' ' + self.exprlist[self.exprlist.length - 1].compile(scope, '');
+
+        return code;
+    }
+}
 
 exports.UnaryNode = function (op, arg, loc) {
     var self = this;

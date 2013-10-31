@@ -63,7 +63,7 @@ fs.readFile(path, 'utf-8', function (err, data) {
     printAst(parsed);
 
     var scope = new Scope(null);
-    scope.add("console"); // add global variables
+    scope.add("console", "require"); // add global variables
     var compiled = parsed.nodes.compile(scope, "");
 
     log("\n\nOutput");
