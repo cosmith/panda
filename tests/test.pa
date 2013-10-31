@@ -1,7 +1,4 @@
-var _a = 1
-var a = 2
-true
-range = [_a..3]
+# chained comparison
+1 < 5 <= 10 < 15 < 20
 
-[]
-console.log(range)
+2 < 3

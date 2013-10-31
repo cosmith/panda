@@ -186,7 +186,7 @@ exports.OperatorNode = function (op, expr1, expr2, loc) {
             ].join(' ');
         }
         else {
-            throw "Not implemented yet";
+            throw self.op + " not implemented yet";
         }
 
         return indent + '(' + code + ')';
