@@ -124,8 +124,12 @@ test("range 1", equal, true)
 
 
 # chained comparison
-a = 1 < 5 < 10
-b = 10 > 5 > 1
+a = 1 < 5 < 10 < 20
+b = 10 > 5 > 1 >= -1
+var c = 5 > 1 < 10
+var d = 1 > 10 < 20
 
 test("chained 1", a, true)
 test("chained 2", b, true)
+test("chained 3", c, true)
+test("chained 4", d, false)

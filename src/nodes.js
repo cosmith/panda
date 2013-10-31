@@ -201,8 +201,9 @@ exports.ComparisonNode = function (op, expr1, expr2, loc) {
     self.exprlist = [expr1, expr2];
 
     self.addComparison = function (op, expr) {
-        self.oplist.push(op);
-        self.exprlist.push(expr);
+        // we're concatenating backwards, starting from the right
+        self.oplist = [op].concat(self.oplist);
+        self.exprlist = [expr].concat(self.exprlist);
 
         return self;
     }
@@ -212,10 +213,11 @@ exports.ComparisonNode = function (op, expr1, expr2, loc) {
             op = '',
             i = 0;
 
-        code += self.exprlist[0].compile(scope, '') + ' ' + self.oplist[0];
+        code += self.exprlist[0].compile(scope, '');;
+        code += ' ' + self.oplist[0];
 
         for (i = 1; i < self.oplist.length; i++) {
-            op = self.oplist[i]
+            op = self.oplist[i];
             if (op === '==') op = '===';
             if (op === '!=') op = '!==';
 
@@ -330,6 +332,9 @@ exports.SetLocalNode = function (name, value, loc) {
 
     self.compile = function (scope, indent) {
         var code = self.name + " = ";
+        if (!scope.alreadyDefined(self.name)) {
+            throw "Error: variable '" + self.name + "' not defined.";
+        }
         code += self.value.compile(scope, '');
 
         return indent + code;

@@ -227,19 +227,16 @@ ComparisonOperator
     | '>='
     ;
 
-ComparisonBlock
+Comparison
     : Expression ComparisonOperator Expression
         {
             $$ = new n.ComparisonNode($2, $1, $3, createLoc(@1, @3));
         }
-    ;
-
-Comparison
-    : ComparisonBlock ComparisonOperator Expression
+    | Expression ComparisonOperator Comparison
         {
-            $$ = $1.addComparison($2, $3);
+            // I can only make it work Comparison on the right, not sure why...
+            $$ = $3.addComparison($2, $1);
         }
-    | ComparisonBlock
     ;
 
 
