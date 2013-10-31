@@ -138,20 +138,9 @@ Arguments
         {
             $$ = [];
         }
-    | "(" ArgList ")"
+    | "(" ExpressionList ")"
         {
             $$ = $2;
-        }
-    ;
-
-ArgList
-    : Expression
-        {
-            $$ = [$1];
-        }
-    | ArgList "," Expression
-        {
-            $$ = $1.concat($3);
         }
     ;
 
