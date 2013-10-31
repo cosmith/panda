@@ -7,7 +7,7 @@
 %left       'OR'
 %left       'AND'
 %right      '=' 'RETURN'
-%left       'RELATION'
+%left       '<', '>', '<=', '>='
 %left       '==', '!='
 %left       '+' '-'
 %left       '*' '/'
