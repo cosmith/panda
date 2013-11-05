@@ -2,11 +2,69 @@
 <html>
 <head>
     <title>Panda</title>
-    <script type="text/javascript" src="panda.js"></script>
+    <style type="text/css">
+    body {
+        font-family: monospace;
+        background: #000;
+        color: #eee;
+    }
+    textarea {
+        background: #363333;
+        color: #eee;
+        border: none;
+        padding: 10px;
+        margin: 0;
+        font-family: monospace;
+        font-size: 16px;
+        width: 45%;
+        height: 600px;
+    }
+
+    .run {
+        font-size: 16px;
+        padding: 20px;
+    }
+    </style>
 </head>
+
 <body>
-    <script type="text/javascript">
-        document.write(Panda.compile("1 + 1"));
-    </script>
+
+    <h1>Panda</h1>
+    <h3>Enter your code on the left-hand side box</h3>
+
+    <textarea class="input"></textarea>
+    <textarea class="output"></textarea>
+
+    <button class="run">Run</button>
+
 </body>
+
+<script type="text/javascript" src="panda.js"></script>
+<script type="text/javascript">
+    var input = document.getElementsByClassName('input')[0],
+        output = document.getElementsByClassName('output')[0],
+        button = document.getElementsByClassName('run')[0];
+
+    input.oninput = function (e) {
+        var code = input.value;
+        output.value = Panda.compile(code);
+    }
+
+    button.onclick = function (e) {
+        var code = input.value;
+        eval(Panda.compile(code));
+    }
+
+    input.value = "var s = 0\n" +
+        "var r = [1..10]\n\n" +
+
+        "for i in r:\n" +
+        "    s += i\n" +
+        "end\n\n" +
+
+        "console.log(s)\n\n";
+
+    input.oninput(null);
+</script>
+
 </html>
