@@ -1,0 +1,27 @@
+var fs = require("fs")
+
+var code = ""
+var files = ["scope", "grammar", "lexer", "nodes", "panda"]
+
+for name in files:
+    code += "\nrequire['./" + name + "'] = (function() {\n"
+    code += "var exports = {}, module = {exports: exports};\n"
+    code += fs.readFileSync("/Users/Coco/Projects/panda/src/" + name + ".js")
+    code += "\n\n    return module.exports; \n})();\n\n"
+end
+
+var full = "(function(root) {\n"
+full += "var Panda = function() {\n"
+full += "   function require(path){ return require[path]; }\n\n"
+full += code
+full += "\n    return require['./panda']; \n}();\n"
+
+full += "\nif (typeof define === 'function' && define.amd) {\n"
+full += "   define(function() { return Panda; });\n"
+full += "} else {\n"
+full += "   root.Panda = Panda;\n"
+full += "}\n"
+full += "}(this));\n"
+
+fs.writeFileSync("/Users/Coco/Projects/panda/lib/panda.js", full)
+console.log("built")
