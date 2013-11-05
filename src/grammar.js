@@ -232,6 +232,7 @@ case 60:
         
 break;
 case 61:
+            // I can only make it work with a Comparison on the right, not sure why...
             this.$ = $$[$0].addComparison($$[$0-1], $$[$0-2]);
         
 break;

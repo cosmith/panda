@@ -234,7 +234,7 @@ Comparison
         }
     | Expression ComparisonOperator Comparison
         {
-            // I can only make it work Comparison on the right, not sure why...
+            // I can only make it work with a Comparison on the right, not sure why...
             $$ = $3.addComparison($2, $1);
         }
     ;
