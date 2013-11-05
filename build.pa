@@ -1,7 +1,7 @@
 var fs = require("fs")
 
 var code = ""
-var files = ["scope", "grammar", "lexer", "nodes", "panda"]
+var files = ["scope", "nodes", "grammar", "lexer", "panda"]
 
 for name in files:
     code += "\nrequire['./" + name + "'] = (function() {\n"

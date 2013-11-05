@@ -1,3 +1,5 @@
+(function() {
+
 var Scope = require('./scope').Scope;
 var TAB = "    ";
 
@@ -494,3 +496,6 @@ exports.AccessorNode = function (accessed, item, loc) {
         return code;
     };
 };
+
+
+}(this));
