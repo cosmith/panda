@@ -1,58 +1,60 @@
 // Heavily inspired by coffee-script again
 (function() {
-    var Scope;
 
-    exports.Scope = Scope = (function () {
-        Scope.root = null;
+var Scope;
 
-        function Scope(parent) {
-            this.parent = parent;
+exports.Scope = Scope = (function () {
+    Scope.root = null;
 
-            if (!this.parent) {
-                Scope.root = this;
-            }
+    function Scope(parent) {
+        this.parent = parent;
 
-            // where we keep the variables names for this scope
-            this.variables = {};
+        if (!this.parent) {
+            Scope.root = this;
         }
 
-        // add a variable to the scope
-        Scope.prototype.add = function (name) {
-            if (this.variables[name]) {
-                throw "Error: Variable '" + name + "' already defined";
-            }
+        // where we keep the variables names for this scope
+        this.variables = {};
+    }
 
-            this.variables[name] = true;
-        };
+    // add a variable to the scope
+    Scope.prototype.add = function (name) {
+        if (this.variables[name]) {
+            throw "Error: Variable '" + name + "' already defined";
+        }
 
-        // check the existence of a variable in this scope or any parent
-        Scope.prototype.alreadyDefined = function (name) {
-            return !!this.variables[name] || (this.parent && this.parent.alreadyDefined(name));
-        };
+        this.variables[name] = true;
+    };
 
-        // generate a temporary variable name
-        Scope.prototype.temporary = function (name, index) {
-            return '_' + name + index;
-        };
+    // check the existence of a variable in this scope or any parent
+    Scope.prototype.alreadyDefined = function (name) {
+        return !!this.variables[name] || (this.parent && this.parent.alreadyDefined(name));
+    };
 
-        // create a temporary variable with an available name
-        Scope.prototype.addTempVar = function (name, reserve) {
-            var index = 0,
-                newName = name;
+    // generate a temporary variable name
+    Scope.prototype.temporary = function (name, index) {
+        return '_' + name + index;
+    };
 
-            while (this.alreadyDefined(newName)) {
-                index++;
-                newName = this.temporary(name, index);
-            }
+    // create a temporary variable with an available name
+    Scope.prototype.addTempVar = function (name, reserve) {
+        var index = 0,
+            newName = name;
 
-            if (reserve) {
-                this.add(newName);
-            }
+        while (this.alreadyDefined(newName)) {
+            index++;
+            newName = this.temporary(name, index);
+        }
 
-            return newName;
-        };
+        if (reserve) {
+            this.add(newName);
+        }
 
-        return Scope;
-    }());
+        return newName;
+    };
+
+    return Scope;
+}());
 
 }(this));
+
