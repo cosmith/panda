@@ -1,4 +1,6 @@
-exports.printTokens = function (tokens, full) {
+(function() {
+
+var printTokens = function (tokens, full) {
     console.log('\nLexed input');
     console.log('===========\n');
 
@@ -17,14 +19,14 @@ exports.printTokens = function (tokens, full) {
 }
 
 
-exports.printAst = function (ast) {
+var printAst = function (ast) {
     console.log('\nParsed input');
     console.log('============\n');
-    console.log(exports.strAst(ast, 0).join('\n'));
+    console.log(strAst(ast, 0).join('\n'));
 }
 
 
-exports.strAst = function (ast, indent) {
+var strAst = function (ast, indent) {
     var collection = [],
         index = 0,
         next,
@@ -36,12 +38,12 @@ exports.strAst = function (ast, indent) {
         if (ast.hasOwnProperty(key) && (dontShow.indexOf(key) === -1)) {
             next = ast[key];
             if (typeof next === 'object' && next !== null) {
-                collection[index] = exports.spaces(indent) + key +
-                 ': {\n' + exports.strAst(next, indent+1).join(',\n') +
-                 ' \n' + exports.spaces(indent) + '}';
+                collection[index] = spaces(indent) + key +
+                 ': {\n' + strAst(next, indent+1).join(',\n') +
+                 ' \n' + spaces(indent) + '}';
             }
             else {
-                collection[index] = [exports.spaces(indent) + key + ': ' + String(next)];
+                collection[index] = [spaces(indent) + key + ': ' + String(next)];
             }
             index++;
         }
@@ -50,6 +52,12 @@ exports.strAst = function (ast, indent) {
     return collection;
 }
 
-exports.spaces = function (i) {
+var spaces = function (i) {
     return Array(i+1).join('    ');
 }
+
+
+exports.printTokens = printTokens;
+exports.printAst = printAst;
+
+}(this));

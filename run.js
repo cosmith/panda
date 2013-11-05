@@ -1,7 +1,7 @@
 // Debugging compile
 
 var fs = require('fs'); // file system
-var Panda = require('./src/panda').Panda;
+var Panda = require('./src/panda');
 var helpers = require('./src/helpers');
 var path = "";
 
@@ -13,15 +13,13 @@ process.argv.forEach(function(val, index, array) {
 fs.readFile(path, 'utf-8', function (err, data) {
     if (err) throw err;
 
-    var panda = new Panda();
-
-    var tokenized = panda.tokenize(data)
+    var tokenized = Panda.tokenize(data)
     helpers.printTokens(tokenized);
 
-    var parsed = panda.parse(tokenized);
+    var parsed = Panda.parse(tokenized);
     helpers.printAst(parsed);
 
-    var compiled = panda.compile(data);
+    var compiled = Panda.compile(data);
 
     console.log("\n\nOutput");
     console.log("======\n");
