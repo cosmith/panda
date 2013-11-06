@@ -15,7 +15,7 @@ parser.lexer = {
         token = this.tokens[this.pos++];
         if (token) {
             tag = token[0], this.yytext = token[1], this.yylloc = token[2];
-            this.yylineno = 0;//this.yylloc.first_line;
+            this.yylineno = this.yylloc.first_line;
         } else {
             tag = '';
         }

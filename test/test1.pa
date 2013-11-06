@@ -113,6 +113,8 @@ end
 
 # ranges
 var range = [0..3]
+var otherRange = [a..b]
+var thirdRange = [5..1]
 var list = [0, 1, 2, 3]
 var equal = true
 

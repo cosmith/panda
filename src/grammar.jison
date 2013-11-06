@@ -117,9 +117,13 @@ Literal
     ;
 
 Range
-    : '[' Expression '.' '.' Expression ']'
+    : '[' NUMBER '.' '.' NUMBER ']'
         {
-            $$ = new n.RangeNode($2, $5, createLoc(@1, @6));
+            $$ = new n.RangeNode($2, $5, true, createLoc(@1, @6));
+        }
+    | '[' Expression '.' '.' Expression ']'
+        {
+            $$ = new n.RangeNode($2, $5, false, createLoc(@1, @6));
         }
     ;
 

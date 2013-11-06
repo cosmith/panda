@@ -136,26 +136,54 @@ exports.ListNode = function (list, loc) {
     };
 };
 
-exports.RangeNode = function (start, end, loc) {
+exports.RangeNode = function (start, end, numbers, loc) {
     var self = this;
 
     self.type = "range";
     self.start = start;
     self.end = end;
+    self.numbers = numbers;
     self.loc = loc;
 
     self.compile = function (scope, indent) {
         var code = "(function () {\n",
             a = scope.addTempVar('a'),
             i = scope.addTempVar('i'),
-            idt2 = indent + TAB;
+            idt2 = indent + TAB,
+            goingUp = null,
+            direction,
+            condition,
+            startVal,
+            endVal;
+
+        if (self.numbers) {
+            goingUp = self.start < self.end;
+            startVal = self.start;
+            endVal = self.end;
+        }
+        else {
+            startVal = self.start.compile(scope, '');
+            endVal = self.end.compile(scope, '');
+        }
+
+        if (goingUp === null) {
+            condition = startVal + " < " + endVal + " ? ";
+            condition += i + " <= " + endVal + " : " + i + " >= " + endVal;
+
+            direction = startVal + " <= " + endVal;
+            direction += " ? " + i + "++ : " + i + "--";
+        }
+        else {
+            condition = i + " <= " + endVal;
+
+            direction = i + (goingUp ? "++" : "--");
+        }
 
         code += idt2 + "var " + a + " = [];\n";
-        code += idt2 + "for (var " + i + "=";
-        code += self.start.compile(scope, '');
-        code += "; " + i + " <= ";
-        code += self.end.compile(scope, '');
-        code += "; " + i + "++) { " + a + ".push(" + i + ") }\n";
+        code += idt2 + "for (var " + i + " = " + startVal + "; ";
+        code += condition;
+
+        code += "; " + direction + ") { " + a + ".push(" + i + ") }\n";
         code += idt2 + "return " + a + ";\n";
         code += indent + "})()";
 
