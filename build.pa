@@ -1,6 +1,9 @@
 var fs = require("fs")
+var uglify = require("uglify-js")
+var OUTPUT = "lib/panda.js"
 
 var code = ""
+var minified = ""
 var files = ["scope", "nodes", "grammar", "lexer", "panda"]
 
 for name in files:
@@ -23,5 +26,10 @@ full += "   root.Panda = Panda;\n"
 full += "}\n"
 full += "}(this));\n"
 
-fs.writeFileSync("/Users/Coco/Projects/panda/lib/panda.js", full)
+fs.writeFileSync(OUTPUT, full)
+
+console.log("minifiying...")
+minified = uglify.minify(OUTPUT)
+fs.writeFileSync(OUTPUT, minified["code"])
+
 console.log("built")
