@@ -295,6 +295,10 @@ Def
         {
             $$ = new n.DefNode($2, $4, $6, createLoc(@1, @6));
         }
+    | DEF "(" ParamList ")" Block
+        {
+            $$ = new n.DefNode(null, $3, $5, createLoc(@1, @5));
+        }
     ;
 
 ParamList

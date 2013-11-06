@@ -135,3 +135,9 @@ test("chained 1", a, true)
 test("chained 2", b, true)
 test("chained 3", c, true)
 test("chained 4", d, false)
+
+
+# anonymous function
+
+var empty = def (): end
+empty()

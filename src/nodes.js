@@ -385,8 +385,12 @@ exports.DefNode = function (name, params, body, loc) {
         var code = indent,
         i;
 
-        // add the name of the function to the external scope
-        scope.add(self.name);
+        if (self.name !== null) {
+            // add the name of the function to the external scope
+            scope.add(self.name);
+            code += "var " + self.name + " = ";
+        }
+
         // create the internal scope
         scope = new Scope(scope);
         // add the parameters to the function scope
@@ -394,11 +398,15 @@ exports.DefNode = function (name, params, body, loc) {
             scope.add(self.params[i]);
         }
 
-        code += "var " + self.name + " = function (";
-        code += self.params.join(", ") + ") {\n";
-        code += self.body.compile(scope, indent + TAB);
+        code += "function (";
+        code += self.params.join(", ") + ") {";
+        if (self.body.hasOwnProperty('compile')) {
+            code += "\n" + self.body.compile(scope, indent + TAB);
+        }
+        code += indent + "}";
 
-        return code + indent + "}";
+        if (self.name !== null) return code;
+        else return '(' + code + ')';
     };
 };
 
