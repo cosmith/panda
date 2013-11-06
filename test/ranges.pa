@@ -1,0 +1,15 @@
+# Ranges
+
+var a = 1
+var b = 10
+var range = [0..3]
+var otherRange = [a..b]
+var thirdRange = [5..1]
+var list = [0, 1, 2, 3]
+var equal = true
+
+for i in list:
+    equal = equal and range[i] == list[i]
+end
+
+test("range 1", equal, true)

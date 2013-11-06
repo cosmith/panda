@@ -1,0 +1,26 @@
+# Functions
+
+# scope
+var x = 0
+
+def testFunc():
+    var x = 5
+    var y = 4
+end
+
+test("scope 1", x, 0)
+
+var y = 0
+test("scope 2", y, 0)
+
+# return
+def returnFunc():
+    return 42
+end
+
+test("return 1", returnFunc(), 42)
+
+# anonymous function
+
+var empty = def (): end
+empty()

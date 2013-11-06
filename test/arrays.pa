@@ -1,0 +1,6 @@
+# Arrays
+
+var L = []
+L = [1]
+L = [1, 2, 3, 4, 5]
+L = ["test", "test"]

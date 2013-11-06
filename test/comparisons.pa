@@ -1,0 +1,11 @@
+# Chained comparison
+
+var a = 1 < 5 < 10 < 20
+var b = 10 > 5 > 1 >= -1
+var c = 5 > 1 < 10
+var d = 1 > 10 < 20
+
+test("chained 1", a, true)
+test("chained 2", b, true)
+test("chained 3", c, true)
+test("chained 4", d, false)

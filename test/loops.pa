@@ -1,0 +1,7 @@
+# Loops
+
+# for loop
+var range2 = [0..3]
+for i in range2:
+    test("for " + i, i, i)
+end

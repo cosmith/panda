@@ -9,10 +9,12 @@ process.argv.forEach(function(val, index, array) {
     if (index === 2) test = val;
 });
 
+var commonCode = fs.readFileSync(path.resolve(__dirname, "testUtils.pa"), 'utf-8');
+
 // run a test from the /test/ folder
 var runTest = function (test) {
     var data = fs.readFileSync(path.resolve(__dirname, test), 'utf-8');
-    var compiled = Panda.compile(data);
+    var compiled = Panda.compile(commonCode + "\n" + data);
 
     eval(compiled);
 }
@@ -31,9 +33,10 @@ else {
             name = file.slice(0, file.length - 3)
             extension = file.slice(file.length - 3, file.length)
 
-            if (extension === ".pa") {
+            if (extension === ".pa" && name !== "testUtils") {
                 console.log("-", name);
                 runTest(file);
+                console.log("")
             }
         }
 
