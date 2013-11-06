@@ -174,7 +174,7 @@ exports.RangeNode = function (start, end, numbers, loc) {
             direction += " ? " + i + "++ : " + i + "--";
         }
         else {
-            condition = i + " <= " + endVal;
+            condition = i + (goingUp ? " <= " : " >= ") + endVal;
 
             direction = i + (goingUp ? "++" : "--");
         }
