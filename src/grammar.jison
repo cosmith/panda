@@ -77,6 +77,7 @@ Expression
     | Return
     | If
     | For
+    | While
     | Accessor
     | '(' Expression ')'
         {
@@ -346,6 +347,13 @@ For
     : FOR IDENTIFIER IN Expression Block
         {
             $$ = new n.ForNode($2, $4, $5, createLoc(@1, @4));
+        }
+    ;
+
+While
+    : WHILE Expression Block
+        {
+            $$ = new n.WhileNode($2, $3, createLoc(@1, @3));
         }
     ;
 

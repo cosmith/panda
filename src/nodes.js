@@ -514,6 +514,25 @@ exports.ForNode = function (variable, items, body, loc) {
     };
 };
 
+exports.WhileNode = function (condition, body, loc) {
+    var self = this;
+
+    self.type = "while";
+    self.condition = condition;
+    self.body = body;
+    self.loc = loc;
+
+    self.compile = function (scope, indent) {
+        var code = indent;
+
+        code += "while (" + self.condition.compile(scope, indent) + ") {\n";
+        code += self.body.compile(scope, indent + TAB);
+        code += indent + "}";
+
+        return code;
+    };
+};
+
 
 exports.AccessorNode = function (accessed, item, loc) {
     var self = this;
