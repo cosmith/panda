@@ -9,7 +9,7 @@ var files = ["scope", "nodes", "grammar", "lexer", "panda"]
 for name in files:
     code += "\nrequire['./" + name + "'] = (function() {\n"
     code += "var exports = {}, module = {exports: exports};\n"
-    code += fs.readFileSync("/Users/Coco/Projects/panda/src/" + name + ".js")
+    code += fs.readFileSync("./src/" + name + ".js")
     code += "\n\n    return module.exports; \n})();\n\n"
 end
 
