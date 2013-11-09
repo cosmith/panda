@@ -17,7 +17,7 @@ var runTest = function (test) {
     var compiled = Panda.compile(commonCode + "\n" + data);
 
     eval(compiled);
-}
+};
 
 if (test) {
     runTest(test);
@@ -26,20 +26,20 @@ else {
     fs.readdir(__dirname, function (err, data) {
         var file, name, extension;
 
-        console.log("\nRunning tests...")
+        console.log("\nRunning tests...");
 
         for (var i = 0; i < data.length; i++) {
             file = data[i];
-            name = file.slice(0, file.length - 3)
-            extension = file.slice(file.length - 3, file.length)
+            name = file.slice(0, file.length - 3);
+            extension = file.slice(file.length - 3, file.length);
 
             if (extension === ".pa" && name !== "testUtils") {
                 console.log("-", name);
                 runTest(file);
-                console.log("")
+                console.log("");
             }
         }
 
-        console.log("\nDone.")
+        console.log("\nDone.");
     });
 }
