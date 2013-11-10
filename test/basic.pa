@@ -18,3 +18,9 @@ test("not 2", not false, true)
 
 var a = 5
 test("unary minus", -a, 5 - 10)
+
+def pos():
+    return 5
+end
+
+test("unary minus 2", -pos(), 5 - 10)

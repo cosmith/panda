@@ -11,7 +11,7 @@
 %left       '==', '!='
 %left       '+' '-'
 %left       '*' '/'
-%right      'UNARY'
+%right      'NOT', '-'
 $nonassoc   '++' '--'
 %left       '.'
 
