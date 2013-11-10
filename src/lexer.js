@@ -158,6 +158,16 @@ var Lexer = function () {
             throw "Bad block nesting !";
         }
 
+        tokens = self.removeLeadingNewLines(tokens);
+
+        return tokens;
+    }
+
+    self.removeLeadingNewLines = function(tokens) {
+        while (tokens[0][0] === "NEWLINE" || tokens[0][0] === "EMPTYLINE") {
+            tokens = tokens.splice(1, tokens.length);
+        }
+
         return tokens;
     }
 }

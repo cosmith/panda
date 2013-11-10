@@ -2,5 +2,14 @@
 
 var L = []
 L = [1]
-L = [1, 2, 3, 4, 5]
+L = [1, 1, 1, 1, 1]
+
+for i in L:
+    test("array number", 1, i)
+end
+
 L = ["test", "test"]
+
+for i in L:
+    test("array string", "test", i)
+end

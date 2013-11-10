@@ -21,9 +21,6 @@ $nonassoc   '++' '--'
 
 Root
     : <<EOF>>
-        {
-            $$ = new n.Nodes(null, createLoc(@1, @1));
-        }
     | Expressions <<EOF>>
         {
             $$ = new n.Nodes($1, createLoc(@1, @1));
@@ -42,22 +39,12 @@ Expressions
             $$ = $1.addNode($3);
         }
     | Expressions Terminator
-        {
-            $$ = $1;
-        }
-    | Terminator Expressions
-        {
-            $$ = $2;
-        }
-    | Terminator
-        {
-            $$ = [];
-        }
     ;
 
 
 Terminator
     : NEWLINE
+    | EMPTYLINE
     ;
 
 
@@ -139,6 +126,17 @@ Call
         }
     ;
 
+ExpressionList
+    : Expression
+        {
+            $$ = [$1];
+        }
+    | ExpressionList ',' Expression
+        {
+            $$ = $1.concat($3);
+        }
+    ;
+
 Arguments
     : "(" ")"
         {
@@ -158,17 +156,6 @@ List
     | '[' ExpressionList ']'
         {
             $$ = new n.ListNode($2, createLoc(@1, @3));
-        }
-    ;
-
-ExpressionList
-    : Expression
-        {
-            $$ = [$1];
-        }
-    | ExpressionList ',' Expression
-        {
-            $$ = $1.concat($3);
         }
     ;
 
@@ -285,9 +272,17 @@ Block
         {
             $$ = [];
         }
+    | START_BLOCK NEWLINE END_BLOCK
+        {
+            $$ = [];
+        }
     | START_BLOCK Expressions END_BLOCK
         {
             $$ = $2;
+        }
+    | START_BLOCK NEWLINE Expressions END_BLOCK
+        {
+            $$ = $3;
         }
     ;
 
