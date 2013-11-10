@@ -44,7 +44,6 @@ Expressions
 
 Terminator
     : NEWLINE
-    | EMPTYLINE
     ;
 
 
