@@ -136,13 +136,13 @@ exports.ListNode = function (list, loc) {
     };
 };
 
-exports.RangeNode = function (start, end, numbers, loc) {
+exports.RangeNode = function (start, end, loc) {
     var self = this;
 
     self.type = "range";
     self.start = start;
     self.end = end;
-    self.numbers = numbers;
+    self.numbers = start.type === "number" && end.type === "number";
     self.loc = loc;
 
     self.compile = function (scope, indent) {
@@ -157,14 +157,11 @@ exports.RangeNode = function (start, end, numbers, loc) {
             endVal;
 
         if (self.numbers) {
-            goingUp = self.start < self.end;
-            startVal = self.start;
-            endVal = self.end;
+            goingUp = self.start.value < self.end.value;
         }
-        else {
-            startVal = self.start.compile(scope, '');
-            endVal = self.end.compile(scope, '');
-        }
+
+        startVal = self.start.compile(scope, '');
+        endVal = self.end.compile(scope, '');
 
         if (goingUp === null) {
             condition = startVal + " < " + endVal + " ? ";

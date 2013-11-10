@@ -103,14 +103,14 @@ Literal
         }
     ;
 
+RangeDots
+    : '..'
+    ;
+
 Range
-    : '[' NUMBER '.' '.' NUMBER ']'
+    : '[' Expression RangeDots Expression ']'
         {
-            $$ = new n.RangeNode($2, $5, true, createLoc(@1, @6));
-        }
-    | '[' Expression '.' '.' Expression ']'
-        {
-            $$ = new n.RangeNode($2, $5, false, createLoc(@1, @6));
+            $$ = new n.RangeNode($2, $4, false, createLoc(@1, @5));
         }
     ;
 
