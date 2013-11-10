@@ -20,6 +20,11 @@ end
 
 test("return 1", returnFunc(), 42)
 
+# empty return
+def emptyReturn():
+    return
+end
+
 # anonymous function
 
 var empty = def (): end

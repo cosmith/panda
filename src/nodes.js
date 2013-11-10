@@ -415,8 +415,11 @@ exports.ReturnNode = function (value, loc) {
     self.loc = loc;
 
     self.compile = function (scope, indent) {
-        var code = "return ";
-        code += self.value.compile(scope, '');
+        var code = "return";
+
+        if (self.value !== null) {
+            code += " " + self.value.compile(scope, '');
+        }
 
         return indent + code;
     };

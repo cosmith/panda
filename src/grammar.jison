@@ -316,6 +316,10 @@ Return
         {
             $$ = new n.ReturnNode($2, createLoc(@1, @2));
         }
+    | RETURN
+        {
+            $$ = new n.ReturnNode(null, createLoc(@1, @1));
+        }
     ;
 
 IfBlock
