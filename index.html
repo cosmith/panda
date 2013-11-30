@@ -1,0 +1,286 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Panda by cosmith</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Panda</h1>
+        <p>A easy to learn, translatable language that compiles to JavaScript.</p>
+
+        <p class="view"><a href="https://github.com/cosmith/panda">View the Project on GitHub <small>cosmith/panda</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/cosmith/panda/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/cosmith/panda/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/cosmith/panda">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a name="panda_face-panda" class="anchor" href="#panda_face-panda"><span class="octicon octicon-link"></span></a><img class="emoji" title=":panda_face:" alt=":panda_face:" src="https://github.global.ssl.fastly.net/images/icons/emoji/panda_face.png" height="20" width="20" align="absmiddle"> Panda</h1>
+
+<p>A easy to learn, translatable language that compiles to JavaScript.</p>
+
+<h2>
+<a name="status" class="anchor" href="#status"><span class="octicon octicon-link"></span></a>Status</h2>
+
+<p>The whole thing is very much a proof of concept right now. I'm learning as I go
+along, it's not all easy but it's fun!</p>
+
+<p>The biggest task at the moment is getting rid of the Shift-Reduce conflicts in
+the grammar.</p>
+
+<p>Then I will consolidate what I already have, add the missing constructs (most
+notably classes), and then focus on writing a few examples and translating the
+language to French.</p>
+
+<h2>
+<a name="philosophy" class="anchor" href="#philosophy"><span class="octicon octicon-link"></span></a>Philosophy</h2>
+
+<p>Panda is a programming language designed with children in mind.
+It cross compiles to JavaScript, like CoffeScript (and others), because I want
+to make sharing creations easy, and what is easier than running code in
+the browser?</p>
+
+<p>I am French, and I believe that one of the big obstacles in teaching
+programming to kids is the language barrier. That's why one of the aims of this
+project is also to create a language that has several translations, starting
+with French and English.</p>
+
+<p>Another long-term goal of Panda is to provide an easy to use graphics library
+that can be used to interact with the HTML5 <code>&lt;canvas&gt;</code> element.</p>
+
+<p>JavaScript is not an easy language; it is full of quirks and corner cases.
+The inspiration for the syntax of Panda is mostly Python, with a bit
+of Ruby, and CoffeeScript.</p>
+
+<h2>
+<a name="examples" class="anchor" href="#examples"><span class="octicon octicon-link"></span></a>Examples</h2>
+
+<p>Nothing in here is set in stone, and some of this code doesn't even compile yet.</p>
+
+<h3>
+<a name="english-version" class="anchor" href="#english-version"><span class="octicon octicon-link"></span></a>English version</h3>
+
+<pre><code># Lines starting with '#' are comments.
+
+# 1. Primitive data types and operators
+#======================================
+
+# The basics look just like Python (for the English version!)
+
+# Numbers
+3  # =&gt; 3
+2.51  # =&gt; 2.51
+
+# Math
+1 + 1  # =&gt; 2
+8 - 1  # =&gt; 7
+10 * 2 # =&gt; 20
+35 / 5 # =&gt; 7
+
+# Enforce precedence with parentheses
+(1 + 3) * 2  # =&gt; 8
+
+# Booleans
+true
+false
+
+# Negate with not
+not true  # =&gt; false
+not false  # =&gt; true
+
+# Equality is == (this is actually JavaScript's ===)
+1 == 1  # =&gt; true
+2 == 1  # =&gt; false
+
+# Inequality is != (js: !==)
+1 != 1  # =&gt; false
+2 != 1  # =&gt; true
+
+# More comparisons
+1 &lt; 10  # =&gt; true
+1 &gt; 10  # =&gt; false
+2 &lt;= 2  # =&gt; true
+2 &gt;= 2  # =&gt; true
+
+# Comparisons can be chained like in Python/CoffeeScript
+1 &lt; 2 &lt; 3  # =&gt; true
+2 &lt; 3 &lt; 2  # =&gt; false
+
+
+
+# 2. Variables and collections
+#=============================
+
+# Declare a variable using the var keyword
+var x = 5
+
+# Let's make a list
+var my_list = []
+
+# You can also fill it from the beginning
+var some_list = [1, 2, 3, 4]
+
+# You can create ranges of values with [a..b]
+[5..8]  # =&gt; [5, 6, 7, 8]
+
+# Check if something is in a list with 'in'
+3 in [1, 3, 5]  # =&gt; true
+
+
+# Objects are pretty much the same as in js
+var my_object = {'property1': value1, 'property2': value2}
+
+
+
+# 3. Control flow
+#================
+
+# If statements are ended with the 'end' keyword like in Ruby
+if x &gt; 5:
+    console.log("I'm over 5!")
+else if x &lt; 5:
+    console.log("Under 5 here")
+else:
+    console.log("This is mambo number 5")
+end
+
+
+# For loops work like in Python, iterating over arrays
+for thing in thing_list:
+    do_something_with(thing)
+end
+
+
+# While loops are pretty straightforward
+var x = 0
+while x &lt; 4:
+    console.log(x)
+    x += 1
+end
+</code></pre>
+
+<h3>
+<a name="french-version" class="anchor" href="#french-version"><span class="octicon octicon-link"></span></a>French version</h3>
+
+<pre><code># Les lignes qui commencent par un # sont des commentaires.
+
+# 1. Types primitifs et opérateurs
+#=================================
+
+# La base ressemble à du Python traduit
+
+# Nombres
+3  # =&gt; 3
+2.51  # =&gt; 2.51
+
+# Maths
+1 + 1  # =&gt; 2
+8 - 1  # =&gt; 7
+10 * 2 # =&gt; 20
+35 / 5 # =&gt; 7
+
+# Les parenthèses indiquent la précédence
+(1 + 3) * 2  # =&gt; 8
+
+# Booleens
+vrai
+faux
+
+# La négation se fait avec pas
+pas vrai  # =&gt; faux
+pas faux  # =&gt; vrai
+
+# L'égalité se teste avec == (équivalent du === en js)
+1 == 1  # =&gt; vrai
+2 == 1  # =&gt; faux
+
+# Inégalité != (js: !==)
+1 != 1  # =&gt; faux
+2 != 1  # =&gt; vrai
+
+# Comparaisons
+1 &lt; 10  # =&gt; vrai
+1 &gt; 10  # =&gt; faux
+2 &lt;= 2  # =&gt; vrai
+2 &gt;= 2  # =&gt; vrai
+
+# Les comparaisons peuvent etre mises bout à bout comme en Python/CoffeeScript
+1 &lt; 2 &lt; 3  # =&gt; vrai
+2 &lt; 3 &lt; 2  # =&gt; faux
+
+
+
+# 2. Variables and collections
+#=============================
+
+# Declarons une variable a l'aide du mot cle 'var'
+var x = 5
+
+# Construisons une liste
+var ma_liste = []
+
+# On peut la remplir des le debut
+var une_list = [1, 2, 3, 4]
+
+# Il est possible de creer des intervalles d'entiers: [a..b]
+[5..8]  # =&gt; [5, 6, 7, 8]
+
+# Tester si un élément fait partie d'une liste
+3 dans [1, 3, 5]  # =&gt; vrai
+
+
+# Les objects sont pratiquement les memes qu'en JavaScript
+var mon_objet = {'propriété1': valeur1, 'propriété2': valeur2}
+
+
+
+# 3. Structures de controle
+#==========================
+
+# Les blocs 'if' sont delimites par le mot 'fin', un peu comme en Ruby
+si x &gt; 5:
+    console.log("Plus de 5 !")
+sinon si x &lt; 5:
+    console.log("Moins que 5")
+sinon:
+    console.log("Exactement 5")
+fin
+
+
+# Les boucles for fonctionnent comme en Python, itérant sur une liste
+pour truc dans liste_de_trucs:
+    faire_qqchose(truc)
+fin
+
+
+# Boucle while
+var x = 0
+tantque x &lt; 4:
+    console.log(x)
+    x += 1
+fin
+</code></pre>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/cosmith">cosmith</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
