@@ -159,6 +159,12 @@ header ul a strong {
   color:#222;
 }
 
+.emoji {
+  width:30px;
+  height:30px;
+  margin-top:-3px;
+}
+
 section {
   width:600px;
   float:right;
