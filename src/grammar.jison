@@ -2,15 +2,19 @@
 %start Root
 
 
-// Operators
+// Operator precedence (low to high)
 %right      'IF' 'ELSE' 'FOR'
-%left       'OR'
-%left       'AND'
+%left       'OR' 'AND'
 %right      '=' 'RETURN'
+%right      '['
+%right      '+=' '-=' '*=' '/='
+
 %left       '<', '>', '<=', '>='
 %left       '==', '!='
+
 %left       '+' '-'
 %left       '*' '/'
+
 %right      'NOT', '-'
 $nonassoc   '++' '--'
 %left       '.'
