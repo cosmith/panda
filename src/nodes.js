@@ -188,76 +188,77 @@ exports.RangeNode = function (start, end, loc) {
     };
 };
 
-exports.OperatorNode = function (op, expr1, expr2, loc) {
+exports.OperatorNode = function (op, left, right, loc) {
     var self = this;
 
     self.type = "operator";
     self.op = op;
-    self.expr1 = expr1;
-    self.expr2 = expr2;
+    self.left = left;
+    self.right = right;
+
+    self.CHAINABLE = ['==', '!=', '<', '>', '<=', '>='];
+    self.JSOPS = ['+', '-', '*', '/', '+=', '-=', '*=', '/=', '==', '!=', '<', '>', '<=', '>='];
+    self.TRANSLATIONS = {
+        'OR': '||',
+        'AND': '&&',
+        '==': '===',
+        '!=': '!=='
+    };
+
+    self.isChainable = function () {
+        return self.CHAINABLE.indexOf(op) >= 0;
+    }
 
     self.compile = function (scope, indent) {
-        var jsOps = ['+', '-', '*', '/', '+=', '-=', '*=', '/='],
-            translation = {
-                'OR': '||',
-                'AND': '&&'
-            },
-            code = '';
+        var code = "";
 
-        if (jsOps.indexOf(self.op) !== -1) {
-            code = [self.expr1.compile(scope, ''), self.op, self.expr2.compile(scope, '')].join(' ');
+        if (self.isChainable() && left.hasOwnProperty('isChainable') && left.isChainable()) {
+            code = self.compileChain(scope, indent);
         }
-        else if (translation.hasOwnProperty(self.op)) {
-            code = [
-                self.expr1.compile(scope, ''), translation[self.op], self.expr2.compile(scope, '')
-            ].join(' ');
+        else {
+            code = self.compileOne(scope, '');
+        }
+
+        return indent + '(' + code + ')';
+    };
+
+    self.compileOp = function () {
+        var operator = "";
+
+        if (self.JSOPS.indexOf(self.op) !== -1) {
+            operator = self.op;
+        }
+        else if (self.TRANSLATIONS.hasOwnProperty(self.op)) {
+            operator = self.TRANSLATIONS[self.op];
         }
         else {
             throw self.op + " not implemented yet";
         }
 
-        return indent + '(' + code + ')';
-    };
-};
-
-exports.ComparisonNode = function (op, expr1, expr2, loc) {
-    var self = this;
-
-    self.type = "comparison";
-    self.oplist = [op];
-    self.exprlist = [expr1, expr2];
-
-    self.addComparison = function (op, expr) {
-        // we're concatenating backwards, starting from the right
-        self.oplist = [op].concat(self.oplist);
-        self.exprlist = [expr].concat(self.exprlist);
-
-        return self;
+        return operator;
     }
 
-    self.compile = function (scope, indent) {
-        var code = indent,
-            op = '',
-            i = 0;
+    self.compileOne = function (scope, indent) {
+        var code = "";
 
-        code += self.exprlist[0].compile(scope, '');;
-        code += ' ' + self.oplist[0];
-
-        for (i = 1; i < self.oplist.length; i++) {
-            op = self.oplist[i];
-            if (op === '==') op = '===';
-            if (op === '!=') op = '!==';
-
-            code += ' ' + self.exprlist[i].compile(scope, '')
-            code += ' && ';
-            code += self.exprlist[i].compile(scope, '') + ' ' + op;
-        }
-
-        code += ' ' + self.exprlist[self.exprlist.length - 1].compile(scope, '');
+        code += self.left.compile(scope, '');
+        code += ' ' + self.compileOp() + ' ';
+        code += self.right.compile(scope, '');
 
         return code;
-    }
-}
+    };
+
+    self.compileChain = function (scope, indent) {
+        var code = "";
+
+        code += self.left.compile(scope, '') + ' && (';
+        code += self.left.right.compile(scope, '');
+        code += ' ' + self.compileOp() + ' ';
+        code += self.right.compile(scope, '') + ')';
+
+        return code;
+    };
+};
 
 exports.UnaryNode = function (op, arg, loc) {
     var self = this;
