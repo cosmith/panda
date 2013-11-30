@@ -8,7 +8,7 @@ Status
 The whole thing is very much a proof of concept for now. I'm learning as I go
 along, it's not all easy but it's fun!
 
-Right now the language is missing several very important features: no classes,
+The language is still missing several very important features: no classes,
 no objects (dictionaries)...
 After this is done, I will focus on writing a few examples and translating the
 language to French; and then maybe try to write a very simple 2D graphics
