@@ -1,19 +1,32 @@
 :panda_face: Panda
 =====
-A easy to learn, translatable language that runs on the web.
+A easy to learn, translatable language that compiles to JavaScript.
+
+Status
+------
+
+The whole thing is very much a proof of concept right now. I'm learning as I go
+along, it's not all easy but it's fun!
+
+The biggest task at the moment is getting rid of the Shift-Reduce conflicts in
+the grammar.
+
+Then I will consolidate what I already have, add the missing constructs (most
+notably classes), and then focus on writing a few examples and translating the
+language to French.
 
 Philosophy
 ----------
 
 Panda is a programming language designed with children in mind.
-It cross compiles to JavaScript, like CoffeScript (and others), because I want 
+It cross compiles to JavaScript, like CoffeScript (and others), because I want
 to make sharing creations easy, and what is easier than running code in
 the browser?
 
 I am French, and I believe that one of the big obstacles in teaching
 programming to kids is the language barrier. That's why one of the aims of this
-project is also to create a language that has several translations, starting with
-French and English.
+project is also to create a language that has several translations, starting
+with French and English.
 
 Another long-term goal of Panda is to provide an easy to use graphics library
 that can be used to interact with the HTML5 `<canvas>` element.
@@ -25,6 +38,8 @@ of Ruby, and CoffeeScript.
 
 Examples
 --------
+
+Nothing in here is set in stone, and some of this code doesn't even compile yet.
 
 ### English version
 
