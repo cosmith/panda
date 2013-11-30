@@ -5,15 +5,14 @@ A easy to learn, translatable language that compiles to JavaScript.
 Status
 ------
 
-The whole thing is very much a proof of concept right now. I'm learning as I go
+The whole thing is very much a proof of concept for now. I'm learning as I go
 along, it's not all easy but it's fun!
 
-The biggest task at the moment is getting rid of the Shift-Reduce conflicts in
-the grammar.
-
-Then I will consolidate what I already have, add the missing constructs (most
-notably classes), and then focus on writing a few examples and translating the
-language to French.
+Right now the language is missing several very important features: no classes,
+no objects (dictionaries)...
+After this is done, I will focus on writing a few examples and translating the
+language to French; and then maybe try to write a very simple 2D graphics
+library or integrate with an existing one.
 
 Philosophy
 ----------
