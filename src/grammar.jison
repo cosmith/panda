@@ -6,7 +6,6 @@
 %right      'IF' 'ELSE' 'FOR'
 %left       'OR' 'AND'
 %right      '=' 'RETURN'
-%right      '['
 %right      '+=' '-=' '*=' '/='
 
 %left       '<', '>', '<=', '>='
@@ -15,6 +14,7 @@
 %left       '+' '-'
 %left       '*' '/'
 
+%right      '['
 %right      'NOT', '-'
 $nonassoc   '++' '--'
 %left       '.'
@@ -162,6 +162,7 @@ List
         }
     ;
 
+
 Operator
     : Expression '+' Expression
         {
@@ -195,6 +196,30 @@ Operator
         {
             $$ = new n.OperatorNode('/=', $1, $3, createLoc(@1, @3));
         }
+    | Expression '==' Expression
+        {
+            $$ = new n.OperatorNode($2, $1, $3, createLoc(@1, @3));
+        }
+    | Expression '!=' Expression
+        {
+            $$ = new n.OperatorNode($2, $1, $3, createLoc(@1, @3));
+        }
+    | Expression '<' Expression
+        {
+            $$ = new n.OperatorNode($2, $1, $3, createLoc(@1, @3));
+        }
+    | Expression '>' Expression
+        {
+            $$ = new n.OperatorNode($2, $1, $3, createLoc(@1, @3));
+        }
+    | Expression '<=' Expression
+        {
+            $$ = new n.OperatorNode($2, $1, $3, createLoc(@1, @3));
+        }
+    | Expression '>=' Expression
+        {
+            $$ = new n.OperatorNode($2, $1, $3, createLoc(@1, @3));
+        }
     | Expression 'OR' Expression
         {
             $$ = new n.OperatorNode('OR', $1, $3, createLoc(@1, @3));
@@ -213,41 +238,7 @@ Operator
         }
     ;
 
-ComparisonOperator
-    : '=='
-    | '!='
-    | '<'
-    | '>'
-    | '<='
-    | '>='
-    ;
 
-Comparison
-    : Expression ComparisonOperator Expression
-        {
-            $$ = new n.ComparisonNode($2, $1, $3, createLoc(@1, @3));
-        }
-    | Expression ComparisonOperator Comparison
-        {
-            // I can only make it work with a Comparison on the right, not sure why...
-            $$ = $3.addComparison($2, $1);
-        }
-    ;
-
-
-// GetConstant
-//     : CONSTANT
-//         {
-//             $$ = new n.GetConstantNode($1, createLoc(@1, @1));
-//         }
-//     ;
-
-// SetConstant
-//     : CONSTANT '=' Expression
-//         {
-//             $$ = new n.SetConstantNode($1, $3, createLoc(@1, @3));
-//         }
-//     ;
 
 DefLocal
     : VAR IDENTIFIER '=' Expression
