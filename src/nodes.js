@@ -554,4 +554,42 @@ exports.AccessorNode = function (accessed, item, loc) {
 };
 
 
+exports.DictionaryArgNode = function (key, value, loc) {
+    var self = this;
+
+    self.type = "dictarg";
+    self.key = key;
+    self.value = value;
+    self.loc = loc;
+};
+
+
+exports.DictionaryNode = function (arglist, loc) {
+    var self = this;
+
+    self.type = "dictionary";
+    self.arglist = arglist;
+    self.loc = loc;
+
+    self.compile = function (scope, indent) {
+        var i,
+            arg,
+            code = indent + "{";
+
+        for (i = 0; i < self.arglist.length; i++) {
+            arg = self.arglist[i];
+            code += arg.key.compile(scope, "") + ":" + arg.value.compile(scope, "");
+
+            if (i != self.arglist.length - 1) {
+                code += ",";
+            }
+        }
+
+        code += "}";
+
+        return code;
+    };
+};
+
+
 }(this));

@@ -29,3 +29,4 @@ end
 
 var empty = def (): end
 empty()
+

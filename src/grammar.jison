@@ -69,6 +69,7 @@ Expression
     | For
     | While
     | Accessor
+    | Dictionary
     | '(' Expression ')'
         {
             $$ = $2;
@@ -262,19 +263,19 @@ GetLocal
     ;
 
 Block
-    : START_BLOCK END_BLOCK
+    : COLON END_BLOCK
         {
             $$ = [];
         }
-    | START_BLOCK NEWLINE END_BLOCK
+    | COLON NEWLINE END_BLOCK
         {
             $$ = [];
         }
-    | START_BLOCK Expressions END_BLOCK
+    | COLON Expressions END_BLOCK
         {
             $$ = $2;
         }
-    | START_BLOCK NEWLINE Expressions END_BLOCK
+    | COLON NEWLINE Expressions END_BLOCK
         {
             $$ = $3;
         }
@@ -354,6 +355,35 @@ Accessor
     : Expression '[' Expression ']'
         {
             $$ = new n.AccessorNode($1, $3, createLoc(@1, @4));
+        }
+    ;
+
+DictionaryArg
+    : Expression COLON Expression
+        {
+            $$ = new n.DictionaryArgNode($1, $3, createLoc(@1, @3));
+        }
+    ;
+
+DictionaryArgList
+    : DictionaryArg
+        {
+            $$ = [$1];
+        }
+    | DictionaryArgList ',' DictionaryArg
+        {
+            $$ = $1.concat($3);
+        }
+    ;
+
+Dictionary
+    : '{' '}'
+        {
+            $$ = new n.DictionaryNode([], createLoc(@1, @2));
+        }
+    | '{' DictionaryArgList '}'
+        {
+            $$ = new n.DictionaryNode($2, createLoc(@1, @3));
         }
     ;
 

@@ -1,0 +1,13 @@
+# Dictionaries
+
+var dict = {}
+
+dict = {"a": 1}
+test("dict 1", dict["a"], 1)
+
+dict = {"a": 1, "b": 2}
+test("dict 2", dict["b"], 2)
+
+dict = {"test": "a string", 5: 3 + 4}
+test("dict 3", dict["test"], "a string")
+test("dict 3b", dict["5"], 7)

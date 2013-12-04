@@ -25,8 +25,7 @@ var Lexer = function () {
             i = 0, // current character position
             chunk,
             identifier,
-            matched,
-            block_depth = 0;
+            matched;
 
         while (i < code.length) {
             chunk = code.slice(i);
@@ -45,9 +44,7 @@ var Lexer = function () {
             // block end
             matched = chunk.match(/^end/);
             if (matched !== null) {
-                block_depth -= 1;
-
-                tokens.push(["END_BLOCK", block_depth, self.loc]);
+                tokens.push(["END_BLOCK", "END_BLOCK", self.loc]);
 
                 i += matched[0].length;
                 continue;
@@ -57,9 +54,7 @@ var Lexer = function () {
             // we insert an END_BLOCK and the ELSE
             matched = chunk.match(/^else/);
             if (matched !== null) {
-                block_depth -= 1;
-
-                tokens.push(["END_BLOCK", block_depth, self.loc]);
+                tokens.push(["END_BLOCK", "END_BLOCK", self.loc]);
                 tokens.push(["ELSE", "else", self.loc]);
 
                 i += matched[0].length;
@@ -106,9 +101,7 @@ var Lexer = function () {
             // block start
             matched = chunk.match(/^:/);
             if (matched !== null) {
-                block_depth += 1;
-
-                tokens.push(["START_BLOCK", block_depth, self.loc]);
+                tokens.push(["COLON", "COLON", self.loc]);
 
                 i += matched[0].length;
                 continue;
@@ -152,10 +145,6 @@ var Lexer = function () {
                 tokens.push([matched, matched, self.loc]);
             }
             i += 1;
-        }
-
-        if (block_depth !== 0) {
-            throw "Bad block nesting !";
         }
 
         tokens = self.removeLeadingNewLines(tokens);
