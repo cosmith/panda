@@ -14,9 +14,9 @@
 %left       '+' '-'
 %left       '*' '/'
 
-%right      '['
 %right      'NOT', '-'
 $nonassoc   '++' '--'
+%right      '['
 %left       '.'
 
 
