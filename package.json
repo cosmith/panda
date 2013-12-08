@@ -1,0 +1,35 @@
+{
+    "name": "panda",
+    "preferGlobal": true,
+    "version": "0.1.0",
+    "author": "Corentin Smith <corentin.smith@gmail.com>",
+    "description": "another compile to js language",
+    "contributors": [ 
+        {
+            "name": "Corentin Smith",
+            "email": "corentin.smith@gmail.com"
+        } 
+    ],
+    "bin": {
+        "panda": "./run.js"
+    },
+    "scripts": {
+        "test": "node test/test.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/cosmith/panda.git"
+    },
+    "keywords": [
+        "language",
+        "education"
+    ],
+    "analyze": false,
+    "devDependencies": {
+        "uglify-js": "*"
+    },
+    "license": "MIT",
+    "engines": {
+        "node": ">=0.6"
+    }
+}
