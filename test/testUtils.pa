@@ -1,5 +1,4 @@
 # First tests
-var util = require("util")
 
 def test(name, a, b):
     var str = ""
@@ -11,9 +10,5 @@ def test(name, a, b):
         str = "\n\x1B[31m✘ " + name + " failed!\x1B[39m\n"
     end
 
-    util.print(str)
+    process["stdout"].write(str)
 end
-
-
-
-

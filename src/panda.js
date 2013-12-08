@@ -43,22 +43,23 @@ parser.yy.parseError = function(message, arg) {
 
 exports.tokenize = function (data) {
     return lexer.tokenize(data);
-}
+};
 
 exports.parse = function (tokenized) {
     return parser.parse(tokenized);
-}
+};
 
 exports.compile = function (data) {
     var scope = new Scope(null);
     scope.add("console"); // add global variables
     scope.add("require");
+    scope.add("process");
 
     var tokenized = lexer.tokenize(data);
     var parsed = parser.parse(tokenized);
 
     return parsed.nodes.compile(scope, "");
-}
+};
 
 }(this));
 
