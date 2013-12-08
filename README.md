@@ -2,6 +2,8 @@
 =====
 A easy to learn, translatable language that compiles to JavaScript.
 
+[![Build Status](https://travis-ci.org/cosmith/panda.png?branch=master)](https://travis-ci.org/cosmith/panda)
+
 Status
 ------
 
