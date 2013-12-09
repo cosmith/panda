@@ -92,7 +92,7 @@ case 3:
         
 break;
 case 4:
-            this.$ = $$[$0-2].addNode($$[$0]);
+            this.$ = $$[$0-2].add($$[$0]);
         
 break;
 case 25:
@@ -100,43 +100,43 @@ case 25:
         
 break;
 case 26:
-            this.$ = new n.NumberNode($$[$0], createLoc(_$[$0], _$[$0]));
+            this.$ = new n.Number($$[$0], createLoc(_$[$0], _$[$0]));
         
 break;
 case 27:
-            this.$ = new n.StringNode($$[$0], createLoc(_$[$0], _$[$0]));
+            this.$ = new n.String($$[$0], createLoc(_$[$0], _$[$0]));
         
 break;
 case 28:
-            this.$ = new n.BooleanNode(true, createLoc(_$[$0], _$[$0]));
+            this.$ = new n.Boolean(true, createLoc(_$[$0], _$[$0]));
         
 break;
 case 29:
-            this.$ = new n.BooleanNode(false, createLoc(_$[$0], _$[$0]));
+            this.$ = new n.Boolean(false, createLoc(_$[$0], _$[$0]));
         
 break;
 case 30:
-            this.$ = new n.NoneNode($$[$0], createLoc(_$[$0], _$[$0]));
+            this.$ = new n.None($$[$0], createLoc(_$[$0], _$[$0]));
         
 break;
 case 31:
-            this.$ = new n.CommentNode($$[$0], createLoc(_$[$0], _$[$0]));
+            this.$ = new n.Comment($$[$0], createLoc(_$[$0], _$[$0]));
         
 break;
 case 32:
-            this.$ = new n.EmptyLineNode(createLoc(_$[$0], _$[$0]));
+            this.$ = new n.EmptyLine(createLoc(_$[$0], _$[$0]));
         
 break;
 case 34:
-            this.$ = new n.RangeNode($$[$0-3], $$[$0-1], false, createLoc(_$[$0-4], _$[$0]));
+            this.$ = new n.Range($$[$0-3], $$[$0-1], false, createLoc(_$[$0-4], _$[$0]));
         
 break;
 case 35:
-            this.$ = new n.CallNode(null, $$[$0-1], $$[$0], createLoc(_$[$0-1], _$[$0]));
+            this.$ = new n.Call(null, $$[$0-1], $$[$0], createLoc(_$[$0-1], _$[$0]));
         
 break;
 case 36:
-            this.$ = new n.CallNode($$[$0-3], $$[$0-1], $$[$0], createLoc(_$[$0-3], _$[$0]));
+            this.$ = new n.Call($$[$0-3], $$[$0-1], $$[$0], createLoc(_$[$0-3], _$[$0]));
         
 break;
 case 37:
@@ -156,95 +156,95 @@ case 40:
         
 break;
 case 41:
-            this.$ = new n.ListNode([], createLoc(_$[$0-1], _$[$0]));
+            this.$ = new n.List([], createLoc(_$[$0-1], _$[$0]));
         
 break;
 case 42:
-            this.$ = new n.ListNode($$[$0-1], createLoc(_$[$0-2], _$[$0]));
+            this.$ = new n.List($$[$0-1], createLoc(_$[$0-2], _$[$0]));
         
 break;
 case 43:
-            this.$ = new n.OperatorNode('+', $$[$0-2], $$[$0], createLoc(_$[$0-2], _$[$0]));
+            this.$ = new n.Operator('+', $$[$0-2], $$[$0], createLoc(_$[$0-2], _$[$0]));
         
 break;
 case 44:
-            this.$ = new n.OperatorNode('-', $$[$0-2], $$[$0], createLoc(_$[$0-2], _$[$0]));
+            this.$ = new n.Operator('-', $$[$0-2], $$[$0], createLoc(_$[$0-2], _$[$0]));
         
 break;
 case 45:
-            this.$ = new n.OperatorNode('*', $$[$0-2], $$[$0], createLoc(_$[$0-2], _$[$0]));
+            this.$ = new n.Operator('*', $$[$0-2], $$[$0], createLoc(_$[$0-2], _$[$0]));
         
 break;
 case 46:
-            this.$ = new n.OperatorNode('/', $$[$0-2], $$[$0], createLoc(_$[$0-2], _$[$0]));
+            this.$ = new n.Operator('/', $$[$0-2], $$[$0], createLoc(_$[$0-2], _$[$0]));
         
 break;
 case 47:
-            this.$ = new n.OperatorNode('+=', $$[$0-2], $$[$0], createLoc(_$[$0-2], _$[$0]));
+            this.$ = new n.Operator('+=', $$[$0-2], $$[$0], createLoc(_$[$0-2], _$[$0]));
         
 break;
 case 48:
-            this.$ = new n.OperatorNode('-=', $$[$0-2], $$[$0], createLoc(_$[$0-2], _$[$0]));
+            this.$ = new n.Operator('-=', $$[$0-2], $$[$0], createLoc(_$[$0-2], _$[$0]));
         
 break;
 case 49:
-            this.$ = new n.OperatorNode('*=', $$[$0-2], $$[$0], createLoc(_$[$0-2], _$[$0]));
+            this.$ = new n.Operator('*=', $$[$0-2], $$[$0], createLoc(_$[$0-2], _$[$0]));
         
 break;
 case 50:
-            this.$ = new n.OperatorNode('/=', $$[$0-2], $$[$0], createLoc(_$[$0-2], _$[$0]));
+            this.$ = new n.Operator('/=', $$[$0-2], $$[$0], createLoc(_$[$0-2], _$[$0]));
         
 break;
 case 51:
-            this.$ = new n.OperatorNode($$[$0-1], $$[$0-2], $$[$0], createLoc(_$[$0-2], _$[$0]));
+            this.$ = new n.Operator($$[$0-1], $$[$0-2], $$[$0], createLoc(_$[$0-2], _$[$0]));
         
 break;
 case 52:
-            this.$ = new n.OperatorNode($$[$0-1], $$[$0-2], $$[$0], createLoc(_$[$0-2], _$[$0]));
+            this.$ = new n.Operator($$[$0-1], $$[$0-2], $$[$0], createLoc(_$[$0-2], _$[$0]));
         
 break;
 case 53:
-            this.$ = new n.OperatorNode($$[$0-1], $$[$0-2], $$[$0], createLoc(_$[$0-2], _$[$0]));
+            this.$ = new n.Operator($$[$0-1], $$[$0-2], $$[$0], createLoc(_$[$0-2], _$[$0]));
         
 break;
 case 54:
-            this.$ = new n.OperatorNode($$[$0-1], $$[$0-2], $$[$0], createLoc(_$[$0-2], _$[$0]));
+            this.$ = new n.Operator($$[$0-1], $$[$0-2], $$[$0], createLoc(_$[$0-2], _$[$0]));
         
 break;
 case 55:
-            this.$ = new n.OperatorNode($$[$0-1], $$[$0-2], $$[$0], createLoc(_$[$0-2], _$[$0]));
+            this.$ = new n.Operator($$[$0-1], $$[$0-2], $$[$0], createLoc(_$[$0-2], _$[$0]));
         
 break;
 case 56:
-            this.$ = new n.OperatorNode($$[$0-1], $$[$0-2], $$[$0], createLoc(_$[$0-2], _$[$0]));
+            this.$ = new n.Operator($$[$0-1], $$[$0-2], $$[$0], createLoc(_$[$0-2], _$[$0]));
         
 break;
 case 57:
-            this.$ = new n.OperatorNode('OR', $$[$0-2], $$[$0], createLoc(_$[$0-2], _$[$0]));
+            this.$ = new n.Operator('OR', $$[$0-2], $$[$0], createLoc(_$[$0-2], _$[$0]));
         
 break;
 case 58:
-            this.$ = new n.OperatorNode('AND', $$[$0-2], $$[$0], createLoc(_$[$0-2], _$[$0]));
+            this.$ = new n.Operator('AND', $$[$0-2], $$[$0], createLoc(_$[$0-2], _$[$0]));
         
 break;
 case 59:
-            this.$ = new n.UnaryNode('NOT', $$[$0], createLoc(_$[$0-1], _$[$0]));
+            this.$ = new n.Unary('NOT', $$[$0], createLoc(_$[$0-1], _$[$0]));
         
 break;
 case 60:
-            this.$ = new n.UnaryNode('-', $$[$0], createLoc(_$[$0-1], _$[$0]));
+            this.$ = new n.Unary('-', $$[$0], createLoc(_$[$0-1], _$[$0]));
         
 break;
 case 61:
-            this.$ = new n.DefLocalNode($$[$0-2], $$[$0], createLoc(_$[$0-3], _$[$0-1]));
+            this.$ = new n.DefLocal($$[$0-2], $$[$0], createLoc(_$[$0-3], _$[$0-1]));
         
 break;
 case 62:
-            this.$ = new n.SetLocalNode($$[$0-2], $$[$0], createLoc(_$[$0-2], _$[$0]));
+            this.$ = new n.SetLocal($$[$0-2], $$[$0], createLoc(_$[$0-2], _$[$0]));
         
 break;
 case 63:
-            this.$ = new n.GetLocalNode($$[$0], createLoc(_$[$0], _$[$0]));
+            this.$ = new n.GetLocal($$[$0], createLoc(_$[$0], _$[$0]));
         
 break;
 case 64:
@@ -264,11 +264,11 @@ case 67:
         
 break;
 case 68:
-            this.$ = new n.DefNode($$[$0-4], $$[$0-2], $$[$0], createLoc(_$[$0-5], _$[$0]));
+            this.$ = new n.Def($$[$0-4], $$[$0-2], $$[$0], createLoc(_$[$0-5], _$[$0]));
         
 break;
 case 69:
-            this.$ = new n.DefNode(null, $$[$0-2], $$[$0], createLoc(_$[$0-4], _$[$0]));
+            this.$ = new n.Def(null, $$[$0-2], $$[$0], createLoc(_$[$0-4], _$[$0]));
         
 break;
 case 70:
@@ -284,15 +284,15 @@ case 72:
         
 break;
 case 73:
-            this.$ = new n.ReturnNode($$[$0], createLoc(_$[$0-1], _$[$0]));
+            this.$ = new n.Return($$[$0], createLoc(_$[$0-1], _$[$0]));
         
 break;
 case 74:
-            this.$ = new n.ReturnNode(null, createLoc(_$[$0], _$[$0]));
+            this.$ = new n.Return(null, createLoc(_$[$0], _$[$0]));
         
 break;
 case 75:
-            this.$ = new n.IfNode($$[$0-1], $$[$0], createLoc(_$[$0-2], _$[$0]));
+            this.$ = new n.If($$[$0-1], $$[$0], createLoc(_$[$0-2], _$[$0]));
         
 break;
 case 76:
@@ -304,19 +304,19 @@ case 78:
         
 break;
 case 79:
-            this.$ = new n.ForNode($$[$0-3], $$[$0-1], $$[$0], createLoc(_$[$0-4], _$[$0-1]));
+            this.$ = new n.For($$[$0-3], $$[$0-1], $$[$0], createLoc(_$[$0-4], _$[$0-1]));
         
 break;
 case 80:
-            this.$ = new n.WhileNode($$[$0-1], $$[$0], createLoc(_$[$0-2], _$[$0]));
+            this.$ = new n.While($$[$0-1], $$[$0], createLoc(_$[$0-2], _$[$0]));
         
 break;
 case 81:
-            this.$ = new n.AccessorNode($$[$0-3], $$[$0-1], createLoc(_$[$0-3], _$[$0]));
+            this.$ = new n.Accessor($$[$0-3], $$[$0-1], createLoc(_$[$0-3], _$[$0]));
         
 break;
 case 82:
-            this.$ = new n.DictionaryArgNode($$[$0-2], $$[$0], createLoc(_$[$0-2], _$[$0]));
+            this.$ = new n.DictionaryArg($$[$0-2], $$[$0], createLoc(_$[$0-2], _$[$0]));
         
 break;
 case 83:
@@ -328,11 +328,11 @@ case 84:
         
 break;
 case 85:
-            this.$ = new n.DictionaryNode([], createLoc(_$[$0-1], _$[$0]));
+            this.$ = new n.Dictionary([], createLoc(_$[$0-1], _$[$0]));
         
 break;
 case 86:
-            this.$ = new n.DictionaryNode($$[$0-1], createLoc(_$[$0-2], _$[$0]));
+            this.$ = new n.Dictionary($$[$0-1], createLoc(_$[$0-2], _$[$0]));
         
 break;
 }

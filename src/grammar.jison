@@ -40,7 +40,7 @@ Expressions
         }
     | Expressions Terminator Expression
         {
-            $$ = $1.addNode($3);
+            $$ = $1.add($3);
         }
     | Expressions Terminator
     ;
@@ -80,31 +80,31 @@ Expression
 Literal
     : NUMBER
         {
-            $$ = new n.NumberNode($1, createLoc(@1, @1));
+            $$ = new n.Number($1, createLoc(@1, @1));
         }
     | STRING
         {
-            $$ = new n.StringNode($1, createLoc(@1, @1));
+            $$ = new n.String($1, createLoc(@1, @1));
         }
     | TRUE
         {
-            $$ = new n.BooleanNode(true, createLoc(@1, @1));
+            $$ = new n.Boolean(true, createLoc(@1, @1));
         }
     | FALSE
         {
-            $$ = new n.BooleanNode(false, createLoc(@1, @1));
+            $$ = new n.Boolean(false, createLoc(@1, @1));
         }
     | NONE
         {
-            $$ = new n.NoneNode($1, createLoc(@1, @1));
+            $$ = new n.None($1, createLoc(@1, @1));
         }
     | COMMENT
         {
-            $$ = new n.CommentNode($1, createLoc(@1, @1));
+            $$ = new n.Comment($1, createLoc(@1, @1));
         }
     | EMPTYLINE
         {
-            $$ = new n.EmptyLineNode(createLoc(@1, @1));
+            $$ = new n.EmptyLine(createLoc(@1, @1));
         }
     ;
 
@@ -115,18 +115,18 @@ RangeDots
 Range
     : '[' Expression RangeDots Expression ']'
         {
-            $$ = new n.RangeNode($2, $4, false, createLoc(@1, @5));
+            $$ = new n.Range($2, $4, false, createLoc(@1, @5));
         }
     ;
 
 Call
     : IDENTIFIER Arguments
         {
-            $$ = new n.CallNode(null, $1, $2, createLoc(@1, @2));
+            $$ = new n.Call(null, $1, $2, createLoc(@1, @2));
         }
     | Expression '.' IDENTIFIER Arguments
         {
-            $$ = new n.CallNode($1, $3, $4, createLoc(@1, @4));
+            $$ = new n.Call($1, $3, $4, createLoc(@1, @4));
         }
     ;
 
@@ -155,11 +155,11 @@ Arguments
 List
     : '[' ']'
         {
-            $$ = new n.ListNode([], createLoc(@1, @2));
+            $$ = new n.List([], createLoc(@1, @2));
         }
     | '[' ExpressionList ']'
         {
-            $$ = new n.ListNode($2, createLoc(@1, @3));
+            $$ = new n.List($2, createLoc(@1, @3));
         }
     ;
 
@@ -167,75 +167,75 @@ List
 Operator
     : Expression '+' Expression
         {
-            $$ = new n.OperatorNode('+', $1, $3, createLoc(@1, @3));
+            $$ = new n.Operator('+', $1, $3, createLoc(@1, @3));
         }
     | Expression '-' Expression
         {
-            $$ = new n.OperatorNode('-', $1, $3, createLoc(@1, @3));
+            $$ = new n.Operator('-', $1, $3, createLoc(@1, @3));
         }
     | Expression '*' Expression
         {
-            $$ = new n.OperatorNode('*', $1, $3, createLoc(@1, @3));
+            $$ = new n.Operator('*', $1, $3, createLoc(@1, @3));
         }
     | Expression '/' Expression
         {
-            $$ = new n.OperatorNode('/', $1, $3, createLoc(@1, @3));
+            $$ = new n.Operator('/', $1, $3, createLoc(@1, @3));
         }
     | Expression '+=' Expression
         {
-            $$ = new n.OperatorNode('+=', $1, $3, createLoc(@1, @3));
+            $$ = new n.Operator('+=', $1, $3, createLoc(@1, @3));
         }
     | Expression '-=' Expression
         {
-            $$ = new n.OperatorNode('-=', $1, $3, createLoc(@1, @3));
+            $$ = new n.Operator('-=', $1, $3, createLoc(@1, @3));
         }
     | Expression '*=' Expression
         {
-            $$ = new n.OperatorNode('*=', $1, $3, createLoc(@1, @3));
+            $$ = new n.Operator('*=', $1, $3, createLoc(@1, @3));
         }
     | Expression '/=' Expression
         {
-            $$ = new n.OperatorNode('/=', $1, $3, createLoc(@1, @3));
+            $$ = new n.Operator('/=', $1, $3, createLoc(@1, @3));
         }
     | Expression '==' Expression
         {
-            $$ = new n.OperatorNode($2, $1, $3, createLoc(@1, @3));
+            $$ = new n.Operator($2, $1, $3, createLoc(@1, @3));
         }
     | Expression '!=' Expression
         {
-            $$ = new n.OperatorNode($2, $1, $3, createLoc(@1, @3));
+            $$ = new n.Operator($2, $1, $3, createLoc(@1, @3));
         }
     | Expression '<' Expression
         {
-            $$ = new n.OperatorNode($2, $1, $3, createLoc(@1, @3));
+            $$ = new n.Operator($2, $1, $3, createLoc(@1, @3));
         }
     | Expression '>' Expression
         {
-            $$ = new n.OperatorNode($2, $1, $3, createLoc(@1, @3));
+            $$ = new n.Operator($2, $1, $3, createLoc(@1, @3));
         }
     | Expression '<=' Expression
         {
-            $$ = new n.OperatorNode($2, $1, $3, createLoc(@1, @3));
+            $$ = new n.Operator($2, $1, $3, createLoc(@1, @3));
         }
     | Expression '>=' Expression
         {
-            $$ = new n.OperatorNode($2, $1, $3, createLoc(@1, @3));
+            $$ = new n.Operator($2, $1, $3, createLoc(@1, @3));
         }
     | Expression 'OR' Expression
         {
-            $$ = new n.OperatorNode('OR', $1, $3, createLoc(@1, @3));
+            $$ = new n.Operator('OR', $1, $3, createLoc(@1, @3));
         }
     | Expression 'AND' Expression
         {
-            $$ = new n.OperatorNode('AND', $1, $3, createLoc(@1, @3));
+            $$ = new n.Operator('AND', $1, $3, createLoc(@1, @3));
         }
     | 'NOT' Expression
         {
-            $$ = new n.UnaryNode('NOT', $2, createLoc(@1, @2));
+            $$ = new n.Unary('NOT', $2, createLoc(@1, @2));
         }
     | '-' Expression
         {
-            $$ = new n.UnaryNode('-', $2, createLoc(@1, @2));
+            $$ = new n.Unary('-', $2, createLoc(@1, @2));
         }
     ;
 
@@ -244,21 +244,21 @@ Operator
 DefLocal
     : VAR IDENTIFIER '=' Expression
         {
-            $$ = new n.DefLocalNode($2, $4, createLoc(@1, @3));
+            $$ = new n.DefLocal($2, $4, createLoc(@1, @3));
         }
     ;
 
 SetLocal
     : IDENTIFIER '=' Expression
         {
-            $$ = new n.SetLocalNode($1, $3, createLoc(@1, @3));
+            $$ = new n.SetLocal($1, $3, createLoc(@1, @3));
         }
     ;
 
 GetLocal
     : IDENTIFIER
         {
-            $$ = new n.GetLocalNode($1, createLoc(@1, @1));
+            $$ = new n.GetLocal($1, createLoc(@1, @1));
         }
     ;
 
@@ -284,11 +284,11 @@ Block
 Def
     : DEF IDENTIFIER "(" ParamList ")" Block
         {
-            $$ = new n.DefNode($2, $4, $6, createLoc(@1, @6));
+            $$ = new n.Def($2, $4, $6, createLoc(@1, @6));
         }
     | DEF "(" ParamList ")" Block
         {
-            $$ = new n.DefNode(null, $3, $5, createLoc(@1, @5));
+            $$ = new n.Def(null, $3, $5, createLoc(@1, @5));
         }
     ;
 
@@ -310,18 +310,18 @@ ParamList
 Return
     : RETURN Expression
         {
-            $$ = new n.ReturnNode($2, createLoc(@1, @2));
+            $$ = new n.Return($2, createLoc(@1, @2));
         }
     | RETURN
         {
-            $$ = new n.ReturnNode(null, createLoc(@1, @1));
+            $$ = new n.Return(null, createLoc(@1, @1));
         }
     ;
 
 IfBlock
     : IF Expression Block
         {
-            $$ = new n.IfNode($2, $3, createLoc(@1, @3));
+            $$ = new n.If($2, $3, createLoc(@1, @3));
         }
     | IfBlock ELSE IF Expression Block
         {
@@ -340,28 +340,28 @@ If
 For
     : FOR IDENTIFIER IN Expression Block
         {
-            $$ = new n.ForNode($2, $4, $5, createLoc(@1, @4));
+            $$ = new n.For($2, $4, $5, createLoc(@1, @4));
         }
     ;
 
 While
     : WHILE Expression Block
         {
-            $$ = new n.WhileNode($2, $3, createLoc(@1, @3));
+            $$ = new n.While($2, $3, createLoc(@1, @3));
         }
     ;
 
 Accessor
     : Expression '[' Expression ']'
         {
-            $$ = new n.AccessorNode($1, $3, createLoc(@1, @4));
+            $$ = new n.Accessor($1, $3, createLoc(@1, @4));
         }
     ;
 
 DictionaryArg
     : Expression COLON Expression
         {
-            $$ = new n.DictionaryArgNode($1, $3, createLoc(@1, @3));
+            $$ = new n.DictionaryArg($1, $3, createLoc(@1, @3));
         }
     ;
 
@@ -379,11 +379,11 @@ DictionaryArgList
 Dictionary
     : '{' '}'
         {
-            $$ = new n.DictionaryNode([], createLoc(@1, @2));
+            $$ = new n.Dictionary([], createLoc(@1, @2));
         }
     | '{' DictionaryArgList '}'
         {
-            $$ = new n.DictionaryNode($2, createLoc(@1, @3));
+            $$ = new n.Dictionary($2, createLoc(@1, @3));
         }
     ;
 

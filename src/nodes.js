@@ -11,7 +11,7 @@ exports.Nodes = function (nodes, loc) {
     self.nodes = nodes;
     self.loc = loc;
 
-    self.addNode = function (node) {
+    self.add = function (node) {
         if (!nodes) {
             self.nodes = [];
         }
@@ -39,7 +39,7 @@ exports.Nodes = function (nodes, loc) {
 };
 
 // Comments are copied in the output
-exports.CommentNode = function (value, loc) {
+exports.Comment = function (value, loc) {
     var self = this;
 
     self.type = "comment";
@@ -52,7 +52,7 @@ exports.CommentNode = function (value, loc) {
 };
 
 // Empty lines too to preserve legibility
-exports.EmptyLineNode = function (loc) {
+exports.EmptyLine = function (loc) {
     var self = this;
 
     self.type = "emptyline";
@@ -64,7 +64,7 @@ exports.EmptyLineNode = function (loc) {
 };
 
 // Literal nodes that translate directly to javascript
-exports.NumberNode = function (value, loc) {
+exports.Number = function (value, loc) {
     var self = this;
 
     self.type = "number";
@@ -76,7 +76,7 @@ exports.NumberNode = function (value, loc) {
     };
 };
 
-exports.StringNode = function (value, loc) {
+exports.String = function (value, loc) {
     var self = this;
 
     self.type = "string";
@@ -90,7 +90,7 @@ exports.StringNode = function (value, loc) {
     };
 };
 
-exports.BooleanNode = function (value, loc) {
+exports.Boolean = function (value, loc) {
     var self = this;
 
     self.type = "boolean";
@@ -102,7 +102,7 @@ exports.BooleanNode = function (value, loc) {
     };
 };
 
-exports.NoneNode = function (loc) {
+exports.None = function (loc) {
     var self = this;
 
     self.type = "none";
@@ -114,7 +114,7 @@ exports.NoneNode = function (loc) {
     };
 };
 
-exports.ListNode = function (list, loc) {
+exports.List = function (list, loc) {
     var self = this;
 
     self.type = "list";
@@ -136,7 +136,7 @@ exports.ListNode = function (list, loc) {
     };
 };
 
-exports.RangeNode = function (start, end, loc) {
+exports.Range = function (start, end, loc) {
     var self = this;
 
     self.type = "range";
@@ -188,7 +188,7 @@ exports.RangeNode = function (start, end, loc) {
     };
 };
 
-exports.OperatorNode = function (op, left, right, loc) {
+exports.Operator = function (op, left, right, loc) {
     var self = this;
 
     self.type = "operator";
@@ -260,7 +260,7 @@ exports.OperatorNode = function (op, left, right, loc) {
     };
 };
 
-exports.UnaryNode = function (op, arg, loc) {
+exports.Unary = function (op, arg, loc) {
     var self = this;
 
     self.type = "unary";
@@ -289,7 +289,7 @@ exports.UnaryNode = function (op, arg, loc) {
 };
 
 // method call
-exports.CallNode = function (receiver, method, args, loc) {
+exports.Call = function (receiver, method, args, loc) {
     var self = this;
 
     self.type = "call";
@@ -317,7 +317,7 @@ exports.CallNode = function (receiver, method, args, loc) {
 };
 
 // local variables
-exports.GetLocalNode = function (name, loc) {
+exports.GetLocal = function (name, loc) {
     var self = this;
 
     self.type = "getlocal";
@@ -332,7 +332,7 @@ exports.GetLocalNode = function (name, loc) {
     };
 };
 
-exports.DefLocalNode = function (name, value, loc) {
+exports.DefLocal = function (name, value, loc) {
     var self = this;
 
     self.type = "deflocal";
@@ -350,7 +350,7 @@ exports.DefLocalNode = function (name, value, loc) {
     };
 };
 
-exports.SetLocalNode = function (name, value, loc) {
+exports.SetLocal = function (name, value, loc) {
     var self = this;
 
     self.type = "setlocal";
@@ -370,7 +370,7 @@ exports.SetLocalNode = function (name, value, loc) {
 };
 
 // function definition
-exports.DefNode = function (name, params, body, loc) {
+exports.Def = function (name, params, body, loc) {
     var self = this;
 
     self.type = "def";
@@ -408,7 +408,7 @@ exports.DefNode = function (name, params, body, loc) {
     };
 };
 
-exports.ReturnNode = function (value, loc) {
+exports.Return = function (value, loc) {
     var self = this;
 
     self.type = "return";
@@ -427,7 +427,7 @@ exports.ReturnNode = function (value, loc) {
 };
 
 // if - else
-exports.IfNode = function (condition, body, loc) {
+exports.If = function (condition, body, loc) {
     var self = this;
 
     self.type = "if";
@@ -479,7 +479,7 @@ exports.IfNode = function (condition, body, loc) {
 };
 
 // for loop
-exports.ForNode = function (variable, items, body, loc) {
+exports.For = function (variable, items, body, loc) {
     var self = this;
 
     self.type = "for";
@@ -515,7 +515,7 @@ exports.ForNode = function (variable, items, body, loc) {
     };
 };
 
-exports.WhileNode = function (condition, body, loc) {
+exports.While = function (condition, body, loc) {
     var self = this;
 
     self.type = "while";
@@ -535,7 +535,7 @@ exports.WhileNode = function (condition, body, loc) {
 };
 
 
-exports.AccessorNode = function (accessed, item, loc) {
+exports.Accessor = function (accessed, item, loc) {
     var self = this;
 
     self.type = "accessor";
@@ -554,7 +554,7 @@ exports.AccessorNode = function (accessed, item, loc) {
 };
 
 
-exports.DictionaryArgNode = function (key, value, loc) {
+exports.DictionaryArg = function (key, value, loc) {
     var self = this;
 
     self.type = "dictarg";
@@ -564,7 +564,7 @@ exports.DictionaryArgNode = function (key, value, loc) {
 };
 
 
-exports.DictionaryNode = function (arglist, loc) {
+exports.Dictionary = function (arglist, loc) {
     var self = this;
 
     self.type = "dictionary";
