@@ -260,7 +260,9 @@ exports.Operator = function (op, left, right, loc) {
     self.compile = function (scope, indent) {
         var code = "";
 
-        if (self._isChainable() && left.hasOwnProperty('_isChainable') && left._isChainable()) {
+        if (self._isChainable()
+            && self.left.hasOwnProperty('_isChainable')
+            && self.left._isChainable()) {
             code = self._compileChain(scope, indent);
         }
         else {
