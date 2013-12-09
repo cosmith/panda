@@ -43,11 +43,12 @@ exports.Comment = function (value, loc) {
     var self = this;
 
     self.type = "comment";
-    self.value = value;
     self.loc = loc;
 
+    self._value = value;
+
     self.compile = function (scope, indent) {
-        return indent + '//' + String(value);
+        return indent + '//' + String(self._value);
     };
 };
 
@@ -68,25 +69,31 @@ exports.Number = function (value, loc) {
     var self = this;
 
     self.type = "number";
-    self.value = value;
     self.loc = loc;
 
+    self._value = value;
+
     self.compile = function (scope, indent) {
-        return indent + value;
+        return indent + self._value;
     };
+
+    self.get_value = function () {
+        return self._value;
+    }
 };
 
 exports.String = function (value, loc) {
     var self = this;
 
     self.type = "string";
-    self.value = value;
     self.loc = loc;
 
-    self.compile = function (scope, indent) {
-        value = self.value.replace(/"/g, "\"");
+    self._value = value;
 
-        return indent + '"' + value + '"';
+    self.compile = function (scope, indent) {
+        self._value = self._value.replace(/"/g, "\"");
+
+        return indent + '"' + self._value + '"';
     };
 };
 
@@ -94,11 +101,12 @@ exports.Boolean = function (value, loc) {
     var self = this;
 
     self.type = "boolean";
-    self.value = Boolean(value);
     self.loc = loc;
 
+    self._value = value;
+
     self.compile = function (scope, indent) {
-        return indent + self.value;
+        return indent + self._value;
     };
 };
 
@@ -106,7 +114,6 @@ exports.None = function (loc) {
     var self = this;
 
     self.type = "none";
-    self.value = null;
     self.loc = loc;
 
     self.compile = function (scope, indent) {
@@ -118,16 +125,17 @@ exports.List = function (list, loc) {
     var self = this;
 
     self.type = "list";
-    self.list = list;
     self.loc = loc;
+
+    self._list = list;
 
     self.compile = function (scope, indent) {
         var code = "[",
             i;
 
-        for (i = 0; i < self.list.length; i++) {
-            code += self.list[i].compile(scope, '');
-            if (i !== self.list.length - 1) {
+        for (i = 0; i < self._list.length; i++) {
+            code += self._list[i].compile(scope, '');
+            if (i !== self._list.length - 1) {
                 code += ", ";
             }
         }
@@ -140,10 +148,11 @@ exports.Range = function (start, end, loc) {
     var self = this;
 
     self.type = "range";
-    self.start = start;
-    self.end = end;
-    self.numbers = start.type === "number" && end.type === "number";
     self.loc = loc;
+
+    self._start = start;
+    self._end = end;
+    self._numbers = (self._start.type === "number") && (self._end.type === "number");
 
     self.compile = function (scope, indent) {
         var code = "(function () {\n",
@@ -156,12 +165,12 @@ exports.Range = function (start, end, loc) {
             startVal,
             endVal;
 
-        if (self.numbers) {
-            goingUp = self.start.value < self.end.value;
+        if (self._numbers) {
+            goingUp = self._start.get_value() < self._end.get_value();
         }
 
-        startVal = self.start.compile(scope, '');
-        endVal = self.end.compile(scope, '');
+        startVal = self._start.compile(scope, '');
+        endVal = self._end.compile(scope, '');
 
         if (goingUp === null) {
             condition = startVal + " < " + endVal + " ? ";
@@ -192,71 +201,73 @@ exports.Operator = function (op, left, right, loc) {
     var self = this;
 
     self.type = "operator";
-    self.op = op;
+    self.loc = loc;
     self.left = left;
     self.right = right;
 
-    self.CHAINABLE = ['==', '!=', '<', '>', '<=', '>='];
-    self.JSOPS = ['+', '-', '*', '/', '+=', '-=', '*=', '/=', '==', '!=', '<', '>', '<=', '>='];
-    self.TRANSLATIONS = {
+    self._op = op;
+
+    self._CHAINABLE = ['==', '!=', '<', '>', '<=', '>='];
+    self._JSOPS = ['+', '-', '*', '/', '+=', '-=', '*=', '/=', '==', '!=', '<', '>', '<=', '>='];
+    self._TRANSLATIONS = {
         'OR': '||',
         'AND': '&&',
         '==': '===',
         '!=': '!=='
     };
 
-    self.isChainable = function () {
-        return self.CHAINABLE.indexOf(op) >= 0;
+    self._isChainable = function () {
+        return self._CHAINABLE.indexOf(self._op) >= 0;
     }
 
-    self.compile = function (scope, indent) {
-        var code = "";
-
-        if (self.isChainable() && left.hasOwnProperty('isChainable') && left.isChainable()) {
-            code = self.compileChain(scope, indent);
-        }
-        else {
-            code = self.compileOne(scope, '');
-        }
-
-        return indent + '(' + code + ')';
-    };
-
-    self.compileOp = function () {
+    self._compileOp = function () {
         var operator = "";
 
-        if (self.JSOPS.indexOf(self.op) !== -1) {
-            operator = self.op;
+        if (self._JSOPS.indexOf(self._op) !== -1) {
+            operator = self._op;
         }
-        else if (self.TRANSLATIONS.hasOwnProperty(self.op)) {
-            operator = self.TRANSLATIONS[self.op];
+        else if (self._TRANSLATIONS.hasOwnProperty(self._op)) {
+            operator = self._TRANSLATIONS[self._op];
         }
         else {
-            throw self.op + " not implemented yet";
+            throw self._op + " not implemented yet";
         }
 
         return operator;
     }
 
-    self.compileOne = function (scope, indent) {
+    self._compileOne = function (scope, indent) {
         var code = "";
 
         code += self.left.compile(scope, '');
-        code += ' ' + self.compileOp() + ' ';
+        code += ' ' + self._compileOp() + ' ';
         code += self.right.compile(scope, '');
 
         return code;
     };
 
-    self.compileChain = function (scope, indent) {
+    self._compileChain = function (scope, indent) {
         var code = "";
 
         code += self.left.compile(scope, '') + ' && (';
         code += self.left.right.compile(scope, '');
-        code += ' ' + self.compileOp() + ' ';
+        code += ' ' + self._compileOp() + ' ';
         code += self.right.compile(scope, '') + ')';
 
         return code;
+    };
+
+    self.compile = function (scope, indent) {
+        var code = "";
+
+        if (self._isChainable() && left.hasOwnProperty('_isChainable') && left._isChainable()) {
+            code = self._compileChain(scope, indent);
+        }
+        else {
+            code = self._compileOne(scope, '');
+        }
+
+        return indent + '(' + code + ')';
     };
 };
 
@@ -264,8 +275,10 @@ exports.Unary = function (op, arg, loc) {
     var self = this;
 
     self.type = "unary";
-    self.op = op;
-    self.arg = arg;
+    self.loc = loc;
+
+    self._op = op;
+    self._arg = arg;
 
     self.compile = function (scope, indent) {
         var jsOps = ['-'],
@@ -274,11 +287,11 @@ exports.Unary = function (op, arg, loc) {
             },
             code = '';
 
-        if (jsOps.indexOf(self.op) !== -1) {
-            code = self.op + '(' + self.arg.compile(scope, '') + ')';
+        if (jsOps.indexOf(self._op) !== -1) {
+            code = self._op + '(' + self._arg.compile(scope, '') + ')';
         }
-        else if (translation.hasOwnProperty(self.op)) {
-            code = translation[self.op] + '(' + self.arg.compile(scope, '') + ')';
+        else if (translation.hasOwnProperty(self._op)) {
+            code = translation[self._op] + '(' + self._arg.compile(scope, '') + ')';
         }
         else {
             throw "Not implemented yet";
@@ -293,10 +306,11 @@ exports.Call = function (receiver, method, args, loc) {
     var self = this;
 
     self.type = "call";
-    self.receiver = receiver;
-    self.method = method;
-    self.args = args;
     self.loc = loc;
+
+    self._receiver = receiver;
+    self._method = method;
+    self._args = args;
 
     self.compile = function (scope, indent) {
         var code = "",
@@ -304,13 +318,13 @@ exports.Call = function (receiver, method, args, loc) {
             i;
 
         // compile the arguments first
-        for (i = 0; i < self.args.length; i++) {
-            argsList.push(self.args[i].compile(scope, ''));
+        for (i = 0; i < self._args.length; i++) {
+            argsList.push(self._args[i].compile(scope, ''));
         }
 
         // methods that don't have a receiver are declared on the global context
-        code = self.receiver ? self.receiver.compile(scope, '') + "." : "";
-        code += self.method + "(" + argsList.join(', ') + ")";
+        code = self._receiver ? self._receiver.compile(scope, '') + "." : "";
+        code += self._method + "(" + argsList.join(', ') + ")";
 
         return indent + code;
     };
@@ -321,14 +335,15 @@ exports.GetLocal = function (name, loc) {
     var self = this;
 
     self.type = "getlocal";
-    self.name = name;
     self.loc = loc;
 
+    self._name = name;
+
     self.compile = function (scope, indent) {
-        if (!scope.alreadyDefined(self.name)) {
-            throw "Error: variable '" + self.name + "' not defined.";
+        if (!scope.alreadyDefined(self._name)) {
+            throw "Error: variable '" + self._name + "' not defined.";
         }
-        return indent + self.name;
+        return indent + self._name;
     };
 };
 
@@ -336,15 +351,16 @@ exports.DefLocal = function (name, value, loc) {
     var self = this;
 
     self.type = "deflocal";
-    self.name = name;
-    self.value = value;
     self.loc = loc;
+
+    self._name = name;
+    self._value = value;
 
     self.compile = function (scope, indent) {
         var code = "var ";
 
-        scope.add(self.name);
-        code += self.name + " = " + self.value.compile(scope, '');
+        scope.add(self._name);
+        code += self._name + " = " + self._value.compile(scope, '');
 
         return indent + code;
     };
@@ -354,16 +370,17 @@ exports.SetLocal = function (name, value, loc) {
     var self = this;
 
     self.type = "setlocal";
-    self.name = name;
-    self.value = value;
     self.loc = loc;
 
+    self._name = name;
+    self._value = value;
+
     self.compile = function (scope, indent) {
-        var code = self.name + " = ";
-        if (!scope.alreadyDefined(self.name)) {
-            throw "Error: variable '" + self.name + "' not defined.";
+        var code = self._name + " = ";
+        if (!scope.alreadyDefined(self._name)) {
+            throw "Error: variable '" + self._name + "' not defined.";
         }
-        code += self.value.compile(scope, '');
+        code += self._value.compile(scope, '');
 
         return indent + code;
     };
@@ -374,36 +391,37 @@ exports.Def = function (name, params, body, loc) {
     var self = this;
 
     self.type = "def";
-    self.name = name;
-    self.params = params;
-    self.body = body;
     self.loc = loc;
+
+    self._name = name;
+    self._params = params;
+    self._body = body;
 
     self.compile = function (scope, indent) {
         var code = indent,
         i;
 
-        if (self.name !== null) {
+        if (self._name !== null) {
             // add the name of the function to the external scope
-            scope.add(self.name);
-            code += "var " + self.name + " = ";
+            scope.add(self._name);
+            code += "var " + self._name + " = ";
         }
 
         // create the internal scope
         scope = new Scope(scope);
         // add the parameters to the function scope
-        for (i = 0; i < self.params.length; i++) {
-            scope.add(self.params[i]);
+        for (i = 0; i < self._params.length; i++) {
+            scope.add(self._params[i]);
         }
 
         code += "function (";
-        code += self.params.join(", ") + ") {";
-        if (self.body.hasOwnProperty('compile')) {
-            code += "\n" + self.body.compile(scope, indent + TAB);
+        code += self._params.join(", ") + ") {";
+        if (self._body.hasOwnProperty('compile')) {
+            code += "\n" + self._body.compile(scope, indent + TAB);
         }
         code += indent + "}";
 
-        if (self.name !== null) return code;
+        if (self._name !== null) return code;
         else return '(' + code + ')';
     };
 };
@@ -412,14 +430,14 @@ exports.Return = function (value, loc) {
     var self = this;
 
     self.type = "return";
-    self.value = value;
+    self._value = value;
     self.loc = loc;
 
     self.compile = function (scope, indent) {
         var code = "return";
 
-        if (self.value !== null) {
-            code += " " + self.value.compile(scope, '');
+        if (self._value !== null) {
+            code += " " + self._value.compile(scope, '');
         }
 
         return indent + code;
@@ -483,22 +501,23 @@ exports.For = function (variable, items, body, loc) {
     var self = this;
 
     self.type = "for";
-    self.variable = variable;
-    self.items = items;
-    self.body = body;
     self.loc = loc;
+
+    self._variable = variable;
+    self._items = items;
+    self._body = body;
 
     self.compile = function (scope, indent) {
         var k,
             things,
             code = "";
 
-        if (!scope.alreadyDefined(self.variable)) {
-            scope.add(self.variable);
-            code += indent + "var " + self.variable + ";\n";
+        if (!scope.alreadyDefined(self._variable)) {
+            scope.add(self._variable);
+            code += indent + "var " + self._variable + ";\n";
         }
 
-        things = self.items.compile(scope, '');
+        things = self._items.compile(scope, '');
 
         // iteration
         k = scope.addTempVar("k");
@@ -506,8 +525,8 @@ exports.For = function (variable, items, body, loc) {
         code += k + " < " + things + ".length; " + k + " += 1) {\n";
 
         // body
-        code += indent + TAB + self.variable + " = " + things + "[" + k + "];\n";
-        code += self.body.compile(scope, indent + TAB);
+        code += indent + TAB + self._variable + " = " + things + "[" + k + "];\n";
+        code += self._body.compile(scope, indent + TAB);
 
         code += indent + "}";
 
@@ -519,15 +538,16 @@ exports.While = function (condition, body, loc) {
     var self = this;
 
     self.type = "while";
-    self.condition = condition;
-    self.body = body;
     self.loc = loc;
+
+    self._condition = condition;
+    self._body = body;
 
     self.compile = function (scope, indent) {
         var code = indent;
 
-        code += "while (" + self.condition.compile(scope, indent) + ") {\n";
-        code += self.body.compile(scope, indent + TAB);
+        code += "while (" + self._condition.compile(scope, indent) + ") {\n";
+        code += self._body.compile(scope, indent + TAB);
         code += indent + "}";
 
         return code;
@@ -539,15 +559,16 @@ exports.Accessor = function (accessed, item, loc) {
     var self = this;
 
     self.type = "accessor";
-    self.accessed = accessed;
-    self.item = item;
     self.loc = loc;
+
+    self._accessed = accessed;
+    self._item = item;
 
     self.compile = function (scope, indent) {
         var code;
 
-        code = indent + self.accessed.compile(scope, '');
-        code += '[' + self.item.compile(scope, '') + ']';
+        code = indent + self._accessed.compile(scope, '');
+        code += '[' + self._item.compile(scope, '') + ']';
 
         return code;
     };
@@ -558,9 +579,10 @@ exports.DictionaryArg = function (key, value, loc) {
     var self = this;
 
     self.type = "dictarg";
+    self.loc = loc;
+
     self.key = key;
     self.value = value;
-    self.loc = loc;
 };
 
 
@@ -568,19 +590,20 @@ exports.Dictionary = function (arglist, loc) {
     var self = this;
 
     self.type = "dictionary";
-    self.arglist = arglist;
     self.loc = loc;
+
+    self._arglist = arglist;
 
     self.compile = function (scope, indent) {
         var i,
             arg,
             code = indent + "{";
 
-        for (i = 0; i < self.arglist.length; i++) {
-            arg = self.arglist[i];
+        for (i = 0; i < self._arglist.length; i++) {
+            arg = self._arglist[i];
             code += arg.key.compile(scope, "") + ":" + arg.value.compile(scope, "");
 
-            if (i != self.arglist.length - 1) {
+            if (i != self._arglist.length - 1) {
                 code += ",";
             }
         }
