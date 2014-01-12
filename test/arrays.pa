@@ -13,3 +13,14 @@ L = ["test", "test"]
 for i in L:
     test("array string", "test", i)
 end
+
+# multiline arrays
+
+L = [
+    1,
+    2,
+    3
+]
+
+L = [1, 2,
+3]
