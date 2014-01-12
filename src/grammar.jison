@@ -120,11 +120,11 @@ Range
     ;
 
 Call
-    : IDENTIFIER Arguments
+    : IDENTIFIER ArgList
         {
             $$ = new n.Call(null, $1, $2, createLoc(@1, @2));
         }
-    | Expression '.' IDENTIFIER Arguments
+    | Expression '.' IDENTIFIER ArgList
         {
             $$ = new n.Call($1, $3, $4, createLoc(@1, @4));
         }
@@ -135,13 +135,37 @@ ExpressionList
         {
             $$ = [$1];
         }
+    | NEWLINE Expression
+        {
+            $$ = [$2];
+        }
+    | Expression NEWLINE
+        {
+            $$ = [$1];
+        }
+    | NEWLINE Expression NEWLINE
+        {
+            $$ = [$2];
+        }
     | ExpressionList ',' Expression
         {
             $$ = $1.concat($3);
         }
+    | ExpressionList ',' NEWLINE Expression
+        {
+            $$ = $1.concat($4);
+        }
+    | ExpressionList ',' Expression NEWLINE
+        {
+            $$ = $1.concat($3);
+        }
+    | ExpressionList ',' NEWLINE Expression NEWLINE
+        {
+            $$ = $1.concat($4);
+        }
     ;
 
-Arguments
+ArgList
     : "(" ")"
         {
             $$ = [];
@@ -363,6 +387,10 @@ DictionaryArg
         {
             $$ = new n.DictionaryArg($1, $3, createLoc(@1, @3));
         }
+    | Expression COLON NEWLINE Expression
+        {
+            $$ = new n.DictionaryArg($1, $4, createLoc(@1, @4));
+        }
     ;
 
 DictionaryArgList
@@ -370,9 +398,33 @@ DictionaryArgList
         {
             $$ = [$1];
         }
+    | NEWLINE DictionaryArg
+        {
+            $$ = [$2];
+        }
+    | DictionaryArg NEWLINE
+        {
+            $$ = [$1];
+        }
+    | NEWLINE DictionaryArg NEWLINE
+        {
+            $$ = [$2];
+        }
     | DictionaryArgList ',' DictionaryArg
         {
             $$ = $1.concat($3);
+        }
+    | DictionaryArgList ',' NEWLINE DictionaryArg
+        {
+            $$ = $1.concat($4);
+        }
+    | DictionaryArgList ',' DictionaryArg NEWLINE
+        {
+            $$ = $1.concat($3);
+        }
+    | DictionaryArgList ',' NEWLINE DictionaryArg NEWLINE
+        {
+            $$ = $1.concat($4);
         }
     ;
 

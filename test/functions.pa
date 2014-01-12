@@ -30,3 +30,23 @@ end
 var empty = def (): end
 empty()
 
+# function arguments
+
+def testArgs(a, b, c):
+    return a + b + c
+end
+
+x = testArgs(1, 2, 3)
+test("args 1", x, 1 + 2 + 3)
+
+x = testArgs(
+         1, 2, 3
+        )
+test("args 2", x, 1 + 2 + 3)
+
+x = testArgs(
+    1,
+    2,
+    3
+)
+test("args 3", x, 1 + 2 + 3)

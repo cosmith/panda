@@ -10,8 +10,8 @@ end
 
 L = ["test", "test"]
 
-for i in L:
-    test("array string", "test", i)
+for k in L:
+    test("array string", "test", k)
 end
 
 # multiline arrays
@@ -24,3 +24,6 @@ L = [
 
 L = [1, 2,
 3]
+
+L = [1
+]

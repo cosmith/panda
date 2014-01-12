@@ -14,11 +14,13 @@ test("dict 3b", dict["5"], 7)
 
 # mutiline dicts
 dict = {
-    "test": 5
+    "test": 5,
+    "hello": "why not"
 }
 
 dict = {"test":
-5}
+    5
+}
 
 dict = {
     "test":
