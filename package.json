@@ -4,11 +4,11 @@
     "version": "0.1.0",
     "author": "Corentin Smith <corentin.smith@gmail.com>",
     "description": "another compile to js language",
-    "contributors": [ 
+    "contributors": [
         {
             "name": "Corentin Smith",
             "email": "corentin.smith@gmail.com"
-        } 
+        }
     ],
     "bin": {
         "panda": "./panda.js"
@@ -32,6 +32,6 @@
     },
     "license": "MIT",
     "engines": {
-        "node": ">=0.6"
+        "node": ">=0.8"
     }
 }
