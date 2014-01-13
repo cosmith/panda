@@ -56,6 +56,9 @@ exports.compile = function (data) {
     scope.add("process");
     scope.add("document");
     scope.add("window");
+    scope.add("setInterval");
+    scope.add("clearInterval");
+    scope.add("Math");
     scope.add("Image");
 
     var tokenized = lexer.tokenize(data);
