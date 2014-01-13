@@ -8,6 +8,8 @@ exports.Scope = Scope = (function () {
 
     function Scope(parent) {
         this.parent = parent;
+        this.isClass = false;
+        this.className = null;
 
         if (!this.parent) {
             Scope.root = this;

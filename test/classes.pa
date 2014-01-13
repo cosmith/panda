@@ -1,16 +1,17 @@
 # Classes
 
-# class MyClass:
-#     def MyClass():
-#         self.test = 42
-#     end
+class MyClass:
+    def MyClass():
+        self.test = 42
+    end
 
-#     def method():
-#         return 42
-#     end
-# end
+    def method():
+        self.test = 50
+    end
+end
 
-# var instance = MyClass()
+var instance = new MyClass()
 
-# test("property", instance.test, 42)
-# test("method", instance.method(), 42)
+test("property", instance.test, 42)
+instance.method()
+test("method", instance.test, 50)

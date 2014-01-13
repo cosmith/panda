@@ -399,9 +399,10 @@ exports.Def = function (name, params, body, loc) {
     self._params = params;
     self._body = body;
 
-    self.compile = function (scope, indent) {
+    self._compileFunction = function (scope, indent) {
         var code = indent,
-        i;
+            i,
+            internalScope;
 
         if (self._name !== null) {
             // add the name of the function to the external scope
@@ -426,6 +427,72 @@ exports.Def = function (name, params, body, loc) {
         if (self._name !== null) return code;
         else return '(' + code + ')';
     };
+
+    self._compileMethod = function (scope, indent) {
+        var code = indent,
+            i,
+            internalScope;
+
+        // add the name of the function to the external scope
+        scope.add(self._name);
+        // create the internal scope
+        internalScope = new Scope(scope);
+        // add the parameters to the function scope
+        for (i = 0; i < self._params.length; i++) {
+            internalScope.add(self._params[i]);
+        }
+
+        code += scope.className + ".prototype." + self._name + " = function (";
+        code += self._params.join(", ") + ") {";
+        if (self._body.hasOwnProperty('compile')) {
+            code += "\n" + self._body.compile(internalScope, indent + TAB);
+        }
+        code += indent + "}";
+
+        return code;
+    };
+
+    self._compileConstructor = function (scope, indent) {
+        var code = indent,
+            i,
+            internalScope;
+
+        scope.add(self._name);
+        // create the internal scope
+        internalScope = new Scope(scope);
+        // add the parameters to the function scope
+        for (i = 0; i < self._params.length; i++) {
+            internalScope.add(self._params[i]);
+        }
+
+        code += "function " + self._name + "(";
+        code += self._params.join(", ") + ") {\n";
+        code += indent + TAB + "self = this;";
+        if (self._body.hasOwnProperty('compile')) {
+            code += "\n" + self._body.compile(internalScope, indent + TAB);
+        }
+        code += indent + "}";
+
+        return code;
+    };
+
+    self.compile = function (scope, indent) {
+        var code;
+
+        if (scope.isClass) {
+            if (self._name === scope.className) {
+                code = self._compileConstructor(scope, indent);
+            }
+            else {
+                code = self._compileMethod(scope, indent);
+            }
+        }
+        else {
+            code = self._compileFunction(scope, indent);
+        }
+
+        return code;
+    }
 };
 
 exports.Return = function (value, loc) {
@@ -556,26 +623,62 @@ exports.While = function (condition, body, loc) {
     };
 };
 
-
-exports.Accessor = function (accessed, item, loc) {
+exports.Accessor = function (accessed, attr, loc) {
     var self = this;
 
     self.type = "accessor";
     self.loc = loc;
 
     self._accessed = accessed;
-    self._item = item;
+    self._attr = attr;
 
     self.compile = function (scope, indent) {
         var code;
 
         code = indent + self._accessed.compile(scope, '');
-        code += '[' + self._item.compile(scope, '') + ']';
+        code += '[' + self._attr.compile(scope, '') + ']';
 
         return code;
     };
 };
 
+exports.GetAttr = function (accessed, attr, loc) {
+    var self = this;
+
+    self.type = "getattr";
+    self.loc = loc;
+
+    self._accessed = accessed;
+    self._attr = attr;
+
+    self.compile = function (scope, indent) {
+        var code;
+
+        code = indent + self._accessed.compile(scope, '');
+        code += '.' + self._attr;
+
+        return code;
+    };
+};
+
+exports.SetAttr = function (item, value, loc) {
+    var self = this;
+
+    self.type = "setattr";
+    self.loc = loc;
+
+    self._item = item;
+    self._value = value;
+
+    self.compile = function (scope, indent) {
+        var code;
+
+        code = indent + self._item.compile(scope, '');
+        code += ' = ' + self._value.compile(scope, '');
+
+        return code;
+    };
+};
 
 exports.DictionaryArg = function (key, value, loc) {
     var self = this;
@@ -586,7 +689,6 @@ exports.DictionaryArg = function (key, value, loc) {
     self.key = key;
     self.value = value;
 };
-
 
 exports.Dictionary = function (arglist, loc) {
     var self = this;
@@ -615,6 +717,58 @@ exports.Dictionary = function (arglist, loc) {
         return code;
     };
 };
+
+exports.Class = function (name, body, loc) {
+    var self = this;
+
+    self.type = "dictarg";
+    self.loc = loc;
+
+    self.name = name;
+    self._body = body;
+
+    self.compile = function(scope, indent) {
+        var code,
+            internalScope;
+
+        scope.add(self.name);
+
+        internalScope = new Scope(scope);
+        internalScope.isClass = true;
+        internalScope.className = self.name;
+        internalScope.add('self');
+
+        code = indent + "var " + self.name;
+        code += " = (function() {\n";
+        code += indent + TAB + "var self;\n";
+        code += self._body.compile(internalScope, indent + TAB);
+
+        code += "\n" + indent + TAB + "return " + self.name + ";";
+        code += "\n})()";
+
+        return code;
+    };
+};
+
+exports.Instance = function (name, value, loc) {
+    var self = this;
+
+    self.type = "instantiate";
+    self.loc = loc;
+
+    self._name = name;
+    self._value = value;
+
+    self.compile = function (scope, indent) {
+        var code = "var ";
+
+        scope.add(self._name);
+        code += self._name + " = new " + self._value.compile(scope, '');
+
+        return indent + code;
+    };
+};
+
 
 
 }(this));

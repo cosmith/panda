@@ -70,6 +70,9 @@ Expression
     | While
     | Accessor
     | Dictionary
+    | GetAttr
+    | SetAttr
+    | Class
     | '(' Expression ')'
         {
             $$ = $2;
@@ -270,6 +273,10 @@ DefLocal
         {
             $$ = new n.DefLocal($2, $4, createLoc(@1, @3));
         }
+    | VAR IDENTIFIER '=' NEW Expression
+        {
+            $$ = new n.Instance($2, $5, createLoc(@1, @5))
+        }
     ;
 
 SetLocal
@@ -382,6 +389,20 @@ Accessor
         }
     ;
 
+GetAttr
+    : Expression '.' IDENTIFIER
+        {
+            $$ = new n.GetAttr($1, $3, createLoc(@1, @3));
+        }
+    ;
+
+SetAttr
+    : GetAttr '=' Expression
+        {
+            $$ = new n.SetAttr($1, $3, createLoc(@1, @3));
+        }
+    ;
+
 DictionaryArg
     : Expression COLON Expression
         {
@@ -436,6 +457,13 @@ Dictionary
     | '{' DictionaryArgList '}'
         {
             $$ = new n.Dictionary($2, createLoc(@1, @3));
+        }
+    ;
+
+Class
+    : CLASS IDENTIFIER Block
+        {
+            $$ = new n.Class($2, $3, createLoc(@1, @3));
         }
     ;
 
