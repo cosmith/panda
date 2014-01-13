@@ -283,14 +283,14 @@ exports.Unary = function (op, arg, loc) {
     self._arg = arg;
 
     self.compile = function (scope, indent) {
-        var jsOps = ['-'],
+        var jsOps = ['-', 'new'],
             translation = {
                 'NOT': '!'
             },
             code = '';
 
         if (jsOps.indexOf(self._op) !== -1) {
-            code = self._op + '(' + self._arg.compile(scope, '') + ')';
+            code = self._op + " " + self._arg.compile(scope, '');
         }
         else if (translation.hasOwnProperty(self._op)) {
             code = translation[self._op] + '(' + self._arg.compile(scope, '') + ')';
@@ -411,16 +411,16 @@ exports.Def = function (name, params, body, loc) {
         }
 
         // create the internal scope
-        scope = new Scope(scope);
+        internalScope = new Scope(scope);
         // add the parameters to the function scope
         for (i = 0; i < self._params.length; i++) {
-            scope.add(self._params[i]);
+            internalScope.add(self._params[i]);
         }
 
         code += "function (";
         code += self._params.join(", ") + ") {";
         if (self._body.hasOwnProperty('compile')) {
-            code += "\n" + self._body.compile(scope, indent + TAB);
+            code += "\n" + self._body.compile(internalScope, indent + TAB);
         }
         code += indent + "}";
 
@@ -749,26 +749,6 @@ exports.Class = function (name, body, loc) {
         return code;
     };
 };
-
-exports.Instance = function (name, value, loc) {
-    var self = this;
-
-    self.type = "instantiate";
-    self.loc = loc;
-
-    self._name = name;
-    self._value = value;
-
-    self.compile = function (scope, indent) {
-        var code = "var ";
-
-        scope.add(self._name);
-        code += self._name + " = new " + self._value.compile(scope, '');
-
-        return indent + code;
-    };
-};
-
 
 
 }(this));

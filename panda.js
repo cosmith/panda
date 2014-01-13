@@ -14,6 +14,7 @@ program
     .option('-a, --ast', 'output AST')
     .option('-j, --javascript', 'output compiled javascript code')
     .option('-v, --verbose', 'output tokens, AST and JS code')
+    .option('-f, --file', 'write compiled code to JS file')
     .parse(process.argv);
 
 // we need an input file to proceed
@@ -53,5 +54,12 @@ fs.readFile(program.args[0], 'utf-8', function (err, data) {
         console.log("\n======\n");
     }
 
-    eval(compiled);
+    if (program.file) {
+        fs.writeFile(program.args[1], compiled, function (err, data) {
+            if (err) throw err;
+        });
+    }
+    else {
+        eval(compiled);
+    }
 });

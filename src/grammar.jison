@@ -14,7 +14,7 @@
 %left       '+' '-'
 %left       '*' '/'
 
-%right      'NOT', '-'
+%right      'NOT', '-', 'NEW'
 $nonassoc   '++' '--'
 %right      '['
 %left       '.'
@@ -264,6 +264,10 @@ Operator
         {
             $$ = new n.Unary('-', $2, createLoc(@1, @2));
         }
+    | NEW Expression
+        {
+            $$ = new n.Unary('new', $2, createLoc(@1, @2));
+        }
     ;
 
 
@@ -272,10 +276,6 @@ DefLocal
     : VAR IDENTIFIER '=' Expression
         {
             $$ = new n.DefLocal($2, $4, createLoc(@1, @3));
-        }
-    | VAR IDENTIFIER '=' NEW Expression
-        {
-            $$ = new n.Instance($2, $5, createLoc(@1, @5))
         }
     ;
 

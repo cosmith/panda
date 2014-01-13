@@ -15,3 +15,23 @@ var instance = new MyClass()
 test("property", instance.test, 42)
 instance.method()
 test("method", instance.test, 50)
+
+class OtherClass:
+    def OtherClass(a, b, c):
+        self.a = a
+        self.b = b
+        self.c = c
+    end
+
+    def method(a, b):
+        return a + b
+    end
+end
+
+instance = new OtherClass(1, 2, 3)
+
+test("params in constructor 1", instance.a, 1)
+test("params in constructor 2", instance.b, 2)
+test("params in constructor 3", instance.c, 3)
+
+test("params in method", instance.method(1, 2), 3)

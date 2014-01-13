@@ -54,6 +54,9 @@ exports.compile = function (data) {
     scope.add("console"); // add global variables
     scope.add("require");
     scope.add("process");
+    scope.add("document");
+    scope.add("window");
+    scope.add("Image");
 
     var tokenized = lexer.tokenize(data);
     var parsed = parser.parse(tokenized);
