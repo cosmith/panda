@@ -10,10 +10,17 @@ var printTokens = function (tokens, full) {
     }
 
     var cleaned = [],
-        i;
+        i,
+        separator;
 
     for (i = 0; i < tokens.length; i++) {
-        cleaned.push(tokens[i].slice(0, 2).join(': '));
+        if (tokens[i][0].length < 8) {
+            separator = ['\t\t'];
+        }
+        else {
+            separator = ['\t'];
+        }
+        cleaned.push(tokens[i].slice(0, 2).join(separator));
     }
     console.log(cleaned.join('\n'));
 }
