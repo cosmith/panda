@@ -26,3 +26,12 @@ dict = {
     "test":
     5
 }
+
+# nested dicts
+dict = {
+    "inside": {
+        "test": 5
+    }
+}
+
+test("nested", dict["inside"]["test"], 5)

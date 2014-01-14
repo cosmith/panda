@@ -27,3 +27,20 @@ L = [1, 2,
 
 L = [1
 ]
+
+# array element access
+L = [0, 1, 2, 3, 4, 5]
+
+for i in [0 .. L.length-1]:
+    test("element access", L[i], i)
+end
+
+# nested arrays
+L = [[0, 0], [0, 1], [1, 0], [1, 1]]
+
+for i in [0 .. L.lenth-1]:
+    for j in [0 .. i.length-1]:
+        # just checking that it doesn't crash
+        L[i][j]
+    end
+end

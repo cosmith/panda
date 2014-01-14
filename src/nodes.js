@@ -589,7 +589,7 @@ exports.For = function (variable, items, body, loc) {
         things = self._items.compile(scope, '');
 
         // iteration
-        k = scope.addTempVar("k");
+        k = scope.addTempVar("k", true);
         code += indent + "for (var " + k + " = 0; ";
         code += k + " < " + things + ".length; " + k + " += 1) {\n";
 
