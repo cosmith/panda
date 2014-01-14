@@ -401,6 +401,10 @@ SetAttr
         {
             $$ = new n.SetAttr($1, $3, createLoc(@1, @3));
         }
+    | Accessor '=' Expression
+        {
+            $$ = new n.SetAttr($1, $3, createLoc(@1, @3));
+        }
     ;
 
 DictionaryArg
