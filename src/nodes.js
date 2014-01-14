@@ -443,7 +443,8 @@ exports.Def = function (name, params, body, loc) {
         }
 
         code += scope.className + ".prototype." + self._name + " = function (";
-        code += self._params.join(", ") + ") {";
+        code += self._params.join(", ") + ") {\n";
+        code += indent + TAB + "var self = this;\n";
         if (self._body.hasOwnProperty('compile')) {
             code += "\n" + self._body.compile(internalScope, indent + TAB);
         }
@@ -467,9 +468,9 @@ exports.Def = function (name, params, body, loc) {
 
         code += "function " + self._name + "(";
         code += self._params.join(", ") + ") {\n";
-        code += indent + TAB + "self = this;";
+        code += indent + TAB + "var self = this;\n";
         if (self._body.hasOwnProperty('compile')) {
-            code += "\n" + self._body.compile(internalScope, indent + TAB);
+            code += self._body.compile(internalScope, indent + TAB);
         }
         code += indent + "}";
 
@@ -740,7 +741,6 @@ exports.Class = function (name, body, loc) {
 
         code = indent + "var " + self.name;
         code += " = (function() {\n";
-        code += indent + TAB + "var self;\n";
         code += self._body.compile(internalScope, indent + TAB);
 
         code += "\n" + indent + TAB + "return " + self.name + ";";
