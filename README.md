@@ -16,6 +16,9 @@ After this is done, I will focus on writing a few examples and translating the
 language to French; and then maybe try to write a very simple 2D graphics
 library or integrate with an existing one.
 
+Early example of the language in action: [a Minesweeper clone](https://github.com/cosmith/minesweeper/blob/master/panda/main.pa)
+ported from vanilla JS to Panda.
+
 Philosophy
 ----------
 
