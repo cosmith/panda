@@ -1,0 +1,14 @@
+# Basic test runner
+def test(description, func):
+	var str = ""
+
+	if func():
+		str = "\x1B[32m✔ \x1B[39m"
+	else:
+		str = "\n\x1B[31m✘ `" + description + "` failed!\x1B[39m\n"
+	end
+
+	process.stdout.write(str)
+end
+
+exports.test = test

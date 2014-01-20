@@ -1,46 +1,75 @@
+var test = require("./test").test
+
 # Arrays
+test("Array creation", def ():
+    var L = []
+    L = [1]
+    L = [1, 2, 3, 4, 5]
 
-var L = []
-L = [1]
-L = [1, 1, 1, 1, 1]
+    return true
+end)
 
-for i in L:
-    test("array number", 1, i)
-end
+test("Iteration over an array", def ():
+    var L = [1, 1, 1, 1, 1]
 
-L = ["test", "test"]
-
-for k in L:
-    test("array string", "test", k)
-end
-
-# multiline arrays
-
-L = [
-    1,
-    2,
-    3
-]
-
-L = [1, 2,
-3]
-
-L = [1
-]
-
-# array element access
-L = [0, 1, 2, 3, 4, 5]
-
-for i in [0 .. L.length-1]:
-    test("element access", L[i], i)
-end
-
-# nested arrays
-L = [[0, 0], [0, 1], [1, 0], [1, 1]]
-
-for i in [0 .. L.lenth-1]:
-    for j in [0 .. i.length-1]:
-        # just checking that it doesn't crash
-        L[i][j]
+    for i in L:
+        if i != 1:
+            return false
+        end
     end
-end
+
+    return true
+end)
+
+test("Array of strings", def ():
+    var L = ["test", "test", "test"]
+
+    for k in L:
+        if k != "test":
+            return false
+        end
+    end
+
+    return true
+end)
+
+test("Creating multiline arrays", def ():
+    var L = [
+        1,
+        2,
+        3
+    ]
+
+    L = [1, 2,
+    3]
+
+    L = [1
+    ]
+
+    return true
+end)
+
+test("Array element access", def ():
+    var L = [0, 1, 2, 3, 4, 5]
+
+    for i in [0 .. L.length-1]:
+        if L[i] != i:
+            return false
+        end
+    end
+
+    return true
+end)
+
+test("Nested arrays", def ():
+    var L = [[0, 0], [0, 1], [1, 0], [1, 1]]
+
+    for i in [0 .. L.lenth-1]:
+        for j in [0 .. i.length-1]:
+            # just checking that it doesn't crash
+            L[i][j]
+        end
+    end
+
+    return true
+end)
