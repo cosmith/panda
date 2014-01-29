@@ -73,10 +73,7 @@ Expression
     | GetAttr
     | SetAttr
     | Class
-    | '(' Expression ')'
-        {
-            $$ = $2;
-        }
+    | Parens
     ;
 
 
@@ -108,6 +105,13 @@ Literal
     | EMPTYLINE
         {
             $$ = new n.EmptyLine(createLoc(@1, @1));
+        }
+    ;
+
+Parens
+    : '(' Expression ')'
+        {
+            $$ = new n.Parens($2, createLoc(@1, @3));
         }
     ;
 

@@ -144,6 +144,19 @@ exports.List = function (list, loc) {
     };
 };
 
+exports.Parens = function (expr, loc) {
+    var self = this;
+
+    self.type = "none";
+    self.loc = loc;
+
+    self.expr = expr;
+
+    self.compile = function (scope, indent) {
+        return indent + "(" + self.expr.compile(scope, '') + ")";
+    };
+};
+
 exports.Range = function (start, end, loc) {
     var self = this;
 
