@@ -53,6 +53,7 @@ exports.compile = function (data) {
     var scope = new Scope(null);
     scope.add("console"); // add global variables
     scope.add("require");
+    scope.add("exports");
     scope.add("process");
     scope.add("document");
     scope.add("window");

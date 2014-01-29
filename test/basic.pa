@@ -1,39 +1,89 @@
+var test = require("./test-utils").test
+
 # Basic arithmetic and primitives
-test("arithmetic 1", 4 + 4 * (5 - 22) + 5.3 / 2, -61.35)
-test("arithmetic 2", 1 - 2, -1)
-test("arithmetic 3", - 1, -1)
-test("arithmetic 4", 1-2, -1)
+test("Arithmetic 1", def ():
+    return 4 + 4 * (5 - 22) + 5.3 / 2 == -61.35
+end)
 
-test("booleans 1", (false or true) and false == false, true)
-test("booleans 2", false and true == false, false)
+test("Substraction 1", def ():
+    return 1 - 2 == -1
+end)
 
-test(">=", 3 >= 5, false)
-test("<=", 3 <= 5, true)
+test("Substraction 2", def ():
+    return 1-2 == -1
+end)
 
-test(">", 3 > 5, false)
-test("<", 3 < 5, true)
+test("Unary minus", def ():
+    return - 1 == -1
+end)
 
-test("not 1", not true, false)
-test("not 2", not false, true)
+test("Unary minus 2", def ():
+    var a = 5
+    return -a == 5 - 10
+end)
 
-var a = 5
-test("unary minus", -a, 5 - 10)
+test("Booleans 1", def ():
+    var a = ((false or true) and false == false)
+    return a == true
+end)
 
-def pos():
-    return 5
-end
+test("Booleans 2", def ():
+    return (false and true == false) == false
+end)
 
-test("unary minus 2", -pos(), 5 - 10)
+test(">=", def ():
+    return (3 >= 5) == false
+end)
 
-var b = 0
-b += 1
-test("+=", b, 1)
+test("<=", def ():
+    return (3 <= 5) == true
+end)
 
-b *= 2
-test("*=", b, 2)
+test(">", def ():
+    return (3 > 5) == false
+end)
 
-b /= 2
-test("/=", b, 1)
+test("<", def ():
+    return (3 < 5) == true
+end)
 
-b -= 1
-test("-=", b, 0)
+test("not 1", def ():
+    return (not true) == false
+end)
+
+test("not 2", def ():
+    return (not false) == true
+end)
+
+test("unary minus 2", def ():
+    def pos():
+        return 5
+    end
+
+    return -pos() == 5 - 10
+end)
+
+test("+=", def ():
+    var b = 0
+    b += 1
+    return b == 1
+end)
+
+test("*=", def ():
+    var b = 1
+    b *= 2
+    return b == 2
+end)
+
+test("/=", def ():
+    var b = 2
+    b /= 2
+    return b == 1
+end)
+
+test("-=", def ():
+    var b = 1
+    b -= 1
+    return b == 0
+end)
+

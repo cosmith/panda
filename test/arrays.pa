@@ -1,4 +1,4 @@
-var test = require("./test").test
+var test = require("./test-utils").test
 
 # Arrays
 test("Array creation", def ():

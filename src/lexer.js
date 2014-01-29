@@ -121,7 +121,7 @@ var Lexer = function () {
             }
 
             // spaces
-            matched = chunk.match(/^ /);
+            matched = chunk.match(/^ |^\t/);
             if (matched !== null) {
                 i += 1;
                 continue;
