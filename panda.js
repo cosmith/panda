@@ -14,7 +14,7 @@ program
     .option('-a, --ast', 'output AST')
     .option('-j, --javascript', 'output compiled javascript code')
     .option('-v, --verbose', 'output tokens, AST and JS code')
-    .option('-f, --file', 'write compiled code to JS file')
+    .option('-c, --compile', 'write compiled code to JS file')
     .parse(process.argv);
 
 // we need an input file to proceed
@@ -23,10 +23,12 @@ if (program.args.length === 0) {
     process.exit(1);
 }
 
-fs.readFile(program.args[0], 'utf-8', function (err, data) {
+path = program.args[0];
+
+fs.readFile(path, 'utf-8', function (err, data) {
     if (err) throw err;
 
-    var tokens, ast, compiled;
+    var tokens, ast, compiled, filename;
 
     if (program.tokens || program.verbose) {
         tokens = Panda.tokenize(data);
@@ -54,8 +56,13 @@ fs.readFile(program.args[0], 'utf-8', function (err, data) {
         console.log("\n======\n");
     }
 
-    if (program.file) {
-        fs.writeFile(program.args[1], compiled, function (err, data) {
+    if (program.compile) {
+        filename = program.args[1];
+        if (!filename) {
+            filename = path.slice(0, path.length - 3) + ".js";
+        }
+        
+        fs.writeFile(filename, compiled, function (err, data) {
             if (err) throw err;
         });
     }
