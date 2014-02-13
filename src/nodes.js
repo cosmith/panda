@@ -332,6 +332,10 @@ exports.Call = function (receiver, method, args, loc) {
             argsList = [],
             i;
 
+        if (self._method == "addEventListener") {
+            return self.compileEventListener();
+        }
+
         // compile the arguments first
         for (i = 0; i < self._args.length; i++) {
             argsList.push(self._args[i].compile(scope, ''));
@@ -343,6 +347,31 @@ exports.Call = function (receiver, method, args, loc) {
 
         return indent + code;
     };
+
+    self.compileEventListener = function (scope, indent) {
+        var code = "",
+            listenerArg,
+            listenerCode = "",
+            argsList = [],
+            i;
+
+        // compile the listener function first
+        listenerArg = self._args[1];
+        if (listenerArg.type == "getlocal") {
+            listenerCode = "var " + listenerArg.compile(scope, "");
+        } 
+
+        // compile the arguments first
+        for (i = 0; i < self._args.length; i++) {
+            argsList.push(self._args[i].compile(scope, ''));
+        }
+
+        // methods that don't have a receiver are declared on the global context
+        code = self._receiver ? self._receiver.compile(scope, '') + "." : "";
+        code += self._method + "(" + argsList.join(', ') + ")";
+
+        return indent + code;
+    }
 };
 
 // local variables
