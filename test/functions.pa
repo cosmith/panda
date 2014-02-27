@@ -1,52 +1,59 @@
+var test = require("./test-utils").test
 # Functions
 
-# scope
-var x = 0
+test("Scope", def ():
+    var x = 0
 
-def testFunc():
-    var x = 5
-    var y = 4
-end
+    def testFunc():
+        var x = 5
+        var y = 4
+    end
+    testFunc()
 
-test("scope 1", x, 0)
+    var y = 0
 
-var y = 0
-test("scope 2", y, 0)
+    return x == 0 and y == 0
+end)
 
-# return
-def returnFunc():
-    return 42
-end
+test("Return", def ():
+    def returnFunc():
+        return 42
+    end
 
-test("return 1", returnFunc(), 42)
+    return returnFunc() == 42
+end)
 
-# empty return
-def emptyReturn():
-    return
-end
+test("Empty return", def ():
+    def emptyReturn():
+        return
+    end
 
-# anonymous function
+    return true
+end)
 
-var empty = def (): end
-empty()
+test("Empty function", def ():
+    var empty = def (): end
+    empty()
 
-# function arguments
+    return true
+end)
 
-def testArgs(a, b, c):
-    return a + b + c
-end
+test("Function arguments", def ():
+    def testArgs(a, b, c):
+        return a + b + c
+    end
 
-x = testArgs(1, 2, 3)
-test("args 1", x, 1 + 2 + 3)
+    var a = testArgs(1, 2, 3)
 
-x = testArgs(
+    var b = testArgs(
          1, 2, 3
         )
-test("args 2", x, 1 + 2 + 3)
 
-x = testArgs(
-    1,
-    2,
-    3
-)
-test("args 3", x, 1 + 2 + 3)
+    var c = testArgs(
+        1,
+        2,
+        3
+    )
+
+    return 1 + 2 + 3 == a == b == c
+end)
