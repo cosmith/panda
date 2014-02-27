@@ -1,15 +1,21 @@
+var test = require("./test-utils").test
 # Loops
 
-# for loop
-var range = [0..3]
-for i in range:
-    test("for " + i, i, i)
-end
+test("For loop", def ():
+    var range = [0..3]
+    var pass = true
+    for i in range:
+        pass = pass and i == i
+    end
 
-# while loop
-var j = 0
-while j < 100:
-    j += 1
-end
+    return pass
+end)
 
-test("while 1", j, 100)
+test("While loop", def ():
+    var j = 0
+    while j < 100:
+        j += 1
+    end
+
+    return j == 100
+end)
