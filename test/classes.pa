@@ -1,4 +1,7 @@
+var test = require("./test-utils").test
+
 # Classes
+
 
 class MyClass:
     def MyClass():
@@ -10,11 +13,18 @@ class MyClass:
     end
 end
 
-var instance = new MyClass()
 
-test("property", instance.test, 42)
-instance.method()
-test("method", instance.test, 50)
+test("Get property", def ():
+    var instance = new MyClass()
+    return instance.test == 42
+end)
+
+test("Method call", def ():
+    var instance = new MyClass()
+    instance.method()
+    return instance.test == 50
+end)
+
 
 class OtherClass:
     def OtherClass(a, b, c):
@@ -28,10 +38,13 @@ class OtherClass:
     end
 end
 
-instance = new OtherClass(1, 2, 3)
 
-test("params in constructor 1", instance.a, 1)
-test("params in constructor 2", instance.b, 2)
-test("params in constructor 3", instance.c, 3)
+test("Constructor params", def ():
+    var instance = new OtherClass(1, 2, 3)
+    return (instance.a == 1 and instance.b == 2 and instance.c == 3)
+end)
 
-test("params in method", instance.method(1, 2), 3)
+test("Method params", def ():
+    var instance = new OtherClass(1, 2, 3)
+    return instance.method(1, 2) == 3
+end)
