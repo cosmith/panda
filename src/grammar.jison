@@ -3,9 +3,9 @@
 
 
 // Operator precedence (low to high)
+%right      '=' 'RETURN'
 %right      'IF' 'ELSE' 'FOR'
 %left       'OR' 'AND'
-%right      '=' 'RETURN'
 %right      '+=' '-=' '*=' '/='
 
 %left       '<', '>', '<=', '>='
