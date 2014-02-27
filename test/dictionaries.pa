@@ -3,23 +3,19 @@ var test = require("./test-utils").test
 # Dictionaries
 
 test("Dictionaries 1", def ():
-    var dict = {}
-    dict = {"a": 1}
+    var dict = {"a": 1}
 
     return dict["a"] == 1
 end)
 
 test("Dictionaries 2", def ():
-    var dict = {}
-    dict = {"a": 1, "b": 2}
-
+    var dict = {"a": 1, "b": 2}
     return dict["b"] == 2
 end)
 
 test("Dictionaries 3", def ():
     var dict = {}
     dict = {"test": "a string", 5: 3 + 4}
-
     return dict["test"] == "a string" and dict["5"] == 7
 end)
 
@@ -53,6 +49,5 @@ test("Nested dicts", def ():
             "test": 5
         }
     }
-
     return dict["inside"]["test"] == 5
 end)
