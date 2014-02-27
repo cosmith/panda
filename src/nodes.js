@@ -171,7 +171,7 @@ exports.Range = function (start, end, loc) {
         var code = "(function () {\n",
             a = scope.addTempVar('a'),
             i = scope.addTempVar('i'),
-            idt2 = indent + TAB,
+            internalIndent = indent + TAB,
             goingUp = null,
             direction,
             condition,
@@ -198,12 +198,12 @@ exports.Range = function (start, end, loc) {
             direction = i + (goingUp ? "++" : "--");
         }
 
-        code += idt2 + "var " + a + " = [];\n";
-        code += idt2 + "for (var " + i + " = " + startVal + "; ";
+        code += internalIndent + "var " + a + " = [];\n";
+        code += internalIndent + "for (var " + i + " = " + startVal + "; ";
         code += condition;
 
         code += "; " + direction + ") { " + a + ".push(" + i + ") }\n";
-        code += idt2 + "return " + a + ";\n";
+        code += internalIndent + "return " + a + ";\n";
         code += indent + "})()";
 
         return indent + code;
