@@ -1,0 +1,28 @@
+# Panda REPL
+
+var Panda = require("../src/panda")
+var readline = require("readline")
+
+class Repl:
+    def Repl():
+        self.rl = readline.createInterface(process.stdin, process.stdout)
+        self.rl.setPrompt(">>")
+        self.rl.on("line", self.processLine.bind(self)).on("close", self.exit)
+    end
+
+    def start():
+        self.rl.prompt()
+    end
+
+    def processLine(line):
+        console.log(eval(Panda.compile(line)))
+        self.rl.prompt()
+    end
+
+    def exit():
+        console.log("Bye!")
+        process.exit(0)
+    end
+end
+
+exports.Repl = Repl
