@@ -12,7 +12,7 @@ program
     .version('0.1.0')
     .usage('[options] <file ...>')
     .option('-t, --tokens', 'output lexed input')
-    .option('-a, --ast', 'output AST')
+     .option('-a, --ast', 'output AST')
     .option('-j, --javascript', 'output compiled javascript code')
     .option('-v, --verbose', 'output tokens, AST and JS code')
     .option('-c, --compile', 'write compiled code to JS file')
@@ -64,7 +64,7 @@ else {
             }
             
             fs.writeFile(filename, compiled, function (err, data) {
-                if (err) throw err;
+                if (err) throw err; 
             });
         }
         else {
